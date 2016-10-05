@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<body>
+    <h1>easyPoll Login Page</h1>
+
+    <div class="contianer">
+        <input id="txtEmail" type="email" placeholder="Email">
+        
+        <input id="txtPassword" type="password" placeholder="Password">
+        
+        <button id="btnLogin" class="btn btn-action">
+        Log in
+        </button>
+        
+        <button id="btnSignup" class="btn btn-secondary">
+        Sign up
+        </button>
+        
+        <button id="btnLogout" class="btn btn-action hide">
+        Log out
+        </button>
+    </div>
+    
+<script src="https://www.gstatic.com/firebasejs/3.4.1/firebase.js"></script>
+<script>
+  // Initialize Firebase
+  var config = {
+    apiKey: "AIzaSyBMTJ1JkcMCGoClGG4CV3XXBxI7zsOHiwA",
+    authDomain: "testproject-9f072.firebaseapp.com",
+    databaseURL: "https://testproject-9f072.firebaseio.com",
+    storageBucket: "testproject-9f072.appspot.com",
+    messagingSenderId: "81503141614"
+  };
+  firebase.initializeApp(config);
+</script>
+    <script src="app.js"></script>
+
+</body>
+</html>
