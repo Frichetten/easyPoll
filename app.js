@@ -20,7 +20,10 @@ console.log("Creating login");
         const auth = firebase.auth();
         //sign in
         const promise = auth.signInWithEmailAndPassword(email,pass);
+        console.log("Logging in");
         promise.catch(e => console.log(e.message));
+        console.log(firebase.auth().currentUser.email);
+        document.location.href = "profile.html";
     });
 
 console.log("Creating singup");
