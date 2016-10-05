@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <meta charset="utf-8">
     <script src='https://cdn.firebase.com/js/client/2.2.1/firebase.js'></script>
     <script src='https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js'></script>
     <link rel='stylesheet' type='text/css' href='/resources/tutorial/css/example.css'>
@@ -20,9 +21,17 @@
         messagingSenderId: "81503141614"
       };
       firebase.initializeApp(config);
-        console.log(firebase.auth());
-      
-        console.log(firebase.auth().currentUser().email);
+        
+        firebase.auth().onAuthStateChanged(function(user) {
+  if (user) {
+    console.log("in in");
+      console.log(firebase.auth().currentUser.email);
+  } else {
+    console.log("fail");
+  }
+});
+        
+        
 
     
     </script>

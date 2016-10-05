@@ -22,8 +22,14 @@ console.log("Creating login");
         const promise = auth.signInWithEmailAndPassword(email,pass);
         console.log("Logging in");
         promise.catch(e => console.log(e.message));
-        console.log(firebase.auth().currentUser.email);
-        document.location.href = "profile.html";
+        firebase.auth().onAuthStateChanged(function(user) {
+            if (user) {
+                console.log(firebase.auth().currentUser);
+                document.location.href="profile.html";
+            } else {
+                // No user is signed in.
+            }
+        });
     });
 
 console.log("Creating singup");
@@ -40,14 +46,12 @@ console.log("Creating singup");
     
 console.log("Creating state listener");
 //Add realtime listener
-    firebase.auth().onAuthStateChanged(firebaseUser => {
-        if (firebaseUser) {
-            console.log(firebaseUser);
-            btnLogout.classList.remove('hide');
-        } else {
-            console.log('not logged in');
-            btnLogout.classList.add('hide');
-        }
+    btnLogout.addEventListener('click', e=> {
+       //Logout
+        const auth = firebase.auth();
+        const promise = auth.signOut();
+        promise.catch(e => console.log(e.message));
+        console.log("logged out");
     });
     
 }());
