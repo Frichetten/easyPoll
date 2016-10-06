@@ -25,7 +25,7 @@ body {
 
 h1 {
   text-align: center;
-  font-size: 60px;
+  font-size: 48px;
   font-weight: 300;
   letter-spacing: 0.1618em;
   line-height: 2.618em;
@@ -33,9 +33,10 @@ h1 {
 h1:hover {
   cursor: default;
 }
-h1 span {
+.title span {
   color: #2ecc71;
 }
+
 
 nav {
   text-align: center;
@@ -64,8 +65,11 @@ a {
 .landing-padding {
   margin-top:150px;
 }
+#landing-title {
+  font-size:60px;
+}
 #login-modal {
-  padding:100px;
+  padding-top:150px;
 }
 .loginmodal-container > form > input {
   width: 75%;
@@ -80,4 +84,32 @@ a {
 }
 .hidden {
   display: none;
+}
+#main-nav {
+  border-bottom:1px solid #666666;
+  margin-bottom:0;
+}
+.navbar-header > .title{
+  font-size: 30px;
+  line-height: 55px;
+}
+.no-gutters {
+  margin-right: 0;
+  margin-left: 0;
+}
+.no-gutters > [class^="col-"],
+.no-gutters > [class*=" col-"] {
+  padding-right: 0;
+  padding-left: 0;
+}
+.slider-container {
+  height:500px;
+  background:url('https://my.leadpages.net/template/6232728165941248/raw/img/background.jpg?aid=');
+}
+.slide-text-container {
+  width:100%;
+}
+.slide-text {
+  width:50%;
+  color:#ffffff;
 }
