@@ -1,17 +1,19 @@
 <!DOCTYPE html>
 <html>
     <head>
-     <meta charset="UTF-8"> 
-    <script src='https://cdn.firebase.com/js/client/2.2.1/firebase.js'></script>
-    <script src='https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js'></script>
-    <link rel='stylesheet' type='text/css' href='/resources/tutorial/css/example.css'>
-  </head>
+        <!-- These Scripts Must be Here to Use Firebase -->
+        <meta charset="UTF-8"> 
+        <script             src='https://cdn.firebase.com/js/client/2.2.1/firebase.js'></script>
+        <script src='https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js'>
+        </script>
+        <link rel='stylesheet' type='text/css' href='/resources/tutorial/css/example.css'>
+    </head>
 <body>
     <h1>easyPoll Login Page</h1>
 
     <div class="contianer">
         <input id="txtEmail" type="email" placeholder="Email">
-        
+
         <input id="txtPassword" type="password" placeholder="Password">
         
         <button id="btnLogin" class="btn btn-action">
@@ -26,19 +28,23 @@
         Log out
         </button>
     </div>
+   
+    <!-- This May be needed, need to test -->
+    <script src="https://www.gstatic.com/firebasejs/3.4.1/firebase.js"></script>
     
-<script src="https://www.gstatic.com/firebasejs/3.4.1/firebase.js"></script>
-<script>
-  // Initialize Firebase
-  var config = {
-    apiKey: "AIzaSyBMTJ1JkcMCGoClGG4CV3XXBxI7zsOHiwA",
-    authDomain: "testproject-9f072.firebaseapp.com",
-    databaseURL: "https://testproject-9f072.firebaseio.com",
-    storageBucket: "testproject-9f072.appspot.com",
-    messagingSenderId: "81503141614"
-  };
-  firebase.initializeApp(config);
-</script>
+    <!-- Initialize Firebase; NEED THIS -->
+    <script>
+    var config = {
+        apiKey: "AIzaSyBMTJ1JkcMCGoClGG4CV3XXBxI7zsOHiwA",
+        authDomain: "testproject-9f072.firebaseapp.com",
+        databaseURL: "https://testproject-9f072.firebaseio.com",
+        storageBucket: "testproject-9f072.appspot.com",
+        messagingSenderId: "81503141614"
+    };
+    firebase.initializeApp(config);
+    </script>
+    
+    <!-- Call Our Code -->
     <script src="app.js"></script>
 
 </body>
