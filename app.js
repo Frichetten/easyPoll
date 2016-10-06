@@ -26,7 +26,7 @@ console.log("Creating login");
         document.location.href = "profile.html";
     });
 
-console.log("Creating singup");
+console.log("Creating signup");
 //Add signup event
     btnSignup.addEventListener('click', e=> {
           //Get email and pass
@@ -46,7 +46,7 @@ console.log("Creating state listener");
             btnLogout.classList.remove('hide');
         } else {
             console.log('not logged in');
-            btnLogout.classList.add('hide');
+            // btnLogout.classList.add('hide');
         }
     });
     

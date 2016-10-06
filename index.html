@@ -1,44 +1,79 @@
 <!DOCTYPE html>
-<html>
-    <head>
-    <script src='https://cdn.firebase.com/js/client/2.2.1/firebase.js'></script>
-    <script src='https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js'></script>
-    <link rel='stylesheet' type='text/css' href='/resources/tutorial/css/example.css'>
+<html >
+  <head>
+    <meta charset="UTF-8">
+    <title>Welcome to EasyPoll!</title>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/font-awesome-4.6.3/css/font-awesome.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script>
+    $(document).ready(function () {
+        $('#landing-title').fadeIn(3000).removeClass('hidden');
+    });
+    </script>
+    <script language="javascript"><!--
+function myFunction() {
+    //do stuff
+}
+//--></script>
+
+
   </head>
-<body>
-    <h1>easyPoll Login Page</h1>
-
-    <div class="contianer">
-        <input id="txtEmail" type="email" placeholder="Email">
-        
-        <input id="txtPassword" type="password" placeholder="Password">
-        
-        <button id="btnLogin" class="btn btn-action">
-        Log in
-        </button>
-        
-        <button id="btnSignup" class="btn btn-secondary">
-        Sign up
-        </button>
-        
-        <button id="btnLogout" class="btn btn-action hide">
-        Log out
-        </button>
+  <body>
+  <!--Landing Page-->
+    <div class="container-fluid text-right">
+      <a href="">Skip the Signup Process
+      <i class="fa fa-angle-double-right" aria-hidden="true"></i></a>
     </div>
-    
-<script src="https://www.gstatic.com/firebasejs/3.4.1/firebase.js"></script>
-<script>
-  // Initialize Firebase
-  var config = {
-    apiKey: "AIzaSyBMTJ1JkcMCGoClGG4CV3XXBxI7zsOHiwA",
-    authDomain: "testproject-9f072.firebaseapp.com",
-    databaseURL: "https://testproject-9f072.firebaseio.com",
-    storageBucket: "testproject-9f072.appspot.com",
-    messagingSenderId: "81503141614"
-  };
-  firebase.initializeApp(config);
-</script>
-    <script src="app.js"></script>
+    <div class="container">
+      <div class="container landing-padding">
+        <h1 id="landing-title" class="hidden">easy<span>Poll</span></h1>
+        <nav>
+        <button type="button" class="btn btn-info" data-toggle="modal" data-target="#login-modal">Join Our Community</button>
+        </nav>
+      </div>
+    </div>
 
-</body>
+    <!--Login Modal -->
+    <div id="login-modal" class="modal fade" role="dialog">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <div class="loginmodal-container text-center">
+              <h2>Login to Your Account</h2><br>
+              <form onsubmit="myFunction(); return false;">
+              <input id="txtEmail" type="email" placeholder="Email">
+              <input id="txtPassword" type="password" placeholder="Password">
+              <input type="submit" id="btnLogin" class="btn btn-success" value="Login">
+              </form>
+              <div class="login-help">
+              <a href="#" id="btnSignup">Register</a> | <a href="#" id="Logout">Forgot Password</a>
+              </div>
+            </div>
+              <div class="modal-footer"></div>
+          </div>
+        </div>
+      </div>
+
+      <script src="https://www.gstatic.com/firebasejs/3.4.1/firebase.js"></script>
+      <script>
+        // Initialize Firebase
+        var config = {
+          apiKey: "AIzaSyBMTJ1JkcMCGoClGG4CV3XXBxI7zsOHiwA",
+          authDomain: "testproject-9f072.firebaseapp.com",
+          databaseURL: "https://testproject-9f072.firebaseio.com",
+          storageBucket: "testproject-9f072.appspot.com",
+          messagingSenderId: "81503141614"
+        };
+        firebase.initializeApp(config);
+      </script>
+          <script src="app.js"></script>
+
+  </body>
 </html>

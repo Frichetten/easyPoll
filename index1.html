@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+    <head>
+    <script src='https://cdn.firebase.com/js/client/2.2.1/firebase.js'></script>
+    <script src='https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js'></script>
+    <link rel='stylesheet' type='text/css' href='/resources/tutorial/css/example.css'>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+  </head>
+<body>
+<div class="alert alert-warning fade in">
+    <a href="#" class="close" data-dismiss="alert">&times;</a>
+    <strong>Warning!</strong> There was a problem with your network connection.
+</div>
+    <h1>easyPoll Login Page</h1>
+
+    <div class="container">
+        <input id="txtEmail" type="email" placeholder="Email">
+        
+        <input id="txtPassword" type="password" placeholder="Password">
+        
+        <button id="btnLogin" class="btn btn-action">
+        Log in
+        </button>
+        
+        <button id="btnSignup" class="btn btn-secondary">
+        Sign up
+        </button>
+        
+        <button id="btnLogout" class="btn btn-action hide">
+        Log out
+        </button>
+    </div>
+    
+<script src="https://www.gstatic.com/firebasejs/3.4.1/firebase.js"></script>
+<script>
+  // Initialize Firebase
+  var config = {
+    apiKey: "AIzaSyBMTJ1JkcMCGoClGG4CV3XXBxI7zsOHiwA",
+    authDomain: "testproject-9f072.firebaseapp.com",
+    databaseURL: "https://testproject-9f072.firebaseio.com",
+    storageBucket: "testproject-9f072.appspot.com",
+    messagingSenderId: "81503141614"
+  };
+  firebase.initializeApp(config);
+</script>
+    <script src="app.js"></script>
+
+</body>
+</html>
