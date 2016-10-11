@@ -15,10 +15,6 @@
         <td>Age</td>
         <td>${age}</td>
     </tr>
-    <tr>
-        <td>ID</td>
-        <td>${id}</td>
-    </tr>
 </table>  
 </body>
 </html>

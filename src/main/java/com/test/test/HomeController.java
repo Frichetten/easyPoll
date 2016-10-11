@@ -11,19 +11,19 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 @Controller
 public class HomeController {
 
-	   @RequestMapping(value = "/student", method = RequestMethod.GET)
-	   public ModelAndView student() {
-	      return new ModelAndView("student", "command", new Student());
-	   }
+	//Root mapping
+	@RequestMapping(value = "/", method = RequestMethod.GET)
+	public ModelAndView student() {
+		return new ModelAndView("student", "command", new Student());
+	}
 	   
-	   @RequestMapping(value = "/addStudent", method = RequestMethod.POST)
-	   public String addStudent(@ModelAttribute("SpringWeb")Student student, 
-	   ModelMap model) {
-	      model.addAttribute("name", student.getName());
-	      model.addAttribute("age", student.getAge());
-	      model.addAttribute("id", student.getId());
-	      return "result";
-	   }
+	@RequestMapping(value = "/addStudent", method = RequestMethod.POST)
+	public String addStudent(@ModelAttribute("SpringWeb")Student student, 
+		ModelMap model) {
+		model.addAttribute("name", student.getName());
+		model.addAttribute("age", student.getAge());
+		return "result";
+	}
     
     
 }
