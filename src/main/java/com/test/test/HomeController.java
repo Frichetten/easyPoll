@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 @Controller
 public class HomeController {
 
+	//Casey Comment test
 	//Root mapping
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public ModelAndView student() {
