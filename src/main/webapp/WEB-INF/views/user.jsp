@@ -1,20 +1,20 @@
 <%@taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <html>
 <head>
-    <title>Spring MVC Form Handling</title>
+    <title>easyPoll Alpha</title>
 </head>
 <body>
 
 <h2>easyPoll Login</h2>
-<form:form method="POST" action="/test/addStudent">
+<form:form method="POST" action="/test/addUser">
    <table>
     <tr>
-        <td><form:label path="name">Username: </form:label></td>
-        <td><form:input path="name" /></td>
+        <td><form:label path="username">Username: </form:label></td>
+        <td><form:input path="username" /></td>
     </tr>
     <tr>
-        <td><form:label path="age">Password: </form:label></td>
-        <td><form:input path="age" /></td>
+        <td><form:label path="password">Password: </form:label></td>
+        <td><form:input path="password" /></td>
     </tr>
     <tr>
         <td colspan="2">

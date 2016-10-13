@@ -5,6 +5,7 @@ import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.bind.annotation.ModelAttribute;
 
@@ -13,15 +14,15 @@ public class HomeController {
 	
 	//Root mapping
 	@RequestMapping(value = "/", method = RequestMethod.GET)
-	public ModelAndView student() {
-		return new ModelAndView("student", "command", new Student());
+	public ModelAndView user() {
+		return new ModelAndView("user", "command", new User());
 	}
 	   
-	@RequestMapping(value = "/addStudent", method = RequestMethod.POST)
-	public String addStudent(@ModelAttribute("SpringWeb")Student student, 
+	@RequestMapping(value = "/addUser", method = RequestMethod.POST)
+	public String addUser(@ModelAttribute("SpringWeb")User user, 
 		ModelMap model) {
-		model.addAttribute("name", student.getName());
-		model.addAttribute("age", student.getAge());
+		model.addAttribute("username", user.getUsername());
+		model.addAttribute("password", user.getPassword());
 		return "result";
 	}
     
