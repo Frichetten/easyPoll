@@ -81,7 +81,6 @@ a {
 #main-nav {
   border-bottom:1px solid #666666;
   margin-bottom:0;
-  position: fixed;
   background: #fff;
   width: 100%;
   z-index: 50;
@@ -127,12 +126,10 @@ a {
   text-align:center;
   width:100%;
 }
-/*.colored-cta {*/
-/*  background:url('https://my.leadpages.net/template/6232728165941248/raw/img/background.jpg?aid=');*/
-/*}*/
 #footer {
   background:#333333;
   color:#ffffff;
+  margin-top:50px;
   padding:25px 0 25px 0;
 }
 #footer > a {
@@ -151,4 +148,22 @@ a {
   background: rgba(0, 0, 0, 0.7);
   display:none;
 }
+.poll-header {
+  background:#f5f5f5;
+  padding-top:15px;
+  padding-bottom:15px;
+}
+.poll {
+  border:2px solid;
+  margin:50px 0 50px 0;
 
+}
+#poll-answer {
+  height:500px;
+}
+.poll-side-data {
+  height:225px;
+}
+.nav-tabs {
+  width:100%;
+}
