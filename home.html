@@ -13,19 +13,26 @@
 			<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 			<script>
 			$(document).ready(function () {
-				$('#landing-title').fadeIn(3000).removeClass('hidden');
+				$('#landing-title').fadeIn(3000).removeClass('hidden');								
+				$(".poll-ad-container").hover(function(){
+					$(this).addClass(".vote-in-poll");
+					$('.vote-in-poll').show();
+				},function(){
+					$('.vote-in-poll').hide();
+				});
+				
 			});
 			</script>
 			<script language="javascript"><!--
-		function myFunction() {
-			//do stuff
-		}
+			function myFunction() {
+				//do stuff
+			}
 		//--></script>
 	</head>
 	<body>
 	<!-- Navigation -->
 	<nav class="navbar" id="main-nav">
-		<div class="container-fluid">
+		<div class="container">
 			<div class="navbar-header">
 				<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
 					<span class="sr-only">Toggle navigation</span>
@@ -49,18 +56,71 @@
 		</div>
 	</nav>
 	<div class="slider-container">
-		<div class="container landing-padding">
-		<div class="col-md-12 slide-text-container">
+		<div class="container">
+		<div class="col-md-12 slide-text-container landing-padding">
 			<h2 class="slide-text">easyPoll lets you engage create polls, vote in polls, and view statistics in real time</h2>
-			<button type="button" class="btn btn-info" data-toggle="modal" data-target="#login-modal">Vote in Community Polls</button>
+			<a href="file:///Users/nicholasmessina/Documents/easypoll/easyPoll/home.html#home-vote"><button type="button" class="btn btn-info" data-toggle="modal" data-target="#login-modal">Vote in Community Polls</button></a>
 		</div>
 	    </div>
+	<a name="home-vote" style="display:block;margin-top:20px;"></a>
+	</div>
+	</div>
+	<div class="call-to-action">
+		<h1>Welcome to Our Polling Community!</h1>
+		<h2>Vote in polls that interest you</h2>
+	</div>
+	<div class="container">
+	<div class="col-md-6">
+		<div class="poll-ad-container">
+			<div class="vote-in-poll">
+				<span>Vote in this Poll</span>
+				<i class="fa fa-bar-chart" aria-hidden="true"></i>
+			</div>
+		</div>
+	</div>
+	<div class="col-md-6">
+		<div class="poll-ad-container">
+			<div class="vote-in-poll">
+				<span>Vote in this Poll</span>
+				<i class="fa fa-bar-chart" aria-hidden="true"></i>
+			</div>
+		</div>
+	</div>
+	<div class="col-md-6">
+		<div class="poll-ad-container">
+			<div class="vote-in-poll">
+				<span>Vote in this Poll</span>
+				<i class="fa fa-bar-chart" aria-hidden="true"></i>
+			</div>
+		</div>
+	</div>
+	<div class="col-md-6">
+		<div class="poll-ad-container">
+			<div class="vote-in-poll">
+				<span>Vote in this Poll</span>
+				<i class="fa fa-bar-chart" aria-hidden="true"></i>
+			</div>
+		</div>
+	</div>
+	</div>
+	<div class="call-to-action colored-cta">
+		<h1>What do you think?</h1>
+		<h2>Let us know!</h2>
+		<button type="button" class="btn btn-info" data-toggle="modal" data-target="#login-modal">Give Feedback</button>		
 	</div>
 	
-	
-	
-	
-	
+	<footer id="footer">
+		<div class="container">
+			<div class="col-md-9">
+				&copy;EasyPoll 2016
+			</div>
+			<div class="col-md-3">
+				<a href="#"><i class="fa fa-facebook" aria-hidden="true"></i></a>
+				<a href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a>
+				<a href="#"><i class="fa fa-google" aria-hidden="true"></i></a>
+			</div>
+		</div>
+	</footer>
 	
 	
 	

@@ -11,19 +11,12 @@ body {
   color: #666;
 }
 
-.container {
-  position: fixed;
-  width: 100%;
-  height: 100%;
-  display: table;
-}
-
 .container-inner {
   display: table-cell;
   vertical-align: middle;
 }
 
-h1 {
+h1[id="landing-title"] {
   text-align: center;
   font-size: 48px;
   font-weight: 300;
@@ -88,10 +81,16 @@ a {
 #main-nav {
   border-bottom:1px solid #666666;
   margin-bottom:0;
+  position: fixed;
+  background: #fff;
+  width: 100%;
+  z-index: 50;
 }
 .navbar-header > .title{
   font-size: 30px;
   line-height: 55px;
+  font-weight: 300;
+  letter-spacing: 0.1618em;
 }
 .no-gutters {
   margin-right: 0;
@@ -108,8 +107,48 @@ a {
 }
 .slide-text-container {
   width:100%;
+  height:300px;
 }
 .slide-text {
   width:50%;
   color:#ffffff;
 }
+.poll-ad-container {
+  border:1px solid;
+  height:250px;
+  margin:20px 0 20px 0;
+  position: relative;
+}
+
+.call-to-action {
+  background:#f5f5f5;
+  padding-top:50px;
+  padding-bottom:50px;
+  text-align:center;
+  width:100%;
+}
+/*.colored-cta {*/
+/*  background:url('https://my.leadpages.net/template/6232728165941248/raw/img/background.jpg?aid=');*/
+/*}*/
+#footer {
+  background:#333333;
+  color:#ffffff;
+  padding:25px 0 25px 0;
+}
+#footer > a {
+  color:#2ecc71;
+}
+.poll-ad-hover {
+  background: rgba(0, 0, 0, 0.3);
+}
+.vote-in-poll {
+  text-align:center;
+  position: relative;
+  line-height:225px;
+  height:100%;
+  font-size:24px;
+  color:#ffffff;
+  background: rgba(0, 0, 0, 0.7);
+  display:none;
+}
+
