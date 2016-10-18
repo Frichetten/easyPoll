@@ -56,7 +56,7 @@ a {
 }
 
 .landing-padding {
-  margin-top:150px;
+  margin-top:200px;
 }
 #landing-title {
   font-size:60px;
@@ -111,6 +111,7 @@ a {
 .slide-text {
   width:50%;
   color:#ffffff;
+  line-height: 40px;
 }
 .poll-ad-container {
   border:1px solid;
@@ -129,8 +130,10 @@ a {
 #footer {
   background:#333333;
   color:#ffffff;
-  margin-top:50px;
   padding:25px 0 25px 0;
+}
+#footer:not(.home-page) {
+  margin-top:100px;
 }
 #footer > a {
   color:#2ecc71;
@@ -166,4 +169,13 @@ a {
 }
 .nav-tabs {
   width:100%;
+}
+.main-content {
+  padding:50px 0 50px 0;
+}
+.poll-description {
+  padding: 5px 25px 5px 25px;
+}
+.page-header {
+  margin: 100px 0 20px;
 }
