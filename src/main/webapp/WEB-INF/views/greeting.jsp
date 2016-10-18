@@ -5,11 +5,7 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 </head>
 <body>
-	<h1>Form</h1>
-    <form action="#" th:action="@{/greeting}" th:object="${greeting}" method="post">
-    	<p>Id: <input type="text" th:field="*{id}" /></p>
-        <p>Message: <input type="text" th:field="*{content}" /></p>
-        <p><input type="submit" value="Submit" /> <input type="reset" value="Reset" /></p>
-    </form>
+	<h1>Welcome to your account User: ${username}</h1>
+	<h1>This is a Triumph</h1>
 </body>
 </html>

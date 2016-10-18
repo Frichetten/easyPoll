@@ -6,7 +6,8 @@
 <body>
 
 <h2>Submitted User Information</h2>
-   <table>
+	<a href="/test/greeting">Link</a>
+    <table>
     <tr>
         <td>Name </td>
         <td style="padding-left: 10px">${username}</td>
@@ -15,6 +16,6 @@
         <td>Password </td>
         <td style="padding-left: 10px">${password}</td>
     </tr>
-</table>  
+	</table>  
 </body>
 </html>
