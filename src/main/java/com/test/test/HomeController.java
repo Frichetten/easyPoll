@@ -26,19 +26,25 @@ public class HomeController {
 	@RequestMapping(value = "/addUser", method = RequestMethod.POST)
 	public ModelAndView addUser(@ModelAttribute("SpringWeb")User user, ModelMap model,
 			HttpServletRequest request) {
+		//Add these attributes to the model so they will appear
+		//In the "result" page
 		model.addAttribute("username", user.getUsername());
 		model.addAttribute("password", user.getPassword());
-		request.getSession().setAttribute("token", user.getUsername());
+		//This token will be the session attribute
+		request.getSession().setAttribute("token", user);
 		return new ModelAndView("result");
 	}
 	
 	@RequestMapping(value = "/greeting", method = RequestMethod.GET)
 	public ModelAndView greeting(@ModelAttribute("SpringWeb")User user, ModelMap model,
 			HttpServletRequest request){
-		model.addAttribute("username", request.getSession().getAttribute("token"));
-		System.out.println(request.getSession().getAttribute("token"));
+		//Add casting so we can treat this as a User object
+		User a = (User)request.getSession().getAttribute("token");
+		model.addAttribute("username", a.getUsername());
+		
+		//TEST
+		System.out.println("Username: " + a.getUsername());
+		System.out.println("Password: " + a.getPassword());
 		return new ModelAndView("greeting");
 	}
-    
-    
 }
