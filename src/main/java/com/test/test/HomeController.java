@@ -20,7 +20,13 @@ public class HomeController {
 	//Root mapping
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public ModelAndView user() {
-		return new ModelAndView("user", "command", new User());
+		return new ModelAndView("index", "command", new User());
+	}
+	
+	//Root mapping
+	@RequestMapping(value = "/home", method = RequestMethod.GET)
+	public ModelAndView home() {
+		return new ModelAndView("home", "command", new User());
 	}
 	   
 	@RequestMapping(value = "/addUser", method = RequestMethod.POST)
@@ -30,9 +36,11 @@ public class HomeController {
 		//In the "result" page
 		model.addAttribute("username", user.getUsername());
 		model.addAttribute("password", user.getPassword());
+		System.out.println(user.getUsername());
+		System.out.println(user.getPassword());
 		//This token will be the session attribute
 		request.getSession().setAttribute("token", user);
-		return new ModelAndView("result");
+		return new ModelAndView("home");
 	}
 	
 	@RequestMapping(value = "/greeting", method = RequestMethod.GET)
