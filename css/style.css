@@ -159,7 +159,6 @@ a {
 .poll {
   border:2px solid;
   margin:50px 0 50px 0;
-
 }
 #poll-answer {
   height:500px;
@@ -178,4 +177,20 @@ a {
 }
 .page-header {
   margin: 100px 0 20px;
+}
+.panel-default > .poll-heading {
+  background-color:#2ecc71;
+}
+.panel-default > .panel-heading > h3.panel-title{
+    font-size: 19px;
+    font-weight:600;
+}
+.panel-default > .panel-body {
+  font-size: 19px;
+}
+.poll-panel {
+    margin:50px 0 50px 0;
+}
+.btn {
+    font-size:17px;
 }
