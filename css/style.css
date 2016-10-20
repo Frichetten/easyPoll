@@ -61,7 +61,7 @@ a {
 #landing-title {
   font-size:60px;
 }
-#login-modal {
+#login-modal,#create-account-modal {
   padding-top:150px;
 }
 .loginmodal-container > form > input {
@@ -170,6 +170,16 @@ a {
 .nav-tabs {
   width:100%;
 }
+.navbar-nav:not(.navbar-right) > li > a:hover {
+  background: #2ecc71;
+  color:#ffffff;
+}
+.navbar-nav > li > a:link {
+  background:transparent;
+  color:#2ecc71;
+}
+.navbar-nav > li > a:active{
+}
 .main-content {
   padding:50px 0 50px 0;
 }
@@ -178,4 +188,35 @@ a {
 }
 .page-header {
   margin: 100px 0 20px;
+}
+#answer, #answer0 {
+  margin-top:5px;
+  margin-bottom:5px;
+}
+.createpoll-sidebar {
+  border:1px solid;
+  height:550px;
+  text-align: center;
+  display:table;
+  width:100%;
+  background:url('https://my.leadpages.net/template/6232728165941248/raw/img/background.jpg?aid=');
+
+}
+.createpoll-sidebar > .sidebar-container {
+  display: table-cell;
+  vertical-align: middle;
+  color:#fff;
+}
+.featured-text-contain {
+  font-size:48px;
+  width:100px;
+  height: 100px;
+  border: solid;
+  display: table;
+  border-radius: 50%;
+  margin:10px auto 10px auto;
+}
+.featured-text {
+  display:table-cell;
+  vertical-align: middle;
 }
