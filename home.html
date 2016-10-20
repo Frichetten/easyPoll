@@ -14,7 +14,7 @@
 			<script>
 			$(document).ready(function () {
 				$('#landing-title').fadeIn(3000).removeClass('hidden');								
-				
+				$('#user-logged-in').hide();
 				$(".poll-ad-container").hover(function(){
 					$(this).find('.vote-in-poll').each(function(e){
 						    $(this).show();
@@ -27,7 +27,6 @@
 					$('.poll-description').show();
 				});	
 			});
-		
 			
 			</script>
 			<script language="javascript"><!--
@@ -56,9 +55,12 @@
 					<li><a href="#">About</a></li>
 					<li><a href="#">Contact</a></li>
 				</ul>
-				<ul class="nav navbar-nav navbar-right">
+				<ul class="nav navbar-nav navbar-right" id="logged-out">
 					<li><a href="../navbar-static-top/" data-toggle="modal" data-target="#login-modal">Login</a></li>
 					<li><a href="../navbar-fixed-top/" data-toggle="modal" data-target="#create-account-modal">Signup</a></li>
+				</ul>
+				<ul class="nav navbar-nav navbar-right" id="user-logged-in">
+					<li><a>Welcome User</a></li>
 				</ul>
 			</div>
 		</div>
