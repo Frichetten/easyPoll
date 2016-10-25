@@ -65,77 +65,36 @@
 			</div>
 		</div>
 	</nav>
-	<div class="slider-container">
-		<div class="container">
-		<div class="col-md-12 slide-text-container landing-padding">
-			<h2 class="slide-text">easyPoll lets you engage create polls, vote in polls, and view statistics in real time</h2>
-			<a href="#home-vote"><button type="button" class="btn btn-info" data-toggle="modal">Vote in Community Polls</button></a>
-		</div>
-	    </div>
-	<a name="home-vote" style="display:block;margin-top:20px;"></a>
 	</div>
-	</div>
-	<div class="call-to-action">
-		<h1>Welcome to Our Polling Community!</h1>
-		<h2>Vote in polls that interest you</h2>
-	</div>
-	<div class="container main-content">
-	<div class="col-md-6">
-		<div class="poll-ad-container">
-			<div class="poll-description">
-				<h3>Poll Name</h3>
-				<span> Poll Description asd asd asd </span>
-			</div>
-			<div class="vote-in-poll">
-				<span>Vote in this Poll</span>
-				<i class="fa fa-bar-chart" aria-hidden="true"></i>
-			</div>
-		</div>
-	</div>
-	<div class="col-md-6">
-		<div class="poll-ad-container">
-			<div class="poll-description">
-				<h3>Poll Name</h3>
-				<span> Poll Description asd asd asd </span>
-			</div>
-			<div class="vote-in-poll">
-				<span>Vote in this Poll</span>
-				<i class="fa fa-bar-chart" aria-hidden="true"></i>
-			</div>
-		</div>
-	</div>
-	<div class="col-md-6">
-		<div class="poll-ad-container">
-			<div class="poll-description">
-				<h3>Poll Name</h3>
-				<span> Poll Description asd asd asd </span>
-			</div>
-			<div class="vote-in-poll">
-				<span>Vote in this Poll</span>
-				<i class="fa fa-bar-chart" aria-hidden="true"></i>
-			</div>
-		</div>
-	</div>
-	<div class="col-md-6">
-		<div class="poll-ad-container">
-			<div class="poll-description">
-				<h3>Poll Name</h3>
-				<span>Poll Description asd asd asd </span>
-			</div>
-			<div class="vote-in-poll">
-				<span>Vote in this Poll</span>
-				<i class="fa fa-bar-chart" aria-hidden="true"></i>
-			</div>
-		</div>
-	</div>
-	</div>
-	<div class="call-to-action colored-cta">
-		<h1>What do you think?</h1>
-		<h2>Let us know!</h2>
-		<button type="button" class="btn btn-info" data-toggle="modal" data-target="#login-modal">Give Feedback</button>		
+	<div class="container">
+  		<h2>Community Polls</h2>
+  		<p>Click on a poll to vote in it!</p>
+  		<table class="table table-striped">
+    	<thead>
+     		 <tr>
+        		<th>Title</th>
+		        <th>Description</th>
+      		</tr>
+    	</thead>
+	    <tbody>
+	      <tr>
+	        <td>Poll 1</td>
+	        <td>lorem ipsum</td>
+	      </tr>
+	      <tr>
+	        <td>Poll 2</td>
+	        <td>lorem ipsum</td>
+	      </tr>
+	      <tr>
+	        <td>Poll 3</td>
+	        <td>lorem ipsum</td>
+	      </tr>
+	    </tbody>
+	  </table>
 	</div>
 	
-	<footer id="footer" class="home-page">
+	
+	<footer id="footer" class="">
 		<div class="container">
 			<div class="col-md-9">
 				&copy;EasyPoll 2016
