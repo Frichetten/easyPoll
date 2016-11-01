@@ -37,15 +37,15 @@ public class HomeController {
 		//Add these attributes to the model so they will appear
 		model.addAttribute("username", user.getUsername());
 		model.addAttribute("password", user.getPassword());
-		Firebase nick = new Firebase("https://testproject-9f072.firebaseio.com");
+		//Firebase nick = new Firebase("https://testproject-9f072.firebaseio.com");
 		
-	    nick.child("Users/User/Password").addValueEventListener(new ValueEventListener() {
-	        @Override
-	        public void onDataChange(DataSnapshot snapshot) {
-	          System.out.println(snapshot.getValue());  //prints "Do you have data? You'll love Firebase."
-	        }
-	        @Override public void onCancelled(FirebaseError error) { }
-	      });
+	    //nick.child("Users/User/Password").addValueEventListener(new ValueEventListener() {
+	    //    @Override
+	    //    public void onDataChange(DataSnapshot snapshot) {
+	    //      System.out.println(snapshot.getValue());  //prints "Do you have data? You'll love Firebase."
+	    //    }
+	    //    @Override public void onCancelled(FirebaseError error) { }
+	    //  });
 		//This token will be the session attribute
 		request.getSession().setAttribute("token", user);
 		return new ModelAndView("home");
