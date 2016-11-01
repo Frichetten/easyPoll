@@ -18,8 +18,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 @Controller
 //@SessionAttributes("token")
 public class HomeController {
-	static String c = "";
-	boolean g = false;
+	
 	//Root mapping
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public ModelAndView user() {
@@ -31,21 +30,25 @@ public class HomeController {
 	public ModelAndView home() {
 		return new ModelAndView("home", "command", new User());
 	}
-	 
+	   
 	@RequestMapping(value = "/addUser", method = RequestMethod.POST)
 	public ModelAndView addUser(@ModelAttribute("SpringWeb")User user, ModelMap model,
 			HttpServletRequest request) {
 		//Add these attributes to the model so they will appear
 		model.addAttribute("username", user.getUsername());
 		model.addAttribute("password", user.getPassword());
+		//Firebase nick = new Firebase("https://testproject-9f072.firebaseio.com");
 		
+	    //nick.child("Users/User/Password").addValueEventListener(new ValueEventListener() {
+	    //    @Override
+	    //    public void onDataChange(DataSnapshot snapshot) {
+	    //      System.out.println(snapshot.getValue());  //prints "Do you have data? You'll love Firebase."
+	    //    }
+	    //    @Override public void onCancelled(FirebaseError error) { }
+	    //  });
 		//This token will be the session attribute
 		request.getSession().setAttribute("token", user);
 		return new ModelAndView("home");
-	}
-	
-	public static synchronized void up(String n){
-		c = n;
 	}
 	
 	@RequestMapping(value = "/greeting", method = RequestMethod.GET)
