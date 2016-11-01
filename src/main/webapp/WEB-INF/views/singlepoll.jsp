@@ -11,23 +11,18 @@
 			<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 			<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/style.css" type="text/css"/>
     		<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/font-awesome.min.css" type="text/css"/>
-			<script>
-			$(document).ready(function () {
-				$('#landing-title').fadeIn(3000).removeClass('hidden');								
-				$(".poll-ad-container").hover(function(){
-					$(this).addClass(".vote-in-poll");
-					$('.vote-in-poll').show();
-				},function(){
-					$('.vote-in-poll').hide();
-				});
-				
-			});
-			</script>
-			<script language="javascript"><!--
-			function myFunction() {
-				//do stuff
-			}
-		//--></script>
+    		<script type="text/javascript" src="${pageContext.request.contextPath}/resources/scripts/Chart.js"></script>
+	<!--Hides poll and show poll stats-->
+        <script type="text/javascript">
+            $(document).ready(function () {
+                $('#pollStats').hide();
+                $('#submitPoll').on('click', function () {
+                    $('#pollQA').hide();
+                    $('#pollStats').show();
+                });
+            });
+           
+        </script>
 	</head>
 	<body>
 	<!-- Navigation -->
@@ -55,32 +50,127 @@
 			</div>
 		</div>
 	</nav>
+    <!--End Navigation-->
 
 	<div class="poll-header">
 		<div class="container">
 			<h1>Poll Name</h1>
 		</div>
 	</div>
-	<div class="container poll-content">
-		<div class="col-md-9">
-			<div class="poll" id="poll-answer">
-				Poll Questions
-			</div>
-		</div>
-		<div class="col-md-3">
-			<div class="poll poll-side-data">
-				<div class="col-md-12">
-					data
-				</div>
-			</div>
-			<div class="poll poll-side-data">
-				<div class="col-md-12">
-					data
-				</div>
-			</div>
-		</div>
-		
+	<div class="container">
+        <div class="row">
+            <!--Poll that people vote in-->
+            <div class="col-md-6" id="pollQA">
+                <div class="poll-panel" id="">
+                    <div class="panel panel-default">
+                        <div class="panel-heading text-center poll-heading">
+                            <h3 class="panel-title">What is your favorite color?</h3>
+                        </div>
+                        <div class="panel-body ">
+                            <form>
+                                <div class="row">
+                                    <div class="form-group col-md-offset-5 col-sm-offset-5 col-xs-5">
+                                        <div class="radio">
+                                            <label>
+                                                <input type="radio" name="answer" />
+                                                Blue
+                                            </label>
+                                        </div>
+                                        <div class="radio">
+                                            <label>
+                                                <input type="radio" name="answer" />
+                                                Red
+                                            </label>
+                                        </div>
+                                        <div class="radio">
+                                            <label>
+                                                <input type="radio" name="answer" />
+                                                Green
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="form-group col-md-offset-5 col-sm-offset-5 col-xs-5">
+                                        <button type="button" id="submitPoll" name="submitPoll" class="btn btn-default"> Submit </button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--End poll that people vote in-->
+            <!--Poll Statistics-->
+            <div id="pollStats">
+                <canvas id="myChart" width="50" height="25"></canvas>
+                <script>
+                    var ctx = document.getElementById("myChart");
+                    var myChart = new Chart(ctx, {
+                        type: 'bar',
+                        data: {
+                            labels: ["Red", "Blue", "Green"],
+                            datasets: [{
+                                label: '# of Votes',
+                                data: [12, 19, 3,],
+                                backgroundColor: [
+                                    'rgba(255, 99, 132, 0.2)',
+                                    'rgba(54, 162, 235, 0.2)',
+                                    'rgba(75, 192, 192, 0.2)'
+                                ],
+                                borderColor: [
+                                    'rgba(255,99,132,1)',
+                                    'rgba(54, 162, 235, 1)',                                  
+                                    'rgba(75, 192, 192, 1)',
+                                ],
+                                borderWidth: 1
+                            }]
+                        },
+                        options: {
+                            scales: {
+                                yAxes: [{
+                                    ticks: {
+                                        beginAtZero: true
+                                    }
+                                }]
+                            }
+                        }
+                    });
+                </script>
+            </div>
+            <!--End Poll Statistics-->
+            <!--More Poll Data-->
+            <div class="col-md-6">
+                <div class="poll-panel" >
+                    <!--Poll Created By-->
+                    <div class="col-md-12">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h3 class="panel-title">Poll Created By</h3>
+                            </div>
+                            <div class="panel-body">
+                                User1234
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <!--More Poll Data-->
+                    <div class="col-md-12">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h3 class="panel-title">Data</h3>
+                            </div>
+                            <div class="panel-body">
+                                Data about poll
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
 	</div>
+        <!--Additional Info-->
 	<div class="container">
 		<ul class="nav nav-tabs">
 			<li role="presentation" class="active"><a href="#">Additional Info</a></li>
@@ -89,6 +179,7 @@
 			It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).
 		</div>
 	</div>
+        <!--Footer-->
 	<footer id="footer">
 		<div class="container">
 			<div class="col-md-9">
@@ -101,11 +192,5 @@
 			</div>
 		</div>
 	</footer>
-	
-	
-	
-	
-	
-	
 	</body>
 </html>
