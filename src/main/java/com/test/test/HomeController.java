@@ -35,7 +35,7 @@ public class HomeController {
 		try{
 			Class.forName("com.mysql.jdbc.Driver");
 			String url = "jdbc:mysql://localhost:3306/easyPoll";
-			Connection connection = DriverManager.getConnection(url,"root","password");
+			Connection connection = DriverManager.getConnection(url,"root","DeltaHex191812");
 			System.out.println("We're in");
 			String sql = "select Username from RUser";
 			Statement statement = connection.createStatement();
@@ -69,16 +69,6 @@ public class HomeController {
 		//Add these attributes to the model so they will appear
 		model.addAttribute("username", user.getUsername());
 		model.addAttribute("password", user.getPassword());
-		//Firebase nick = new Firebase("https://testproject-9f072.firebaseio.com");
-		
-	    //nick.child("Users/User/Password").addValueEventListener(new ValueEventListener() {
-	    //    @Override
-	    //    public void onDataChange(DataSnapshot snapshot) {
-	    //      System.out.println(snapshot.getValue());  //prints "Do you have data? You'll love Firebase."
-	    //    }
-	    //    @Override public void onCancelled(FirebaseError error) { }
-	    //  });
-		//This token will be the session attribute
 		request.getSession().setAttribute("token", user);
 		return new ModelAndView("home");
 	}
