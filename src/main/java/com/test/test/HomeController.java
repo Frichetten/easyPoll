@@ -1,17 +1,22 @@
 package com.test.test;
 
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+
 import javax.servlet.http.HttpServletRequest;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.firebase.client.DataSnapshot;
-import com.firebase.client.Firebase;
-import com.firebase.client.FirebaseError;
-import com.firebase.client.ValueEventListener;
 
 import org.springframework.web.bind.annotation.ModelAttribute;
 
@@ -19,11 +24,38 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 //@SessionAttributes("token")
 public class HomeController {
 	
+	// The Environment class serves as the property holder
+	  // and stores all the properties loaded by the @PropertySource
+	  @Autowired
+	  private Environment env;
+	  
 	//Root mapping
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public ModelAndView user() {
+		try{
+			Class.forName("com.mysql.jdbc.Driver");
+			String url = "jdbc:mysql://localhost:3306/easyPoll";
+			Connection connection = DriverManager.getConnection(url,"root","DeltaHex191812");
+			System.out.println("We're in");
+			String sql = "select Username from RUser";
+			Statement statement = connection.createStatement();
+			ResultSet rs = statement.executeQuery(sql);
+			if (rs.next())
+				System.out.println(rs.getString(1));
+			else
+				System.out.println("no rows");
+		}
+		catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		return new ModelAndView("index", "command", new User());
 	}
+	
+	
 	
 	//Root mapping
 	@RequestMapping(value = "/home", method = RequestMethod.GET)
