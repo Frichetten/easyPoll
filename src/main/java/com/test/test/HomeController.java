@@ -35,7 +35,7 @@ public class HomeController {
 		try{
 			Class.forName("com.mysql.jdbc.Driver");
 			String url = "jdbc:mysql://localhost:3306/easyPoll";
-			Connection connection = DriverManager.getConnection(url,"root","DeltaHex191812");
+			Connection connection = DriverManager.getConnection(url,"root","password");
 			System.out.println("We're in");
 			String sql = "select Username from RUser";
 			Statement statement = connection.createStatement();
