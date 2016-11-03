@@ -151,7 +151,7 @@
 		  $( "#create-poll" ).click(showValues);
 		  $( "select" ).on( "change", console.log(showValues));
 		  showValues();
- 
+
 /* 		  $( "#create-poll" ).click(function(){
  */			  $.ajax({
 			   type: "POST",
