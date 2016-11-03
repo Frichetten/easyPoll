@@ -141,6 +141,7 @@
 				</div>
 			</div>
 		</footer>
+		
 		<script>
 		  function showValues() {
 		    var str = $( "form" ).serialize();
