@@ -1,23 +1,31 @@
 package com.test.test;
 
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+
 import javax.servlet.http.HttpServletRequest;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.firebase.client.DataSnapshot;
-import com.firebase.client.Firebase;
-import com.firebase.client.FirebaseError;
-import com.firebase.client.ValueEventListener;
 
 import org.springframework.web.bind.annotation.ModelAttribute;
 
 @Controller
 //@SessionAttributes("token")
 public class HomeController {
+	  
+	//Create DBConnection
+	Connection dbc = DBConnection.getConnection();
 	
 	//Root mapping
 	@RequestMapping(value = "/", method = RequestMethod.GET)
@@ -33,22 +41,27 @@ public class HomeController {
 	   
 	@RequestMapping(value = "/addUser", method = RequestMethod.POST)
 	public ModelAndView addUser(@ModelAttribute("SpringWeb")User user, ModelMap model,
-			HttpServletRequest request) {
-		//Add these attributes to the model so they will appear
-		model.addAttribute("username", user.getUsername());
-		model.addAttribute("password", user.getPassword());
-		//Firebase nick = new Firebase("https://testproject-9f072.firebaseio.com");
-		
-	    //nick.child("Users/User/Password").addValueEventListener(new ValueEventListener() {
-	    //    @Override
-	    //    public void onDataChange(DataSnapshot snapshot) {
-	    //      System.out.println(snapshot.getValue());  //prints "Do you have data? You'll love Firebase."
-	    //    }
-	    //    @Override public void onCancelled(FirebaseError error) { }
-	    //  });
-		//This token will be the session attribute
-		request.getSession().setAttribute("token", user);
-		return new ModelAndView("home");
+			HttpServletRequest request) throws SQLException {
+		//Authentication
+		String username = "'"+user.getUsername()+"'";
+		String password = "'"+user.getPassword()+"'";
+		String loginQuery = "SELECT Username FROM RUser WHERE Username = " + username + 
+				"AND Pword = " + password;
+		Statement statement = dbc.createStatement();
+		ResultSet rs = statement.executeQuery(loginQuery);
+		if (rs.next()){
+			System.out.println("User Logged in: " + rs.getString(1));
+			//If Authentication successful
+			//Add these attributes to the model so they will appear
+			model.addAttribute("username", user.getUsername());
+			model.addAttribute("password", user.getPassword());
+			request.getSession().setAttribute("token", user);
+			return new ModelAndView("home");
+		}
+		else {
+			System.out.println("Failure To Login");
+			return new ModelAndView("index", "command", new User());
+		}
 	}
 	
 	@RequestMapping(value = "/greeting", method = RequestMethod.GET)

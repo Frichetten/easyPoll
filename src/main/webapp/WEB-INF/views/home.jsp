@@ -50,7 +50,7 @@
 			</div>
 			<div id="navbar" class="navbar-collapse collapse">
 				<ul class="nav navbar-nav navbar-left">
-					<li><a href="#">Community</a></li>
+					<li><a href="/test/communitypolls">Community</a></li>
 					<li><a href="#">My Polls</a></li>
 					<li><a href="#">About</a></li>
 					<li><a href="#">Contact</a></li>
