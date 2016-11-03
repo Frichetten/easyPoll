@@ -21,7 +21,6 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.bind.annotation.ModelAttribute;
 
 @Controller
-//@SessionAttributes("token")
 public class HomeController {
 	  
 	//Create DBConnection
@@ -56,12 +55,36 @@ public class HomeController {
 			model.addAttribute("username", user.getUsername());
 			model.addAttribute("password", user.getPassword());
 			request.getSession().setAttribute("token", user);
-			return new ModelAndView("home");
+			return new ModelAndView("home", "command", new User());
 		}
 		else {
 			System.out.println("Failure To Login");
 			return new ModelAndView("index", "command", new User());
 		}
+	}
+	
+	@RequestMapping(value = "/register", method = RequestMethod.POST)
+	public ModelAndView register(@ModelAttribute("SpringWeb")User user, ModelMap model,
+			HttpServletRequest request) throws SQLException{
+		//Check if user exists in database
+		String username = "'"+user.getUsername()+"'";
+		String password = "'"+user.getPassword()+"'";
+		String email = "'"+user.getEmail()+"'";
+		
+		String loginQuery = "SELECT Username FROM RUser WHERE Username = " + username;
+		Statement statement = dbc.createStatement();
+		ResultSet rs = statement.executeQuery(loginQuery);
+		if (rs.next()){
+			System.out.println("User already exists");
+		}
+		else{
+			//Insert the user into the database
+			String insertUserQuery = "insert into RUser (Username, Pword, Email) Values ("+username+","+password+","+email+")";
+			Statement st2 = dbc.createStatement();
+			st2.execute(insertUserQuery);
+		}
+		
+		return new ModelAndView("home", "command", new User());
 	}
 	
 	@RequestMapping(value = "/greeting", method = RequestMethod.GET)

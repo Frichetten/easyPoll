@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<%@taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <html>
 	<head>
 		<meta charset="UTF-8">
@@ -178,11 +179,12 @@
 					<button type="button" class="close" data-dismiss="modal">&times;</button>
 					<div class="loginmodal-container text-center">
 						<h2>Create an Account</h2><br>
-						<form onsubmit="myFunction(); return false;">
-						<input id="txtEmail" type="email" placeholder="Email">
-						<input id="txtPassword" type="password" placeholder="Password">
-						<input type="submit" id="btnLogin" class="btn btn-success" value="Create Account">
-						</form>
+						<form:form method="POST" action="/test/register">
+             		 	<form:input id="txtUsername" type="text" placeholder="Username" path="username"/>
+             		 	<form:input id="txtEmail" type="email" placeholder="Email Address" path="email"/>
+              			<form:input id="txtPassword" type="password" placeholder="Password" path="password"/>
+              			<input type="submit" id="btnLogin" class="btn btn-success" value="Login">
+              			</form:form>
 					</div>
 						<div class="modal-footer"></div>
 				</div>
