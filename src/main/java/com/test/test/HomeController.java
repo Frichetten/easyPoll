@@ -23,39 +23,15 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 @Controller
 //@SessionAttributes("token")
 public class HomeController {
-	
-	// The Environment class serves as the property holder
-	  // and stores all the properties loaded by the @PropertySource
-	  @Autowired
-	  private Environment env;
 	  
+	//Create DBConnection
+	Connection dbc = DBConnection.getConnection();
+	
 	//Root mapping
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public ModelAndView user() {
-		try{
-			Class.forName("com.mysql.jdbc.Driver");
-			String url = "jdbc:mysql://localhost:3306/easyPoll";
-			Connection connection = DriverManager.getConnection(url,"root","DeltaHex191812");
-			System.out.println("We're in");
-			String sql = "select Username from RUser";
-			Statement statement = connection.createStatement();
-			ResultSet rs = statement.executeQuery(sql);
-			if (rs.next())
-				System.out.println(rs.getString(1));
-			else
-				System.out.println("no rows");
-		}
-		catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 		return new ModelAndView("index", "command", new User());
 	}
-	
-	
 	
 	//Root mapping
 	@RequestMapping(value = "/home", method = RequestMethod.GET)
@@ -65,12 +41,27 @@ public class HomeController {
 	   
 	@RequestMapping(value = "/addUser", method = RequestMethod.POST)
 	public ModelAndView addUser(@ModelAttribute("SpringWeb")User user, ModelMap model,
-			HttpServletRequest request) {
-		//Add these attributes to the model so they will appear
-		model.addAttribute("username", user.getUsername());
-		model.addAttribute("password", user.getPassword());
-		request.getSession().setAttribute("token", user);
-		return new ModelAndView("home");
+			HttpServletRequest request) throws SQLException {
+		//Authentication
+		String username = "'"+user.getUsername()+"'";
+		String password = "'"+user.getPassword()+"'";
+		String loginQuery = "SELECT Username FROM RUser WHERE Username = " + username + 
+				"AND Pword = " + password;
+		Statement statement = dbc.createStatement();
+		ResultSet rs = statement.executeQuery(loginQuery);
+		if (rs.next()){
+			System.out.println("User Logged in: " + rs.getString(1));
+			//If Authentication successful
+			//Add these attributes to the model so they will appear
+			model.addAttribute("username", user.getUsername());
+			model.addAttribute("password", user.getPassword());
+			request.getSession().setAttribute("token", user);
+			return new ModelAndView("home");
+		}
+		else {
+			System.out.println("Failure To Login");
+			return new ModelAndView("index", "command", new User());
+		}
 	}
 	
 	@RequestMapping(value = "/greeting", method = RequestMethod.GET)
