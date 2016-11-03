@@ -83,8 +83,16 @@ public class HomeController {
 			Statement st2 = dbc.createStatement();
 			st2.execute(insertUserQuery);
 		}
-		
 		return new ModelAndView("home", "command", new User());
+	}
+	
+	@RequestMapping(value = "/mypolls", method = RequestMethod.GET)
+	public ModelAndView mypolls(@ModelAttribute("SpringWeb")User user, ModelMap model,
+			HttpServletRequest request) throws SQLException{
+		User a = (User)request.getSession().getAttribute("token");
+		model.addAttribute("username", a.getUsername());
+		
+		return new ModelAndView("mypolls", "command", new User());
 	}
 	
 	@RequestMapping(value = "/greeting", method = RequestMethod.GET)
