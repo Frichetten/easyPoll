@@ -24,8 +24,6 @@
 					}
 				})
 			});
-			
-		
 		
 		</script>
 	</head>
@@ -57,75 +55,66 @@
 		</nav>
 		<div class="container">
 					<div class="page-header">
-						<h1><i class="fa fa-bar-chart fa icon-color" aria-hidden="true"></i> Create a Poll</h1>
+						<h1><i class="fa fa-bar-chart fa icon-color" aria-hidden="true"></i>Create a Poll</h1>
 					</div>
+									<p><tt id="results"></tt></p>
 					<form>
 						<div class="col-md-9">
 							<div class="form-group row">
 								<label for="PollName" class="control-label">Poll Name</label>
-								<input type="text" class="form-control" id="PollName" placeholder="Name" />
+								<input type="text" class="form-control" id="PollName" name="PollName" placeholder="Name" />
 							</div>
-							<div class="form-group row">
+					  		<div class="form-group row">
 								<label for="PollQuestion" class="control-label">Question</label>
-								<input type="text" class="form-control" id="PollQuestion" placeholder="Question" />
+								<input type="text" class="form-control" id="PollQuestion" name="PollQuestion" placeholder="Question" />
 							</div>
 							<div class="form-group row">
 								<label for="AnswerType" class="control-label">Answer Type</label>
 								<div class="radio">
 									<label>
-										<input type="radio" name="theme" />
+										<input type="radio" name="AnswerType" id="one-answer" value="One"/>
 										One Answer
 									</label>
 								</div>
 								<div class="radio">
 									<label>
-										<input type="radio" name="theme" />
+										<input type="radio" name="AnswerType" id="multiple-answers" value="multiple"/>
 										Multiple Answers
 									</label>
 								</div>
 							</div>
-<!-- 							<div class="form-group row"> -->
-<!-- 								<label for="PollTheme" class="control-label">Theme</label> -->
-<!-- 								<div class="radio"> -->
-<!-- 									<label> -->
-<!-- 										<input type="radio" name="theme" /> -->
-<!-- 										Blue -->
-<!-- 									</label> -->
-<!-- 								</div> -->
-<!-- 								<div class="radio"> -->
-<!-- 									<label> -->
-<!-- 										<input type="radio" name="theme" /> -->
-<!-- 										Red -->
-<!-- 									</label> -->
-<!-- 								</div> -->
-<!-- 								<div class="radio"> -->
-<!-- 									<label> -->
-<!-- 										<input type="radio" name="theme" /> -->
-<!-- 										Green -->
-<!-- 									</label> -->
-<!-- 								</div> -->
-<!-- 							</div> -->
-
+							<div class="form-group row">
+								<label for="pollview" class="control-label">Is this a Public or Private Poll?</label>
+								<div class="radio">
+									<label>
+										<input type="radio" name="pollview" id="public" value="public"/>
+										Public
+									</label>
+								</div>
+								<div class="radio">
+									<label>
+										<input type="radio" name="pollview" id="private" value="private"/>
+										Private
+									</label>
+								</div>
+							</div>
 							<div class="form-group row">
 								<label for="Answers" class="control-label">Answers</label>
-								<input type="text" class="form-control" id="answer" placeholder="Answer 1" />
+								<input type="text" class="form-control" id="answer" name ="answer" placeholder="Answer 1" />
 							 </div>
-
-
-
-							<div class="form-group row">
+							 <div class="form-group row">
 								<button type="button" id="add-answer" class="btn btn-default"><i class="fa fa-plus" aria-hidden="true"></i> 										Add Answer
 								</button>
 							</div>
-						
 						<div style="padding-top:5px; padding-bottom:20px;">
 							<div class="bottom-page">
 							</div>
 						</div>
-							<div class="form-group row">
-									<button type="submit" class="btn btn-success btn-create">Create Poll</button>
-								</div>
-		</div>
+						<div class="form-group row">
+							<button type="submit" class="btn btn-success btn-create" id="create-poll">Create Poll</button>
+						</div>
+					</form>
+			</div>
 		
 			<div class="col-md-3">
 				<div class="createpoll-sidebar">
@@ -152,6 +141,32 @@
 				</div>
 			</div>
 		</footer>
+		
+		<script>
+		  function showValues() {
+		    var str = $( "form" ).serialize();
+		    $( "#results" ).text( str );
+		  }
+		  $( "input[type='checkbox'], input[type='radio']" ).on( "click", showValues );
+		  $( "input[type='text']" ).keypress(showValues);
+		  $( "#create-poll" ).click(showValues);
+		  $( "select" ).on( "change", console.log(showValues));
+		  showValues();
+		  
+/* 		  $( "#create-poll" ).click(function(){
+ */			  $.ajax({
+			   type: "POST",
+			   url: "/test/",
+			   data: showValues,
+			   contentType: "application/json; charset=utf-8",
+			   dataType: "json",
+			   success: function(msg) {
+			   alert('Data Sent to create Poll' + showValues);
+			   }
+/* 		  	});
+ */		  });
+		</script>
+
 		<!-- jQuery library -->
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 		<!-- Latest compiled JavaScript -->

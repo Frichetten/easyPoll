@@ -55,7 +55,7 @@
 					<li><a href="#">My Polls</a></li>
 					<li><a href="#">About</a></li>
 					<li><a href="#">Contact</a></li>
-					<li><a href="#">${username} | Login</a></li>
+					<li><a href="#">${username}</a></li>
 				</ul>
 				<ul class="nav navbar-nav navbar-right" id="logged-out">
 					<li><a href="../navbar-static-top/" data-toggle="modal" data-target="#login-modal">Login</a></li>
