@@ -15,6 +15,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 
@@ -117,6 +118,15 @@ public class HomeController {
 	@RequestMapping(value = "/createpoll", method = RequestMethod.GET)
 	public ModelAndView createpoll(@ModelAttribute("SpringWeb")User user, ModelMap model,
 			HttpServletRequest request){
+		return new ModelAndView("createpoll");
+	}
+	
+	@RequestMapping(value = "/createpollfunction", method = RequestMethod.POST)
+	public @ResponseBody ModelAndView createpollfunction(@ModelAttribute("SpringWeb")User user, ModelMap model,
+			HttpServletRequest request){
+		System.out.println("Starting function");
+		System.out.println(request.getParameter("showValues"));
+		
 		return new ModelAndView("createpoll");
 	}
 	
