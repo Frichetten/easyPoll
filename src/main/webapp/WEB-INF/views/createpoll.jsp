@@ -153,18 +153,18 @@
 		  $( "select" ).on( "change", console.log(showValues));
 		  showValues();
 		  
-/* 		  $( "#create-poll" ).click(function(){
- */			  $.ajax({
+ 		  $( "#create-poll" ).click(function(){
+ 			  $.ajax({
 			   type: "POST",
-			   url: "/test/",
+			   url: "/test/createpollfunction",
 			   data: showValues,
 			   contentType: "application/json; charset=utf-8",
 			   dataType: "json",
 			   success: function(msg) {
 			   alert('Data Sent to create Poll' + showValues);
 			   }
-/* 		  	});
- */		  });
+		  	});
+ 		  });
 		</script>
 
 		<!-- jQuery library -->
