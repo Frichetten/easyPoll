@@ -103,8 +103,8 @@
             </div>
             <!--End poll that people vote in-->
             <!--Poll Statistics-->
-            <div id="pollStats">
-                <canvas id="myChart" width="100" height="50"></canvas>
+            <div class="col-md-6" id="pollStats">
+                <canvas id="myChart"></canvas>
                 
             </div>
             <!--End Poll Statistics-->
