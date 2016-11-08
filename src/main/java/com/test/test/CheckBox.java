@@ -18,4 +18,17 @@ public class CheckBox implements Answer {
 		return null;
 	}
 
+	@Override
+	public String[] getAnswers(int PollNum) throws Exception {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String[] getAnswerOptions(int PollNum) throws Exception {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	@
+
 }

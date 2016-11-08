@@ -16,5 +16,7 @@ public class AnswerFactory {
 		else if(type.toLowerCase().equals("checkbox")){
 			return new CheckBox(); 
 		}
+		else
+			return new CheckBox();
 	}
 }

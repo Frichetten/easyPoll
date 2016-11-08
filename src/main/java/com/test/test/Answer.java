@@ -2,6 +2,7 @@ package com.test.test;
 
 public interface Answer {
 	
-	public String[] getAnswerOptions(String textQuestion) throws Exception;
+	public String[] getAnswerOptions(int PollNum) throws Exception;
+	public String[] getAnswers(int PollNum) throws Exception;
 
 }

@@ -13,7 +13,6 @@ public class Radio implements Answer{
 	String[] answersChosen = null;
 	
 	public String[] getAnswerOptions(String textQuestion) throws SQLException{
-		Connection Dbcon = DBConnection.getConnection();
 		
 		String SQL = "SELECT PollNum FROM PollData WHERE Question = " + textQuestion;
 		Statement statement = Dbcon.createStatement();
@@ -30,6 +29,18 @@ public class Radio implements Answer{
 		
 		
 		return answerOptions;
+	}
+
+	@Override
+	public String[] getAnswers(int PollNum) throws Exception {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String[] getAnswerOptions(int PollNum) throws Exception {
+		// TODO Auto-generated method stub
+		return null;
 	}
 	
 	
