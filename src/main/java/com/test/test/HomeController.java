@@ -127,6 +127,7 @@ public class HomeController {
 			HttpServletRequest request){
 		System.out.println("Starting function");
 		System.out.println(poll.getPollName());
+		System.out.println(poll.getPollQuestion());
 		
 		return new ModelAndView("createpoll");
 	}

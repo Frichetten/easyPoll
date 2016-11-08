@@ -10,6 +10,7 @@ package com.test.test;
  */
 public class Poll {
 	private String pollName;
+	private String pollQuestion;
 	
 	public void setPollName(String pollName) {
 	   this.pollName = pollName;
@@ -17,4 +18,13 @@ public class Poll {
 	public String getPollName() {
 	   return pollName;
 	}
+	
+	public String getPollQuestion() {
+		return pollQuestion;
+	}
+	public void setPollQuestion(String pollQuestion) {
+		this.pollQuestion = pollQuestion;
+	}
+	
+	
 }

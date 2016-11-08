@@ -67,7 +67,7 @@
 							</div>
 					  		<div class="form-group row">
 								<label for="PollQuestion" class="control-label">Question</label>
-								<input type="text" class="form-control" id="PollQuestion" name="PollQuestion" placeholder="Question" />
+								<input type="text" class="form-control" id="PollQuestion" name="PollQuestion" placeholder="Question"/>
 							</div>
 							<div class="form-group row">
 								<label for="AnswerType" class="control-label">Answer Type</label>
