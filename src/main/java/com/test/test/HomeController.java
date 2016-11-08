@@ -20,6 +20,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestBody;
 
 @Controller
 public class HomeController {
@@ -122,10 +123,10 @@ public class HomeController {
 	}
 	
 	@RequestMapping(value = "/createpollfunction", method = RequestMethod.POST)
-	public @ResponseBody ModelAndView createpollfunction(@ModelAttribute("SpringWeb")User user, ModelMap model,
+	public @ResponseBody ModelAndView createpollfunction(@ModelAttribute("SpringWeb")Poll poll, ModelMap model,
 			HttpServletRequest request){
 		System.out.println("Starting function");
-		System.out.println(request.getParameter("showValues"));
+		System.out.println(poll.getPollName());
 		
 		return new ModelAndView("createpoll");
 	}

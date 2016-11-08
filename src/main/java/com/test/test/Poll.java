@@ -9,5 +9,12 @@ package com.test.test;
  *
  */
 public class Poll {
+	private String pollName;
 	
+	public void setPollName(String pollName) {
+	   this.pollName = pollName;
+	}
+	public String getPollName() {
+	   return pollName;
+	}
 }

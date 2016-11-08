@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<%@taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 	<html>
 	<head>
 		<title>EasyPoll: Create A Poll</title>
@@ -58,7 +59,7 @@
 						<h1><i class="fa fa-bar-chart fa icon-color" aria-hidden="true"></i>Create a Poll</h1>
 					</div>
 									<p><tt id="results"></tt></p>
-					<form>
+					<form:form method="POST" action="/test/createpollfunction">
 						<div class="col-md-9">
 							<div class="form-group row">
 								<label for="PollName" class="control-label">Poll Name</label>
@@ -111,9 +112,9 @@
 							</div>
 						</div>
 						<div class="form-group row">
-							<button type="submit" class="btn btn-success btn-create" id="create-poll">Create Poll</button>
+							<input type="submit" id="btnLogin" class="btn btn-success" value="Create Poll">
 						</div>
-					</form>
+					</form:form>
 			</div>
 		
 			<div class="col-md-3">

@@ -14,7 +14,8 @@ public class AnswerFactory {
 			return new Radio();
 		}
 		else if(type.toLowerCase().equals("checkbox")){
-			return new CheckBox(); 
+			return new Radio(); 
 		}
+		return null;
 	}
 }
