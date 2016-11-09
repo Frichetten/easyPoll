@@ -128,6 +128,9 @@ public class HomeController {
 		System.out.println("Starting function");
 		System.out.println(poll.getPollName());
 		System.out.println(poll.getPollQuestion());
+		System.out.println(poll.getAnswerType());
+		System.out.println(poll.getPollView());
+		System.out.println(poll.getAnswer());
 		
 		return new ModelAndView("createpoll");
 	}
@@ -135,6 +138,9 @@ public class HomeController {
 	@RequestMapping(value = "/singlepoll", method = RequestMethod.GET)
 	public ModelAndView singlePoll(@ModelAttribute("SpringWeb")User user, ModelMap model,
 			HttpServletRequest request){
+		model.addAttribute("red", 1);
+		model.addAttribute("green", 2);
+		model.addAttribute("blue",null);
 		return new ModelAndView("singlepoll");
 	}
 }

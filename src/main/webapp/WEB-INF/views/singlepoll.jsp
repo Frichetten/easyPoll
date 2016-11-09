@@ -40,7 +40,7 @@
 			</div>
 			<div id="navbar" class="navbar-collapse collapse">
 				<ul class="nav navbar-nav navbar-left">
-					<li class="active"><a href="#">Home</a></li>
+					<li class="active"><a href="/test/home">Home</a></li>
 					<li><a href="#">About</a></li>
 					<li><a href="#">Contact</a></li>
 				</ul>
@@ -168,10 +168,10 @@
                 var myChart = new Chart(ctx, {
                     type: 'bar',
                     data: {
-                        labels: ["Red", "Blue", "Green"],
+                        labels: ["Red", "Green", ${blue}],
                         datasets: [{
                             label: '# of Votes',
-                            data: [12, 19, 3, ],
+                            data: [${red}, ${green}, ${blue}, ],
                             backgroundColor: [
                                 'rgba(255, 99, 132, 0.2)',
                                 'rgba(54, 162, 235, 0.2)',
