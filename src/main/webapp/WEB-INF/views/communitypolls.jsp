@@ -29,11 +29,6 @@
 			});
 			
 			</script>
-			<script language="javascript"><!--
-			function myFunction() {
-
-			}
-		//--></script>
 	</head>
 	<body>
 	<!-- Navigation -->
@@ -65,7 +60,7 @@
 			</div>
 		</div>
 	</nav>
-	</div>
+	
 	<div class="container">
   		<h2>Community Polls</h2>
   		<p>Click on a poll to vote in it!</p>
