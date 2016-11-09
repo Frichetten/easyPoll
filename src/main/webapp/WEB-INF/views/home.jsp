@@ -157,11 +157,11 @@
 					<button type="button" class="close" data-dismiss="modal">&times;</button>
 					<div class="loginmodal-container text-center">
 						<h2>Login to Your Account</h2><br>
-						<form onsubmit="myFunction(); return false;">
-						<input id="txtEmail" type="email" placeholder="Email">
-						<input id="txtPassword" type="password" placeholder="Password">
+						<form:form method="POST" action="/test/addUser">
+						<form:input id="txtEmail" type="email" placeholder="Email" path="username"/>
+						<form:input id="txtPassword" type="password" placeholder="Password" path="password"/>
 						<input type="submit" id="btnLogin" class="btn btn-success" value="Login">
-						</form>
+						</form:form>
 						<div class="login-help">
 						<a href="#" id="btnSignup">Register</a> | <a href="#" id="Logout">Forgot Password</a>
 						</div>
