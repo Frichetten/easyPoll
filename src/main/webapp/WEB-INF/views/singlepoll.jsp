@@ -161,6 +161,7 @@
 			</div>
 		</div>
 	</footer>
+	
         <script>
             function drawchart()
             {
