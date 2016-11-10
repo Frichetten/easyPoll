@@ -27,6 +27,7 @@ public class HomeController {
 	  
 	//Create DBConnection
 	Connection dbc = DBConnection.getConnection();
+
 	
 	//Root mapping
 	@RequestMapping(value = "/", method = RequestMethod.GET)
