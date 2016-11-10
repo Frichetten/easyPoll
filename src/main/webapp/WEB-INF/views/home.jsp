@@ -158,7 +158,7 @@
 					<div class="loginmodal-container text-center">
 						<h2>Login to Your Account</h2><br>
 						<form:form method="POST" action="/test/addUser">
-						<form:input id="txtEmail" type="email" placeholder="Email" path="username"/>
+						<form:input id="txtEmail" type="text" placeholder="Email" path="username"/>
 						<form:input id="txtPassword" type="password" placeholder="Password" path="password"/>
 						<input type="submit" id="btnLogin" class="btn btn-success" value="Login">
 						</form:form>
