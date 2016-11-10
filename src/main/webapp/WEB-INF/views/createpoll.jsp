@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<%@taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 	<html>
 	<head>
 		<title>EasyPoll: Create A Poll</title>
@@ -42,7 +43,7 @@
 				</div>
 				<div id="navbar" class="navbar-collapse collapse">
 					<ul class="nav navbar-nav navbar-left">
-						<li class="active"><a href="#">Home</a></li>
+						<li class="active"><a href="/test/home">Home</a></li>
 						<li><a href="#">About</a></li>
 						<li><a href="#">Contact</a></li>
 					</ul>
@@ -58,7 +59,7 @@
 						<h1><i class="fa fa-bar-chart fa icon-color" aria-hidden="true"></i>Create a Poll</h1>
 					</div>
 									<p><tt id="results"></tt></p>
-					<form>
+					<form:form method="POST" action="/test/createpollfunction">
 						<div class="col-md-9">
 							<div class="form-group row">
 								<label for="PollName" class="control-label">Poll Name</label>
@@ -66,13 +67,13 @@
 							</div>
 					  		<div class="form-group row">
 								<label for="PollQuestion" class="control-label">Question</label>
-								<input type="text" class="form-control" id="PollQuestion" name="PollQuestion" placeholder="Question" />
+								<input type="text" class="form-control" id="PollQuestion" name="PollQuestion" placeholder="Question"/>
 							</div>
 							<div class="form-group row">
 								<label for="AnswerType" class="control-label">Answer Type</label>
 								<div class="radio">
 									<label>
-										<input type="radio" name="AnswerType" id="one-answer" value="One"/>
+										<input type="radio" name="AnswerType" id="oneAnswer" value="One"/>
 										One Answer
 									</label>
 								</div>
@@ -87,13 +88,13 @@
 								<label for="pollview" class="control-label">Is this a Public or Private Poll?</label>
 								<div class="radio">
 									<label>
-										<input type="radio" name="pollview" id="public" value="public"/>
+										<input type="radio" name="pub" id="public" value="public"/>
 										Public
 									</label>
 								</div>
 								<div class="radio">
 									<label>
-										<input type="radio" name="pollview" id="private" value="private"/>
+										<input type="radio" name="pub" id="private" value="private"/>
 										Private
 									</label>
 								</div>
@@ -111,9 +112,9 @@
 							</div>
 						</div>
 						<div class="form-group row">
-							<button type="submit" class="btn btn-success btn-create" id="create-poll">Create Poll</button>
+							<input type="submit" id="btnLogin" class="btn btn-success" value="Create Poll">
 						</div>
-					</form>
+					</form:form>
 			</div>
 		
 			<div class="col-md-3">
@@ -153,18 +154,18 @@
 		  $( "select" ).on( "change", console.log(showValues));
 		  showValues();
 		  
-/* 		  $( "#create-poll" ).click(function(){
- */			  $.ajax({
+ 		  $( "#create-poll" ).click(function(){
+ 			  $.ajax({
 			   type: "POST",
-			   url: "/test/",
+			   url: "/test/createpollfunction",
 			   data: showValues,
 			   contentType: "application/json; charset=utf-8",
 			   dataType: "json",
 			   success: function(msg) {
 			   alert('Data Sent to create Poll' + showValues);
 			   }
-/* 		  	});
- */		  });
+		  	});
+ 		  });
 		</script>
 
 		<!-- jQuery library -->

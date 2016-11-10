@@ -29,11 +29,6 @@
 			});
 			
 			</script>
-			<script language="javascript"><!--
-			function myFunction() {
-
-			}
-		//--></script>
 	</head>
 	<body>
 	<!-- Navigation -->
@@ -50,7 +45,7 @@
 			</div>
 			<div id="navbar" class="navbar-collapse collapse">
 				<ul class="nav navbar-nav navbar-left">
-					<li><a href="#">Community</a></li>
+					<li><a href="/test/home">Home</a></li>
 					<li><a href="#">My Polls</a></li>
 					<li><a href="#">About</a></li>
 					<li><a href="#">Contact</a></li>
@@ -65,33 +60,35 @@
 			</div>
 		</div>
 	</nav>
-	</div>
-	<div class="container">
-  		<h2>Community Polls</h2>
-  		<p>Click on a poll to vote in it!</p>
-  		<table class="table table-striped">
-    	<thead>
-     		 <tr>
-        		<th>Title</th>
-		        <th>Description</th>
-      		</tr>
-    	</thead>
-	    <tbody>
-	      <tr>
-	        <td>Poll 1</td>
-	        <td>lorem ipsum</td>
-	      </tr>
-	      <tr>
-	        <td>Poll 2</td>
-	        <td>lorem ipsum</td>
-	      </tr>
-	      <tr>
-	        <td>Poll 3</td>
-	        <td>lorem ipsum</td>
-	      </tr>
-	    </tbody>
-	  </table>
-	</div>
+	
+	 <div class="container">
+            <div class="page-header">
+                <h1>Communtiy Polls</h1>
+            </div>
+        <p>Click on a poll to vote!</p>
+        <table id="tableId" class="table table-striped table-hover">
+            <thead>
+                <tr>
+                    <th>Title</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Poll 1</td>
+                    <td>lorem ipsum</td>
+                </tr>
+                <tr>
+                    <td>Poll 2</td>
+                    <td>lorem ipsum</td>
+                </tr>
+                <tr>
+                    <td>Poll 3</td>
+                    <td>lorem ipsum</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
 	
 	
 	<footer id="footer" class="">
@@ -151,6 +148,26 @@
 	
 	
 	
-	
+	<!--Adds a click event to each table row-->
+    <script type="text/javascript">
+        function addRowHandlers() {
+            var table = document.getElementById("tableId");
+            var rows = table.getElementsByTagName("tr");
+            for (i = 0; i < rows.length; i++) {
+                var currentRow = table.rows[i];
+                var createClickHandler =
+                    function (row) {
+                        return function () {
+                            var cell = row.getElementsByTagName("td")[0];
+                            var id = cell.innerHTML;
+                            alert("id:" + id);
+                        };
+                    };
+
+                currentRow.onclick = createClickHandler(currentRow);
+            }
+        }
+        window.onload = addRowHandlers();
+    </script>
 	</body>
 </html>

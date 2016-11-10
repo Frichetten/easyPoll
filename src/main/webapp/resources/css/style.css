@@ -220,3 +220,20 @@ a {
   display:table-cell;
   vertical-align: middle;
 }
+
+.panel-default > .poll-heading {
+  background-color:#2ecc71;
+}
+.panel-default > .panel-heading > h3.panel-title{
+    font-size: 19px;
+    font-weight:600;
+}
+.panel-default > .panel-body {
+  font-size: 19px;
+}
+.poll-panel {
+    margin:50px 0 50px 0;
+}
+.btn {
+    font-size:17px;
+}

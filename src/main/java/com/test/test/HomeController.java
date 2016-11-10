@@ -15,10 +15,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestBody;
 
 @Controller
 public class HomeController {
@@ -83,8 +85,19 @@ public class HomeController {
 			Statement st2 = dbc.createStatement();
 			st2.execute(insertUserQuery);
 		}
-		
 		return new ModelAndView("home", "command", new User());
+	}
+	
+	@RequestMapping(value = "/mypolls", method = RequestMethod.GET)
+	public ModelAndView mypolls(@ModelAttribute("SpringWeb")User user, ModelMap model,
+			HttpServletRequest request) throws SQLException{
+		User a = (User)request.getSession().getAttribute("token");
+		if (a == null){
+			return new ModelAndView("home","command",new User());
+		}
+		model.addAttribute("username", a.getUsername());
+		
+		return new ModelAndView("mypolls", "command", new User());
 	}
 	
 	@RequestMapping(value = "/greeting", method = RequestMethod.GET)
@@ -112,9 +125,25 @@ public class HomeController {
 		return new ModelAndView("createpoll");
 	}
 	
+	@RequestMapping(value = "/createpollfunction", method = RequestMethod.POST)
+	public @ResponseBody ModelAndView createpollfunction(@ModelAttribute("SpringWeb")Poll poll, ModelMap model,
+			HttpServletRequest request){
+		System.out.println("Starting function");
+		System.out.println(poll.getPollName());
+		System.out.println(poll.getPollQuestion());
+		System.out.println(poll.getAnswerType());
+		System.out.println(poll.getPub());
+		System.out.println(poll.getAnswer());
+		
+		return new ModelAndView("createpoll");
+	}
+	
 	@RequestMapping(value = "/singlepoll", method = RequestMethod.GET)
 	public ModelAndView singlePoll(@ModelAttribute("SpringWeb")User user, ModelMap model,
 			HttpServletRequest request){
+		model.addAttribute("red", 1);
+		model.addAttribute("green", 2);
+		model.addAttribute("blue",null);
 		return new ModelAndView("singlepoll");
 	}
 }

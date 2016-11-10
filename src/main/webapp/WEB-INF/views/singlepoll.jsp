@@ -11,14 +11,15 @@
 			<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 			<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/style.css" type="text/css"/>
     		<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/font-awesome.min.css" type="text/css"/>
-    		<script type="text/javascript" src="${pageContext.request.contextPath}/resources/scripts/Chart.js"></script>
-	<!--Hides poll and show poll stats-->
+			<script src="${pageContext.request.contextPath}/resources/scripts/Chart.js"></script>
+	 <!--Hides poll and show poll stats-->
         <script type="text/javascript">
             $(document).ready(function () {
                 $('#pollStats').hide();
                 $('#submitPoll').on('click', function () {
                     $('#pollQA').hide();
                     $('#pollStats').show();
+                    drawchart();
                 });
             });
            
@@ -39,7 +40,7 @@
 			</div>
 			<div id="navbar" class="navbar-collapse collapse">
 				<ul class="nav navbar-nav navbar-left">
-					<li class="active"><a href="#">Home</a></li>
+					<li class="active"><a href="/test/home">Home</a></li>
 					<li><a href="#">About</a></li>
 					<li><a href="#">Contact</a></li>
 				</ul>
@@ -102,41 +103,9 @@
             </div>
             <!--End poll that people vote in-->
             <!--Poll Statistics-->
-            <div id="pollStats">
-                <canvas id="myChart" width="50" height="25"></canvas>
-                <script>
-                    var ctx = document.getElementById("myChart");
-                    var myChart = new Chart(ctx, {
-                        type: 'bar',
-                        data: {
-                            labels: ["Red", "Blue", "Green"],
-                            datasets: [{
-                                label: '# of Votes',
-                                data: [12, 19, 3,],
-                                backgroundColor: [
-                                    'rgba(255, 99, 132, 0.2)',
-                                    'rgba(54, 162, 235, 0.2)',
-                                    'rgba(75, 192, 192, 0.2)'
-                                ],
-                                borderColor: [
-                                    'rgba(255,99,132,1)',
-                                    'rgba(54, 162, 235, 1)',                                  
-                                    'rgba(75, 192, 192, 1)',
-                                ],
-                                borderWidth: 1
-                            }]
-                        },
-                        options: {
-                            scales: {
-                                yAxes: [{
-                                    ticks: {
-                                        beginAtZero: true
-                                    }
-                                }]
-                            }
-                        }
-                    });
-                </script>
+            <div class="col-md-6" id="pollStats">
+                <canvas id="myChart"></canvas>
+                
             </div>
             <!--End Poll Statistics-->
             <!--More Poll Data-->
@@ -192,5 +161,41 @@
 			</div>
 		</div>
 	</footer>
+        <script>
+            function drawchart()
+            {
+                var ctx = document.getElementById("myChart");
+                var myChart = new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: ["Red", "Green", ${blue}],
+                        datasets: [{
+                            label: '# of Votes',
+                            data: [${red}, ${green}, ${blue}, ],
+                            backgroundColor: [
+                                'rgba(255, 99, 132, 0.2)',
+                                'rgba(54, 162, 235, 0.2)',
+                                'rgba(75, 192, 192, 0.2)'
+                            ],
+                            borderColor: [
+                                'rgba(255,99,132,1)',
+                                'rgba(54, 162, 235, 1)',
+                                'rgba(75, 192, 192, 1)',
+                            ],
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        scales: {
+                            yAxes: [{
+                                ticks: {
+                                    beginAtZero: true
+                                }
+                            }]
+                        }
+                    }
+                });
+            }
+        </script>
 	</body>
 </html>
