@@ -144,9 +144,6 @@
 				</div>
 			</div>
 		</div>
-
-	
-	
 	
 	<!--Adds a click event to each table row-->
     <script type="text/javascript">
