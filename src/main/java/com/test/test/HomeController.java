@@ -92,6 +92,9 @@ public class HomeController {
 	public ModelAndView mypolls(@ModelAttribute("SpringWeb")User user, ModelMap model,
 			HttpServletRequest request) throws SQLException{
 		User a = (User)request.getSession().getAttribute("token");
+		if (a == null){
+			return new ModelAndView("home","command",new User());
+		}
 		model.addAttribute("username", a.getUsername());
 		
 		return new ModelAndView("mypolls", "command", new User());
@@ -129,7 +132,7 @@ public class HomeController {
 		System.out.println(poll.getPollName());
 		System.out.println(poll.getPollQuestion());
 		System.out.println(poll.getAnswerType());
-		System.out.println(poll.getPollView());
+		System.out.println(poll.getPub());
 		System.out.println(poll.getAnswer());
 		
 		return new ModelAndView("createpoll");

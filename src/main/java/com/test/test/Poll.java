@@ -14,7 +14,14 @@ public class Poll {
 	private String answerType;
 	private String pollView;
 	private String answer;
+	private String pub;
 	
+	public String getPub() {
+		return pub;
+	}
+	public void setPub(String pub) {
+		this.pub = pub;
+	}
 	public String getAnswer() {
 		return answer;
 	}
