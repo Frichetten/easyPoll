@@ -128,13 +128,26 @@ public class HomeController {
 	
 	@RequestMapping(value = "/createpollfunction", method = RequestMethod.POST)
 	public @ResponseBody ModelAndView createpollfunction(@ModelAttribute("SpringWeb")Poll poll, ModelMap model,
-			HttpServletRequest request){
+			HttpServletRequest request) throws SQLException{
 		System.out.println("Starting function");
+		User a = (User)request.getSession().getAttribute("token");
+		model.addAttribute("username", a.getUsername());
 		System.out.println(poll.getPollName());
 		System.out.println(poll.getPollQuestion());
 		System.out.println(poll.getAnswerType());
 		System.out.println(poll.getPub());
 		System.out.println(poll.getAnswer());
+		
+		//Insert the user into the database
+		String insertPollsQuery = "INSERT INTO Polls (Username, isCurrent, PollName, Partakers, PollType) " + 
+				"VALUES ('" +a.getUsername()+ "',1,'"+poll.getPollName()+"',50,'"+poll.getPub()+"');";
+		Statement st2 = dbc.createStatement();
+		st2.execute(insertPollsQuery);
+		String insertPollDataQuery = "INSERT INTO PollData(PollNum, Params, isRadio, AnsOne, AnsTwo, AnsThree, " +
+		"TotalOne, TotalTwo, TotalThree) VALUES ((SELECT LAST_INSERT_ID()), 3, true, 'Skinny Cat', 'Fat Cat', 'Dumb Cat' " + 
+		", 0, 0, 0);";
+		st2.execute(insertPollDataQuery);
+		System.out.println("Successful insertion");
 		
 		return new ModelAndView("createpoll");
 	}
