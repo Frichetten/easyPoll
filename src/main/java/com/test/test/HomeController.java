@@ -115,6 +115,7 @@ public class HomeController {
 		
 		for (int i =0; i< toShow.size(); i++){
 			model.addAttribute("Title"+String.valueOf(i), toShow.get(i));
+			model.addAttribute("id"+String.valueOf(i), toCache.get(i));
 		}
 		
 		

@@ -79,14 +79,17 @@
             <tbody>
                 <tr>
                     <td>${Title0}</td>
+                    <td hidden="true">${id0}</td>
                     <td>lorem ipsum</td>
                 </tr>
                 <tr>
                     <td>${Title1}</td>
+                    <td hidden="true">${id1}</td>
                     <td>lorem ipsum</td>
                 </tr>
                 <tr>
                     <td>${Title2}</td>
+                    <td hidden="true">${id2}</td>
                     <td>lorem ipsum</td>
                 </tr>
             </tbody>
@@ -116,10 +119,9 @@
                 var createClickHandler =
                     function (row) {
                         return function () {
-                            var cell = row.getElementsByTagName("td")[0];
+                            var cell = row.getElementsByTagName("td")[1];
                             var id = cell.innerHTML;
-                            document.location = "/test/home"
-                            alert(id);
+                            document.location = "/test/singlepoll/"+id;
                         };
                     };
 
