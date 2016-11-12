@@ -56,7 +56,7 @@
 
 	<div class="poll-header">
 		<div class="container">
-			<h1>Poll Name</h1>
+			<h1>${pollName}</h1>
 		</div>
 	</div>
 	<div class="container">
@@ -66,30 +66,13 @@
                 <div class="poll-panel" id="">
                     <div class="panel panel-default">
                         <div class="panel-heading text-center poll-heading">
-                            <h3 class="panel-title">What is your favorite color?</h3>
+                            <h3 class="panel-title">${pollQuestion}</h3>
                         </div>
                         <div class="panel-body ">
                             <form>
                                 <div class="row">
                                     <div class="form-group col-md-offset-5 col-sm-offset-5 col-xs-5">
-                                        <div class="radio">
-                                            <label>
-                                                <input type="radio" name="answer" />
-                                                Blue
-                                            </label>
-                                        </div>
-                                        <div class="radio">
-                                            <label>
-                                                <input type="radio" name="answer" />
-                                                Red
-                                            </label>
-                                        </div>
-                                        <div class="radio">
-                                            <label>
-                                                <input type="radio" name="answer" />
-                                                Green
-                                            </label>
-                                        </div>
+                                        ${builder}
                                     </div>
                                 </div>
                                 <div class="row">
@@ -119,7 +102,7 @@
                                 <h3 class="panel-title">Poll Created By</h3>
                             </div>
                             <div class="panel-body">
-                                User1234
+                                ${posterUsername}
                             </div>
                         </div>
                     </div>
@@ -169,10 +152,10 @@
                 var myChart = new Chart(ctx, {
                     type: 'bar',
                     data: {
-                        labels: ["Red", "Green", ${blue}],
+                        labels: [${optionsList}],
                         datasets: [{
                             label: '# of Votes',
-                            data: [${red}, ${green}, ${blue}, ],
+                            data: [${valuesList}],
                             backgroundColor: [
                                 'rgba(255, 99, 132, 0.2)',
                                 'rgba(54, 162, 235, 0.2)',

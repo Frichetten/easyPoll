@@ -174,10 +174,10 @@ public class HomeController {
 				"VALUES ('" +a.getUsername()+ "',1,'"+poll.getPollName()+"',50,'"+poll.getPub()+"');";
 		Statement st2 = dbc.createStatement();
 		st2.execute(insertPollsQuery);
-		String insertPollDataQuery = "INSERT INTO PollData(PollNum, Params, isRadio, AnsOne, AnsTwo, AnsThree, " +
+		String insertPollDataQuery = "INSERT INTO PollData(PollNum, Question, Params, isRadio, AnsOne, AnsTwo, AnsThree, " +
 		"AnsFour, AnsFive, AnsSix, AnsSeven, AnsEight, AnsNine, AnsTen, " + 
 		"TotalOne, TotalTwo, TotalThree, TotalFour, TotalFive, TotalSix, TotalSeven, TotalEight, " +
-		"TotalNine, TotalTen) VALUES ((SELECT LAST_INSERT_ID()), 3, true, '"+answersArray[0]+"', " +
+		"TotalNine, TotalTen) VALUES ((SELECT LAST_INSERT_ID()), '"+poll.getPollQuestion()+"', "+answers.length+", true, '"+answersArray[0]+"', " +
 		"'"+answersArray[1]+"' , '"+answersArray[2]+"' , '"+answersArray[3]+"' , '"+answersArray[4]+"' ," +
 		"'"+answersArray[5]+"', '"+answersArray[6]+"' , '"+answersArray[7]+"' , '"+answersArray[8]+"' , " +
 		"'"+answersArray[9]+"'"+ 
@@ -190,11 +190,39 @@ public class HomeController {
 	
 	@RequestMapping(value = "/singlepoll/{pollId}", method = RequestMethod.GET)
 	public ModelAndView singlePoll(@ModelAttribute("SpringWeb")User user, ModelMap model,
-			HttpServletRequest request, @PathVariable String pollId){
-		System.out.println(pollId);
-		model.addAttribute("red", 1);
-		model.addAttribute("green", 2);
-		model.addAttribute("blue",null);
+			HttpServletRequest request, @PathVariable String pollId) throws SQLException{
+		//Getting Column names and username
+		System.out.println("Starting dynamic url");
+		String searchQuery = "SELECT * FROM Polls p JOIN PollData on PollData.PollNum = p.PollNum " +
+				"WHERE p.PollNum = " + pollId + ";";
+		Statement statement = dbc.createStatement();
+		ResultSet rs = statement.executeQuery(searchQuery);
+		if (rs.next()){
+			model.addAttribute("posterUsername", rs.getString(2));
+			model.addAttribute("pollName", rs.getString(4));
+			model.addAttribute("pollQuestion", rs.getString(31));
+			//Creating builder
+			String builder = "";
+			String[] options = new String[10];
+			String[] values = new String[10];
+			for(int i =0; i< Integer.valueOf(rs.getString(8)); i++){
+				builder = builder + "<div class='radio'>\n<label>\n<input type='radio' name='answer' />"+rs.getString(10+i)+"\n</label>\n</div>";
+				options[i] = rs.getString(10+i);
+				values[i] = rs.getString(20+i);
+			}
+			String optionsList = "";
+			String valuesList = "";
+			for(int i=0; i < Integer.valueOf(rs.getString(8)); i++){
+				optionsList = optionsList + "'"+options[i]+"',";
+				valuesList = valuesList + "'"+values[i]+"',";
+			}
+			System.out.println(optionsList);
+			System.out.println(valuesList);
+			model.addAttribute("optionsList", optionsList);
+			model.addAttribute("valuesList", valuesList);
+			model.addAttribute("builder", builder);
+		}
+		
 		return new ModelAndView("singlepoll");
 	}
 }
