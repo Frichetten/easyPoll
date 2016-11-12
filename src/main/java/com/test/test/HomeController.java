@@ -6,6 +6,7 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -138,14 +139,29 @@ public class HomeController {
 		System.out.println(poll.getPub());
 		System.out.println(poll.getAnswer());
 		
+		//Splitting answers by comma delimeters
+		String[] answers = poll.getAnswer().split(",");
+		String[] answersArray = new String[10];
+		for (int i=0; i < 10; i++){
+			if (i < answers.length)
+				answersArray[i] = answers[i];
+			else
+				answersArray[i] = null;
+		}
+		
 		//Insert the user into the database
 		String insertPollsQuery = "INSERT INTO Polls (Username, isCurrent, PollName, Partakers, PollType) " + 
 				"VALUES ('" +a.getUsername()+ "',1,'"+poll.getPollName()+"',50,'"+poll.getPub()+"');";
 		Statement st2 = dbc.createStatement();
 		st2.execute(insertPollsQuery);
 		String insertPollDataQuery = "INSERT INTO PollData(PollNum, Params, isRadio, AnsOne, AnsTwo, AnsThree, " +
-		"TotalOne, TotalTwo, TotalThree) VALUES ((SELECT LAST_INSERT_ID()), 3, true, 'Skinny Cat', 'Fat Cat', 'Dumb Cat' " + 
-		", 0, 0, 0);";
+		"AnsFour, AnsFive, AnsSix, AnsSeven, AnsEight, AnsNine, AnsTen, " + 
+		"TotalOne, TotalTwo, TotalThree, TotalFour, TotalFive, TotalSix, TotalSeven, TotalEight, " +
+		"TotalNine, TotalTen) VALUES ((SELECT LAST_INSERT_ID()), 3, true, '"+answersArray[0]+"', " +
+		"'"+answersArray[1]+"' , '"+answersArray[2]+"' , '"+answersArray[3]+"' , '"+answersArray[4]+"' ," +
+		"'"+answersArray[5]+"', '"+answersArray[6]+"' , '"+answersArray[7]+"' , '"+answersArray[8]+"' , " +
+		"'"+answersArray[9]+"'"+ 
+		", 0, 0, 0,0,0,0,0,0,0,0);";
 		st2.execute(insertPollDataQuery);
 		System.out.println("Successful insertion");
 		
