@@ -16,8 +16,12 @@
 	 <!--Hides poll and show poll stats-->
         <script type="text/javascript">
             $(document).ready(function () {
+                $('#pollQA').hide();
+                drawchart();
                 $('#submitPoll').on('click', function () {
-                    
+                    $('#pollQA').hide();
+                    $('#pollStats').show();
+                    drawchart();
                 });
             });
            
@@ -66,26 +70,28 @@
                             <h3 class="panel-title">${pollQuestion}</h3>
                         </div>
                         <div class="panel-body ">
-                            
-                             <div class="row">
-                                 <div class="form-group col-md-offset-5 col-sm-offset-5 col-xs-5">
-                                 <form:form method="POST" action="/test/sendanswerfunction">
-                                     ${builder}
-                                     <input type="submit" id="submitPoll" name="submitPoll" class="btn btn-default" value="Submit">
-                                     </form:form>
-                                 </div>
-                             </div>
-                             <div class="row">
-                                 <div class="form-group col-md-offset-5 col-sm-offset-5 col-xs-5">
-                                     </div>
-                             </div>
-                            
+                            <form>
+                                <div class="row">
+                                    <div class="form-group col-md-offset-5 col-sm-offset-5 col-xs-5">
+                                        ${builder}
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="form-group col-md-offset-5 col-sm-offset-5 col-xs-5">
+                                        <button type="button" id="submitPoll" name="submitPoll" class="btn btn-default"> Submit </button>
+                                    </div>
+                                </div>
+                            </form>
                         </div>
                     </div>
                 </div>
             </div>
             <!--End poll that people vote in-->
             <!--Poll Statistics-->
+            <div class="col-md-6" id="pollStats">
+                <canvas id="myChart"></canvas>
+                
+            </div>
             <!--End Poll Statistics-->
             <!--More Poll Data-->
             <div class="col-md-6">
@@ -140,6 +146,41 @@
 			</div>
 		</div>
 	</footer>
-        
+        <script>
+            function drawchart()
+            {
+                var ctx = document.getElementById("myChart");
+                var myChart = new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: [${optionsList}],
+                        datasets: [{
+                            label: '# of Votes',
+                            data: [${valuesList}],
+                            backgroundColor: [
+                                'rgba(255, 99, 132, 0.2)',
+                                'rgba(54, 162, 235, 0.2)',
+                                'rgba(75, 192, 192, 0.2)'
+                            ],
+                            borderColor: [
+                                'rgba(255,99,132,1)',
+                                'rgba(54, 162, 235, 1)',
+                                'rgba(75, 192, 192, 1)',
+                            ],
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        scales: {
+                            yAxes: [{
+                                ticks: {
+                                    beginAtZero: true
+                                }
+                            }]
+                        }
+                    }
+                });
+            }
+        </script>
 	</body>
 </html>

@@ -1,7 +1,18 @@
 package com.test.test;
 
-public interface Answer {
+public class Answer {
 	
-	public String[] getAnswerOptions(String textQuestion) throws Exception;
+	//public String[] getAnswerOptions(String textQuestion) throws Exception;
+	private String answer;
 
+	public String getAnswer() {
+		return answer;
+	}
+
+	public void setAnswer(String answer) {
+		this.answer = answer;
+	}
+	
+	
+	
 }

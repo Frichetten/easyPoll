@@ -206,7 +206,7 @@ public class HomeController {
 			String[] options = new String[10];
 			String[] values = new String[10];
 			for(int i =0; i< Integer.valueOf(rs.getString(8)); i++){
-				builder = builder + "<div class='radio'>\n<label>\n<input type='radio' name='answer' />"+rs.getString(10+i)+"\n</label>\n</div>";
+				builder = builder + "<div class='radio'><label><input type='radio' name='answer' id='Private' value='"+rs.getString(10+i)+"'/>"+rs.getString(10+i)+"</label></div>";
 				options[i] = rs.getString(10+i);
 				values[i] = rs.getString(20+i);
 			}
@@ -216,13 +216,54 @@ public class HomeController {
 				optionsList = optionsList + "'"+options[i]+"',";
 				valuesList = valuesList + "'"+values[i]+"',";
 			}
-			System.out.println(optionsList);
-			System.out.println(valuesList);
 			model.addAttribute("optionsList", optionsList);
 			model.addAttribute("valuesList", valuesList);
 			model.addAttribute("builder", builder);
 		}
 		
 		return new ModelAndView("singlepoll");
+	}
+	
+	@RequestMapping(value = "/singlepolldata/{pollId}", method = RequestMethod.GET)
+	public ModelAndView singlePollData(@ModelAttribute("SpringWeb")User user, ModelMap model,
+			HttpServletRequest request, @PathVariable String pollId) throws SQLException{
+		//Getting Column names and username
+		System.out.println("singlepolldata");
+		String searchQuery = "SELECT * FROM Polls p JOIN PollData on PollData.PollNum = p.PollNum " +
+				"WHERE p.PollNum = " + pollId + ";";
+		Statement statement = dbc.createStatement();
+		ResultSet rs = statement.executeQuery(searchQuery);
+		if (rs.next()){
+			model.addAttribute("posterUsername", rs.getString(2));
+			model.addAttribute("pollName", rs.getString(4));
+			model.addAttribute("pollQuestion", rs.getString(31));
+			//Creating builder
+			String builder = "";
+			String[] options = new String[10];
+			String[] values = new String[10];
+			for(int i =0; i< Integer.valueOf(rs.getString(8)); i++){
+				options[i] = rs.getString(10+i);
+				values[i] = rs.getString(20+i);
+			}
+			String optionsList = "";
+			String valuesList = "";
+			for(int i=0; i < Integer.valueOf(rs.getString(8)); i++){
+				optionsList = optionsList + "'"+options[i]+"',";
+				valuesList = valuesList + "'"+values[i]+"',";
+			}
+			model.addAttribute("optionsList", optionsList);
+			model.addAttribute("valuesList", valuesList);
+		}
+		
+		return new ModelAndView("singlepolldata");
+	}
+	
+	@RequestMapping(value = "/sendanswerfunction", method = RequestMethod.POST)
+	public @ResponseBody ModelAndView sendAnswerFunction(@ModelAttribute("SpringWeb")Answer answer, ModelMap model,
+			HttpServletRequest request) throws SQLException{
+		System.out.println("sendanswerfunction");
+		System.out.println(answer.getAnswer());
+		
+		return new ModelAndView("singlepolldata");
 	}
 }
