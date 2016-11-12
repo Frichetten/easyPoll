@@ -69,7 +69,7 @@
                             
                              <div class="row">
                                  <div class="form-group col-md-offset-5 col-sm-offset-5 col-xs-5">
-                                 <form:form method="POST" action="/test/sendanswerfunction">
+                                 <form:form method="GET" action="/test/singlepolldata/${pollID}">
                                      ${builder}
                                      <input type="submit" id="submitPoll" name="submitPoll" class="btn btn-default" value="Submit">
                                      </form:form>

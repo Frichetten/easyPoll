@@ -206,7 +206,7 @@ public class HomeController {
 			String[] options = new String[10];
 			String[] values = new String[10];
 			for(int i =0; i< Integer.valueOf(rs.getString(8)); i++){
-				builder = builder + "<div class='radio'><label><input type='radio' name='answer' id='Private' value='"+rs.getString(10+i)+"'/>"+rs.getString(10+i)+"</label></div>";
+				builder = builder + "<div class='radio'><label><input type='radio' name='answer' id='Private' value='"+String.valueOf(i+1)+"'/>"+rs.getString(10+i)+"</label></div>";
 				options[i] = rs.getString(10+i);
 				values[i] = rs.getString(20+i);
 			}
@@ -219,16 +219,52 @@ public class HomeController {
 			model.addAttribute("optionsList", optionsList);
 			model.addAttribute("valuesList", valuesList);
 			model.addAttribute("builder", builder);
+			model.addAttribute("pollID", pollId);
 		}
 		
 		return new ModelAndView("singlepoll");
 	}
 	
 	@RequestMapping(value = "/singlepolldata/{pollId}", method = RequestMethod.GET)
-	public ModelAndView singlePollData(@ModelAttribute("SpringWeb")User user, ModelMap model,
+	public ModelAndView singlePollData(@ModelAttribute("SpringWeb")Answer answer, ModelMap model,
 			HttpServletRequest request, @PathVariable String pollId) throws SQLException{
 		//Getting Column names and username
-		System.out.println("singlepolldata");
+		System.out.println("singlepolldataaaa");
+		//If answer equals null, do nothing
+		//Else put that in the DB
+		if (answer.getAnswer() == null){
+			System.out.println("We are coming without giving an answer");
+		}
+		else{
+			System.out.println("We are giving an answer " + answer.getAnswer());
+			String column = "";
+			String ans = answer.getAnswer();
+			if (ans.equals("1"))
+				column = "TotalOne";
+			else if (ans.equals("2"))
+				column = "TotalTwo";
+			else if (ans.equals("3"))
+				column = "TotalThree";
+			else if (ans.equals("4"))
+				column = "TotalFour";
+			else if (ans.equals("5"))
+				column = "TotalFive";
+			else if (ans.equals("6"))
+				column = "TotalSix";
+			else if (ans.equals("7"))
+				column = "TotalSeven";
+			else if (ans.equals("8"))
+				column = "TotalEight";
+			else if (ans.equals("9"))
+				column = "TotalNine";
+			else if (ans.equals("10"))
+				column = "TotalTen";
+			String updateQuery = "UPDATE Polls p JOIN PollData on PollData.PollNum = p.PollNum SET "+column+" = "+column+" + 1 WHERE p.PollNum = "+pollId+";";
+			Statement statement = dbc.createStatement();
+			statement.execute(updateQuery);
+			System.out.println("Update complete");
+		}
+		
 		String searchQuery = "SELECT * FROM Polls p JOIN PollData on PollData.PollNum = p.PollNum " +
 				"WHERE p.PollNum = " + pollId + ";";
 		Statement statement = dbc.createStatement();
@@ -254,15 +290,6 @@ public class HomeController {
 			model.addAttribute("optionsList", optionsList);
 			model.addAttribute("valuesList", valuesList);
 		}
-		
-		return new ModelAndView("singlepolldata");
-	}
-	
-	@RequestMapping(value = "/sendanswerfunction", method = RequestMethod.POST)
-	public @ResponseBody ModelAndView sendAnswerFunction(@ModelAttribute("SpringWeb")Answer answer, ModelMap model,
-			HttpServletRequest request) throws SQLException{
-		System.out.println("sendanswerfunction");
-		System.out.println(answer.getAnswer());
 		
 		return new ModelAndView("singlepolldata");
 	}
