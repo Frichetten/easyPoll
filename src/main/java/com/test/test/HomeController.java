@@ -131,9 +131,17 @@ public class HomeController {
 	@RequestMapping(value = "/mypolls", method = RequestMethod.GET)
 	public ModelAndView mypolls(@ModelAttribute("SpringWeb")User user, ModelMap model,
 			HttpServletRequest request) throws SQLException{
+		//Confirming Login status
 		User a = (User)request.getSession().getAttribute("token");
 		if (a == null){
-			return new ModelAndView("home","command",new User());
+			return home(user, model, request);
+		}
+		else{
+			System.out.println("Logged in as " + a.getUsername());
+			String login = "<a href='/profile'>"+a.getUsername()+"</a>";
+			String signout = "<a href='test/signout' >Sign Out</a>";
+			model.addAttribute("login", login);
+			model.addAttribute("signup", signout);
 		}
 		model.addAttribute("username", a.getUsername());
 		String username = a.getUsername();
@@ -145,16 +153,18 @@ public class HomeController {
 		ResultSet rs = statement.executeQuery(searchQuery);
 		ArrayList<String> toShow = new ArrayList<String>();
 		ArrayList<String> toCache = new ArrayList<String>();
+		ArrayList<String> toDesc = new ArrayList<String>();
 		while(rs.next()){
 			toCache.add(rs.getString(1));
 			toShow.add(rs.getString(4));
+			toDesc.add(rs.getString(10));
 		}
 		
 		for (int i =0; i< toShow.size(); i++){
 			model.addAttribute("Title"+String.valueOf(i), toShow.get(i));
 			model.addAttribute("id"+String.valueOf(i), toCache.get(i));
+			model.addAttribute("desc"+String.valueOf(i), toDesc.get(i));
 		}
-		
 		
 		return new ModelAndView("mypolls", "command", new User());
 	}
@@ -163,22 +173,22 @@ public class HomeController {
 	public ModelAndView community(@ModelAttribute("SpringWeb")User user, ModelMap model,
 			HttpServletRequest request){
 		//Confirming Login Status
-				User a = (User)request.getSession().getAttribute("token");
-				if (a == null){
-					System.out.println("User not logged in");
-					//Login Modifier
-					String login = "<a href='../navbar-static-top/' data-toggle='modal' data-target='#login-modal'>Login</a>";
-					String signup = "<a href='../navbar-fixed-top/' data-toggle='modal' data-target='#create-account-modal'>Signup</a>";
-					model.addAttribute("login", login);
-					model.addAttribute("signup", signup);
-				}
-				else{
-					System.out.println("Logged in as " + a.getUsername());
-					String login = "<a href='/profile'>"+a.getUsername()+"</a>";
-					String signout = "<a href='test/signout' >Sign Out</a>";
-					model.addAttribute("login", login);
-					model.addAttribute("signup", signout);
-				}
+		User a = (User)request.getSession().getAttribute("token");
+		if (a == null){
+			System.out.println("User not logged in");
+			//Login Modifier
+			String login = "<a href='../navbar-static-top/' data-toggle='modal' data-target='#login-modal'>Login</a>";
+			String signup = "<a href='../navbar-fixed-top/' data-toggle='modal' data-target='#create-account-modal'>Signup</a>";
+			model.addAttribute("login", login);
+			model.addAttribute("signup", signup);
+		}
+		else{
+			System.out.println("Logged in as " + a.getUsername());
+			String login = "<a href='/profile'>"+a.getUsername()+"</a>";
+			String signout = "<a href='test/signout' >Sign Out</a>";
+			model.addAttribute("login", login);
+			model.addAttribute("signup", signout);
+		}
 				
 		return new ModelAndView("communitypolls");
 	}
@@ -234,8 +244,26 @@ public class HomeController {
 	@RequestMapping(value = "/singlepoll/{pollId}", method = RequestMethod.GET)
 	public ModelAndView singlePoll(@ModelAttribute("SpringWeb")User user, ModelMap model,
 			HttpServletRequest request, @PathVariable String pollId) throws SQLException{
-		//Before doing anything, we need to confirm that they havent voted yet
+		//Confirming Login Status
 		User a = (User)request.getSession().getAttribute("token");
+		if (a == null){
+			System.out.println("User not logged in");
+			//Login Modifier
+			String login = "<a href='../navbar-static-top/' data-toggle='modal' data-target='#login-modal'>Login</a>";
+			String signup = "<a href='../navbar-fixed-top/' data-toggle='modal' data-target='#create-account-modal'>Signup</a>";
+			model.addAttribute("login", login);
+			model.addAttribute("signup", signup);
+		}
+		else{
+			System.out.println("Logged in as " + a.getUsername());
+			//model.addAttribute("username", a.getUsername());
+			String login = "<a href='/profile'>"+a.getUsername()+"</a>";
+			String signout = "<a href='/test/signout' >Sign Out</a>";
+			model.addAttribute("login", login);
+			model.addAttribute("signup", signout);
+		}
+		
+		//Before doing anything, we need to confirm that they havent voted yet
 		String check = "SELECT * FROM PollTaker WHERE Username = '"+a.getUsername()+"' and PollNum = "+pollId+";";
 		Statement checkStatement = dbc.createStatement();
 		ResultSet checkRS = checkStatement.executeQuery(check);
@@ -282,9 +310,27 @@ public class HomeController {
 	@RequestMapping(value = "/singlepolldata/{pollId}", method = RequestMethod.GET)
 	public ModelAndView singlePollData(@ModelAttribute("SpringWeb")Answer answer, ModelMap model,
 			HttpServletRequest request, @PathVariable String pollId) throws SQLException{
+		//Confirming Login Status
+		User a = (User)request.getSession().getAttribute("token");
+		if (a == null){
+			System.out.println("User not logged in");
+			//Login Modifier
+			String login = "<a href='../navbar-static-top/' data-toggle='modal' data-target='#login-modal'>Login</a>";
+			String signup = "<a href='../navbar-fixed-top/' data-toggle='modal' data-target='#create-account-modal'>Signup</a>";
+			model.addAttribute("login", login);
+			model.addAttribute("signup", signup);
+		}
+		else{
+			System.out.println("Logged in as " + a.getUsername());
+			//model.addAttribute("username", a.getUsername());
+			String login = "<a href='/profile'>"+a.getUsername()+"</a>";
+			String signout = "<a href='test/signout' >Sign Out</a>";
+			model.addAttribute("login", login);
+			model.addAttribute("signup", signout);
+		}
+		
 		//Getting Column names and username
 		System.out.println("singlepolldataaaa");
-		User a = (User)request.getSession().getAttribute("token");
 		//If answer equals null, do nothing
 		//Else put that in the DB
 		if (answer.getAnswer() == null){

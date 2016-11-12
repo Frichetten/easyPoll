@@ -53,8 +53,8 @@
                     <li><a href="#">Contact</a></li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right" id="logged-out">
-                    <li><a href="../navbar-static-top/" data-toggle="modal" data-target="#login-modal">Login</a></li>
-                    <li><a href="../navbar-fixed-top/" data-toggle="modal" data-target="#create-account-modal">Signup</a></li>
+                    <li>${login}</li>
+					<li>${signup}</li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right" id="user-logged-in">
                     <li><a>Welcome User</a></li>
@@ -80,17 +80,17 @@
                 <tr>
                     <td>${Title0}</td>
                     <td hidden="true">${id0}</td>
-                    <td>lorem ipsum</td>
+                    <td>${desc0}</td>
                 </tr>
                 <tr>
                     <td>${Title1}</td>
                     <td hidden="true">${id1}</td>
-                    <td>lorem ipsum</td>
+                    <td>${desc1}</td>
                 </tr>
                 <tr>
                     <td>${Title2}</td>
                     <td hidden="true">${id2}</td>
-                    <td>lorem ipsum</td>
+                    <td>${desc2}</td>
                 </tr>
             </tbody>
         </table>

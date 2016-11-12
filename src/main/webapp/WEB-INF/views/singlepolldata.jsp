@@ -42,13 +42,15 @@
 			</div>
 			<div id="navbar" class="navbar-collapse collapse">
 				<ul class="nav navbar-nav navbar-left">
-					<li class="active"><a href="/test/home">Home</a></li>
+					<li><a href="/test/home">Home</a>
+					<li><a href="/test/communitypolls">Community</a></li>
+					<li><a href="/test/mypolls">My Polls</a></li>
 					<li><a href="#">About</a></li>
 					<li><a href="#">Contact</a></li>
 				</ul>
 				<ul class="nav navbar-nav navbar-right">
-					<li><a href="../navbar-static-top/">Login</a></li>
-					<li><a href="../navbar-fixed-top/">Signup</a></li>
+					<li>${login}</li>
+					<li>${signup}</li>
 				</ul>
 			</div>
 		</div>
