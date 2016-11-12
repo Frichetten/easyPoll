@@ -21,6 +21,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 
 @Controller
@@ -98,6 +99,24 @@ public class HomeController {
 			return new ModelAndView("home","command",new User());
 		}
 		model.addAttribute("username", a.getUsername());
+		String username = a.getUsername();
+		
+		//Add attributes to the model that are Polls
+		String searchQuery = "SELECT * FROM Polls p JOIN PollData on PollData.PollNum = p.PollNum " +
+				"WHERE p.Username = '"+username+"' and p.isCurrent = 1";
+		Statement statement = dbc.createStatement();
+		ResultSet rs = statement.executeQuery(searchQuery);
+		ArrayList<String> toShow = new ArrayList<String>();
+		ArrayList<String> toCache = new ArrayList<String>();
+		while(rs.next()){
+			toCache.add(rs.getString(1));
+			toShow.add(rs.getString(4));
+		}
+		
+		for (int i =0; i< toShow.size(); i++){
+			model.addAttribute("Title"+String.valueOf(i), toShow.get(i));
+		}
+		
 		
 		return new ModelAndView("mypolls", "command", new User());
 	}
@@ -168,9 +187,10 @@ public class HomeController {
 		return new ModelAndView("createpoll");
 	}
 	
-	@RequestMapping(value = "/singlepoll", method = RequestMethod.GET)
+	@RequestMapping(value = "/singlepoll/{pollId}", method = RequestMethod.GET)
 	public ModelAndView singlePoll(@ModelAttribute("SpringWeb")User user, ModelMap model,
-			HttpServletRequest request){
+			HttpServletRequest request, @PathVariable String pollId){
+		System.out.println(pollId);
 		model.addAttribute("red", 1);
 		model.addAttribute("green", 2);
 		model.addAttribute("blue",null);

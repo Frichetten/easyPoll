@@ -78,15 +78,15 @@
             </thead>
             <tbody>
                 <tr>
-                    <td>Poll 1</td>
+                    <td>${Title0}</td>
                     <td>lorem ipsum</td>
                 </tr>
                 <tr>
-                    <td>Poll 2</td>
+                    <td>${Title1}</td>
                     <td>lorem ipsum</td>
                 </tr>
                 <tr>
-                    <td>Poll 3</td>
+                    <td>${Title2}</td>
                     <td>lorem ipsum</td>
                 </tr>
             </tbody>
@@ -118,7 +118,8 @@
                         return function () {
                             var cell = row.getElementsByTagName("td")[0];
                             var id = cell.innerHTML;
-                            alert("id:" + id);
+                            document.location = "/test/home"
+                            alert(id);
                         };
                     };
 
