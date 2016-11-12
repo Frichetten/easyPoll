@@ -70,6 +70,10 @@
 								<input type="text" class="form-control" id="PollQuestion" name="PollQuestion" placeholder="Question"/>
 							</div>
 							<div class="form-group row">
+								<label for="PollDescription" class="control-label">Description</label>
+								<input type="text" class="form-control" id="PollDescription" name="PollDescription" placeholder="Description"/>
+							</div>
+							<div class="form-group row">
 								<label for="AnswerType" class="control-label">Answer Type</label>
 								<div class="radio">
 									<label>

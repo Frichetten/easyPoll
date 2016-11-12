@@ -57,8 +57,8 @@
 					<li><a href="#">Contact</a></li>
 				</ul>
 				<ul class="nav navbar-nav navbar-right" id="logged-out">
-					<li><a href="../navbar-static-top/" data-toggle="modal" data-target="#login-modal">Login</a></li>
-					<li><a href="../navbar-fixed-top/" data-toggle="modal" data-target="#create-account-modal">Signup</a></li>
+					<li>${login}</li>
+					<li>${signup}</li>
 				</ul>
 				<ul class="nav navbar-nav navbar-right" id="user-logged-in">
 					<li><a>Welcome User</a></li>

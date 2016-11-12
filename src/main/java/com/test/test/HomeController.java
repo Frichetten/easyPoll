@@ -30,7 +30,6 @@ public class HomeController {
 	//Create DBConnection
 	Connection dbc = DBConnection.getConnection();
 
-	
 	//Root mapping
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public ModelAndView user() {
@@ -39,7 +38,27 @@ public class HomeController {
 	
 	//Root mapping
 	@RequestMapping(value = "/home", method = RequestMethod.GET)
-	public ModelAndView home() {
+	public ModelAndView home(@ModelAttribute("SpringWeb")User user, ModelMap model,
+			HttpServletRequest request) {
+		//Confirming Login Status
+		User a = (User)request.getSession().getAttribute("token");
+		if (a == null){
+			System.out.println("User not logged in");
+			//Login Modifier
+			String login = "<a href='../navbar-static-top/' data-toggle='modal' data-target='#login-modal'>Login</a>";
+			String signup = "<a href='../navbar-fixed-top/' data-toggle='modal' data-target='#create-account-modal'>Signup</a>";
+			model.addAttribute("login", login);
+			model.addAttribute("signup", signup);
+		}
+		else{
+			System.out.println("Logged in as " + a.getUsername());
+			//model.addAttribute("username", a.getUsername());
+			String login = "<a href='/profile'>"+a.getUsername()+"</a>";
+			String signout = "<a href='test/signout' >Sign Out</a>";
+			model.addAttribute("login", login);
+			model.addAttribute("signup", signout);
+		}
+		
 		return new ModelAndView("home", "command", new User());
 	}
 	   
@@ -60,6 +79,24 @@ public class HomeController {
 			model.addAttribute("username", user.getUsername());
 			model.addAttribute("password", user.getPassword());
 			request.getSession().setAttribute("token", user);
+			
+			User a = (User)request.getSession().getAttribute("token");
+			if (a == null){
+				System.out.println("User not logged in");
+				//Login Modifier
+				String login = "<a href='../navbar-static-top/' data-toggle='modal' data-target='#login-modal'>Login</a>";
+				String signup = "<a href='../navbar-fixed-top/' data-toggle='modal' data-target='#create-account-modal'>Signup</a>";
+				model.addAttribute("login", login);
+				model.addAttribute("signup", signup);
+			}
+			else{
+				System.out.println("Logged in as " + a.getUsername());
+				//model.addAttribute("username", a.getUsername());
+				String login = "<a href='/profile'>"+a.getUsername()+"</a>";
+				String signout = "<a href='/test/signout' >Sign Out</a>";
+				model.addAttribute("login", login);
+				model.addAttribute("signup", signout);
+			}
 			return new ModelAndView("home", "command", new User());
 		}
 		else {
@@ -122,22 +159,27 @@ public class HomeController {
 		return new ModelAndView("mypolls", "command", new User());
 	}
 	
-	@RequestMapping(value = "/greeting", method = RequestMethod.GET)
-	public ModelAndView greeting(@ModelAttribute("SpringWeb")User user, ModelMap model,
-			HttpServletRequest request){
-		//Add casting so we can treat this as a User object
-		User a = (User)request.getSession().getAttribute("token");
-		model.addAttribute("username", a.getUsername());
-		
-		//TEST
-		System.out.println("Username: " + a.getUsername());
-		System.out.println("Password: " + a.getPassword());
-		return new ModelAndView("greeting");
-	}
-	
 	@RequestMapping(value = "/communitypolls", method = RequestMethod.GET)
 	public ModelAndView community(@ModelAttribute("SpringWeb")User user, ModelMap model,
 			HttpServletRequest request){
+		//Confirming Login Status
+				User a = (User)request.getSession().getAttribute("token");
+				if (a == null){
+					System.out.println("User not logged in");
+					//Login Modifier
+					String login = "<a href='../navbar-static-top/' data-toggle='modal' data-target='#login-modal'>Login</a>";
+					String signup = "<a href='../navbar-fixed-top/' data-toggle='modal' data-target='#create-account-modal'>Signup</a>";
+					model.addAttribute("login", login);
+					model.addAttribute("signup", signup);
+				}
+				else{
+					System.out.println("Logged in as " + a.getUsername());
+					String login = "<a href='/profile'>"+a.getUsername()+"</a>";
+					String signout = "<a href='test/signout' >Sign Out</a>";
+					model.addAttribute("login", login);
+					model.addAttribute("signup", signout);
+				}
+				
 		return new ModelAndView("communitypolls");
 	}
 	
@@ -155,6 +197,7 @@ public class HomeController {
 		model.addAttribute("username", a.getUsername());
 		System.out.println(poll.getPollName());
 		System.out.println(poll.getPollQuestion());
+		System.out.println(poll.getPollDescription());
 		System.out.println(poll.getAnswerType());
 		System.out.println(poll.getPub());
 		System.out.println(poll.getAnswer());
@@ -171,13 +214,13 @@ public class HomeController {
 		
 		//Insert the user into the database
 		String insertPollsQuery = "INSERT INTO Polls (Username, isCurrent, PollName, Partakers, PollType) " + 
-				"VALUES ('" +a.getUsername()+ "',1,'"+poll.getPollName()+"',50,'"+poll.getPub()+"');";
+				"VALUES ('" +a.getUsername()+ "',1,'"+poll.getPollName()+"',0,'"+poll.getPub()+"');";
 		Statement st2 = dbc.createStatement();
 		st2.execute(insertPollsQuery);
-		String insertPollDataQuery = "INSERT INTO PollData(PollNum, Question, Params, isRadio, AnsOne, AnsTwo, AnsThree, " +
+		String insertPollDataQuery = "INSERT INTO PollData(PollNum, Question, Description, Params, isRadio, AnsOne, AnsTwo, AnsThree, " +
 		"AnsFour, AnsFive, AnsSix, AnsSeven, AnsEight, AnsNine, AnsTen, " + 
 		"TotalOne, TotalTwo, TotalThree, TotalFour, TotalFive, TotalSix, TotalSeven, TotalEight, " +
-		"TotalNine, TotalTen) VALUES ((SELECT LAST_INSERT_ID()), '"+poll.getPollQuestion()+"', "+answers.length+", true, '"+answersArray[0]+"', " +
+		"TotalNine, TotalTen) VALUES ((SELECT LAST_INSERT_ID()), '"+poll.getPollQuestion()+"', '"+poll.getPollDescription()+"', "+answers.length+", true, '"+answersArray[0]+"', " +
 		"'"+answersArray[1]+"' , '"+answersArray[2]+"' , '"+answersArray[3]+"' , '"+answersArray[4]+"' ," +
 		"'"+answersArray[5]+"', '"+answersArray[6]+"' , '"+answersArray[7]+"' , '"+answersArray[8]+"' , " +
 		"'"+answersArray[9]+"'"+ 
@@ -191,6 +234,17 @@ public class HomeController {
 	@RequestMapping(value = "/singlepoll/{pollId}", method = RequestMethod.GET)
 	public ModelAndView singlePoll(@ModelAttribute("SpringWeb")User user, ModelMap model,
 			HttpServletRequest request, @PathVariable String pollId) throws SQLException{
+		//Before doing anything, we need to confirm that they havent voted yet
+		User a = (User)request.getSession().getAttribute("token");
+		String check = "SELECT * FROM PollTaker WHERE Username = '"+a.getUsername()+"' and PollNum = "+pollId+";";
+		Statement checkStatement = dbc.createStatement();
+		ResultSet checkRS = checkStatement.executeQuery(check);
+		//If YES, This user has already voted
+		//Else, they have not!
+		if(checkRS.next()){
+			return singlePollData(new Answer(), model, request, pollId);
+		}
+		
 		//Getting Column names and username
 		System.out.println("Starting dynamic url");
 		String searchQuery = "SELECT * FROM Polls p JOIN PollData on PollData.PollNum = p.PollNum " +
@@ -200,15 +254,15 @@ public class HomeController {
 		if (rs.next()){
 			model.addAttribute("posterUsername", rs.getString(2));
 			model.addAttribute("pollName", rs.getString(4));
-			model.addAttribute("pollQuestion", rs.getString(31));
+			model.addAttribute("pollQuestion", rs.getString(9));
 			//Creating builder
 			String builder = "";
 			String[] options = new String[10];
 			String[] values = new String[10];
 			for(int i =0; i< Integer.valueOf(rs.getString(8)); i++){
-				builder = builder + "<div class='radio'><label><input type='radio' name='answer' id='Private' value='"+String.valueOf(i+1)+"'/>"+rs.getString(10+i)+"</label></div>";
-				options[i] = rs.getString(10+i);
-				values[i] = rs.getString(20+i);
+				builder = builder + "<div class='radio'><label><input type='radio' name='answer' id='Private' value='"+String.valueOf(i+1)+"'/>"+rs.getString(12+i)+"</label></div>";
+				options[i] = rs.getString(12+i);
+				values[i] = rs.getString(22+i);
 			}
 			String optionsList = "";
 			String valuesList = "";
@@ -230,6 +284,7 @@ public class HomeController {
 			HttpServletRequest request, @PathVariable String pollId) throws SQLException{
 		//Getting Column names and username
 		System.out.println("singlepolldataaaa");
+		User a = (User)request.getSession().getAttribute("token");
 		//If answer equals null, do nothing
 		//Else put that in the DB
 		if (answer.getAnswer() == null){
@@ -262,6 +317,8 @@ public class HomeController {
 			String updateQuery = "UPDATE Polls p JOIN PollData on PollData.PollNum = p.PollNum SET "+column+" = "+column+" + 1 WHERE p.PollNum = "+pollId+";";
 			Statement statement = dbc.createStatement();
 			statement.execute(updateQuery);
+			String insertQuery = "INSERT INTO PollTaker (Username, PollNum) VALUES('"+a.getUsername()+"', "+pollId+");";
+			statement.execute(insertQuery);
 			System.out.println("Update complete");
 		}
 		
@@ -272,14 +329,14 @@ public class HomeController {
 		if (rs.next()){
 			model.addAttribute("posterUsername", rs.getString(2));
 			model.addAttribute("pollName", rs.getString(4));
-			model.addAttribute("pollQuestion", rs.getString(31));
+			model.addAttribute("pollQuestion", rs.getString(9));
 			//Creating builder
 			String builder = "";
 			String[] options = new String[10];
 			String[] values = new String[10];
 			for(int i =0; i< Integer.valueOf(rs.getString(8)); i++){
-				options[i] = rs.getString(10+i);
-				values[i] = rs.getString(20+i);
+				options[i] = rs.getString(12+i);
+				values[i] = rs.getString(22+i);
 			}
 			String optionsList = "";
 			String valuesList = "";
@@ -292,5 +349,14 @@ public class HomeController {
 		}
 		
 		return new ModelAndView("singlepolldata");
+	}
+	
+	@RequestMapping(value = "/signout", method = RequestMethod.GET)
+	public ModelAndView signout(@ModelAttribute("SpringWeb")User user, ModelMap model,
+			HttpServletRequest request){
+		//Setting token to null so that the user no longer exist
+		request.getSession().setAttribute("token", null);
+		
+		return home(user, model, request);
 	}
 }
