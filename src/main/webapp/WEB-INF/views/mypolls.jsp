@@ -49,8 +49,8 @@
                 <ul class="nav navbar-nav navbar-left">
                     <li><a href="/test/home">Home</a></li>
                     <li><a href="/test/communitypolls">Community Polls</a></li>
-                    <li><a href="#">About</a></li>
-                    <li><a href="#">Contact</a></li>
+                    <li><a href="/test/about">About</a></li>
+                    <li><a href="/test/contact">Contact</a></li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right" id="logged-out">
                     <li>${login}</li>

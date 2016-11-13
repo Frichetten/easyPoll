@@ -53,13 +53,88 @@ public class HomeController {
 		else{
 			System.out.println("Logged in as " + a.getUsername());
 			//model.addAttribute("username", a.getUsername());
-			String login = "<a href='/profile'>"+a.getUsername()+"</a>";
+			String login = "<a href='/test/profile'>"+a.getUsername()+"</a>";
 			String signout = "<a href='test/signout' >Sign Out</a>";
 			model.addAttribute("login", login);
 			model.addAttribute("signup", signout);
 		}
 		
 		return new ModelAndView("home", "command", new User());
+	}
+	
+	@RequestMapping(value = "/about", method = RequestMethod.GET)
+	public ModelAndView about(@ModelAttribute("SpringWeb")User user, ModelMap model,
+			HttpServletRequest request) {
+		//Confirming Login Status
+		User a = (User)request.getSession().getAttribute("token");
+		if (a == null){
+			System.out.println("User not logged in");
+			//Login Modifier
+			String login = "<a href='../navbar-static-top/' data-toggle='modal' data-target='#login-modal'>Login</a>";
+			String signup = "<a href='../navbar-fixed-top/' data-toggle='modal' data-target='#create-account-modal'>Signup</a>";
+			model.addAttribute("login", login);
+			model.addAttribute("signup", signup);
+		}
+		else{
+			System.out.println("Logged in as " + a.getUsername());
+			//model.addAttribute("username", a.getUsername());
+			String login = "<a href='/test/profile'>"+a.getUsername()+"</a>";
+			String signout = "<a href='test/signout' >Sign Out</a>";
+			model.addAttribute("login", login);
+			model.addAttribute("signup", signout);
+		}
+		
+		return new ModelAndView("about", "command", new User());
+	}
+	
+	@RequestMapping(value = "/contact", method = RequestMethod.GET)
+	public ModelAndView contact(@ModelAttribute("SpringWeb")User user, ModelMap model,
+			HttpServletRequest request) {
+		//Confirming Login Status
+		User a = (User)request.getSession().getAttribute("token");
+		if (a == null){
+			System.out.println("User not logged in");
+			//Login Modifier
+			String login = "<a href='../navbar-static-top/' data-toggle='modal' data-target='#login-modal'>Login</a>";
+			String signup = "<a href='../navbar-fixed-top/' data-toggle='modal' data-target='#create-account-modal'>Signup</a>";
+			model.addAttribute("login", login);
+			model.addAttribute("signup", signup);
+		}
+		else{
+			System.out.println("Logged in as " + a.getUsername());
+			//model.addAttribute("username", a.getUsername());
+			String login = "<a href='/test/profile'>"+a.getUsername()+"</a>";
+			String signout = "<a href='test/signout' >Sign Out</a>";
+			model.addAttribute("login", login);
+			model.addAttribute("signup", signout);
+		}
+		
+		return new ModelAndView("contact", "command", new User());
+	}
+	
+	@RequestMapping(value = "/profile", method = RequestMethod.GET)
+	public ModelAndView profile(@ModelAttribute("SpringWeb")User user, ModelMap model,
+			HttpServletRequest request) {
+		//Confirming Login Status
+		User a = (User)request.getSession().getAttribute("token");
+		if (a == null){
+			System.out.println("User not logged in");
+			//Login Modifier
+			String login = "<a href='../navbar-static-top/' data-toggle='modal' data-target='#login-modal'>Login</a>";
+			String signup = "<a href='../navbar-fixed-top/' data-toggle='modal' data-target='#create-account-modal'>Signup</a>";
+			model.addAttribute("login", login);
+			model.addAttribute("signup", signup);
+		}
+		else{
+			System.out.println("Logged in as " + a.getUsername());
+			//model.addAttribute("username", a.getUsername());
+			String login = "<a href='/test/profile'>"+a.getUsername()+"</a>";
+			String signout = "<a href='test/signout' >Sign Out</a>";
+			model.addAttribute("login", login);
+			model.addAttribute("signup", signout);
+		}
+		
+		return new ModelAndView("userprofile", "command", new User());
 	}
 	   
 	@RequestMapping(value = "/addUser", method = RequestMethod.POST)
@@ -92,7 +167,7 @@ public class HomeController {
 			else{
 				System.out.println("Logged in as " + a.getUsername());
 				//model.addAttribute("username", a.getUsername());
-				String login = "<a href='/profile'>"+a.getUsername()+"</a>";
+				String login = "<a href='/test/profile'>"+a.getUsername()+"</a>";
 				String signout = "<a href='/test/signout' >Sign Out</a>";
 				model.addAttribute("login", login);
 				model.addAttribute("signup", signout);
