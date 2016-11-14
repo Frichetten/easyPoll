@@ -7,11 +7,12 @@ import java.sql.Statement;
 
 import org.springframework.web.servlet.ModelAndView;
 
-public class Radio implements Answer{
+public class Radio //implements Answer
+{
 
 	String[] answerOptions = null;
 	String[] answersChosen = null;
-	
+	 
 	public String[] getAnswerOptions(String textQuestion) throws SQLException{
 		Connection Dbcon = DBConnection.getConnection();
 		

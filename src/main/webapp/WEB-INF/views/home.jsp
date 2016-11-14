@@ -59,14 +59,15 @@
 			</div>
 			<div id="navbar" class="navbar-collapse collapse">
 				<ul class="nav navbar-nav navbar-left">
+					<li><a href="/test/home">Home</a>
 					<li><a href="/test/communitypolls">Community</a></li>
 					<li><a href="/test/mypolls">My Polls</a></li>
-					<li><a href="#">About</a></li>
-					<li><a href="#">Contact</a></li>
+					<li><a href="/test/about">About</a></li>
+					<li><a href="/test/contact">Contact</a></li>
 				</ul>
 				<ul class="nav navbar-nav navbar-right" id="logged-out">
-					<li><a href="../navbar-static-top/" data-toggle="modal" data-target="#login-modal">Login</a></li>
-					<li><a href="../navbar-fixed-top/" data-toggle="modal" data-target="#create-account-modal">Signup</a></li>
+					<li>${login}</li>
+					<li>${signup}</li>
 				</ul>
 				<ul class="nav navbar-nav navbar-right" id="user-logged-in">
 					<li><a>Welcome User</a></li>
@@ -166,7 +167,7 @@
 					<div class="loginmodal-container text-center">
 						<h2>Login to Your Account</h2><br>
 						<form:form method="POST" action="/test/addUser">
-						<form:input id="txtEmail" type="email" placeholder="Email" path="username"/>
+						<form:input id="txtEmail" type="text" placeholder="Email" path="username"/>
 						<form:input id="txtPassword" type="password" placeholder="Password" path="password"/>
 						<input type="submit" id="btnLogin" class="btn btn-success" value="Login">
 						</form:form>

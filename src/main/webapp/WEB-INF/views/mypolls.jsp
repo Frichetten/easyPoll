@@ -49,12 +49,12 @@
                 <ul class="nav navbar-nav navbar-left">
                     <li><a href="/test/home">Home</a></li>
                     <li><a href="/test/communitypolls">Community Polls</a></li>
-                    <li><a href="#">About</a></li>
-                    <li><a href="#">Contact</a></li>
+                    <li><a href="/test/about">About</a></li>
+                    <li><a href="/test/contact">Contact</a></li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right" id="logged-out">
-                    <li><a href="../navbar-static-top/" data-toggle="modal" data-target="#login-modal">Login</a></li>
-                    <li><a href="../navbar-fixed-top/" data-toggle="modal" data-target="#create-account-modal">Signup</a></li>
+                    <li>${login}</li>
+					<li>${signup}</li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right" id="user-logged-in">
                     <li><a>Welcome User</a></li>
@@ -78,16 +78,19 @@
             </thead>
             <tbody>
                 <tr>
-                    <td>Poll 1</td>
-                    <td>lorem ipsum</td>
+                    <td>${Title0}</td>
+                    <td hidden="true">${id0}</td>
+                    <td>${desc0}</td>
                 </tr>
                 <tr>
-                    <td>Poll 2</td>
-                    <td>lorem ipsum</td>
+                    <td>${Title1}</td>
+                    <td hidden="true">${id1}</td>
+                    <td>${desc1}</td>
                 </tr>
                 <tr>
-                    <td>Poll 3</td>
-                    <td>lorem ipsum</td>
+                    <td>${Title2}</td>
+                    <td hidden="true">${id2}</td>
+                    <td>${desc2}</td>
                 </tr>
             </tbody>
         </table>
@@ -116,9 +119,9 @@
                 var createClickHandler =
                     function (row) {
                         return function () {
-                            var cell = row.getElementsByTagName("td")[0];
+                            var cell = row.getElementsByTagName("td")[1];
                             var id = cell.innerHTML;
-                            alert("id:" + id);
+                            document.location = "/test/singlepoll/"+id;
                         };
                     };
 

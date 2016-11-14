@@ -43,13 +43,15 @@
 				</div>
 				<div id="navbar" class="navbar-collapse collapse">
 					<ul class="nav navbar-nav navbar-left">
-						<li class="active"><a href="/test/home">Home</a></li>
-						<li><a href="#">About</a></li>
-						<li><a href="#">Contact</a></li>
+						<li><a href="/test/home">Home</a>
+						<li><a href="/test/communitypolls">Community</a></li>
+						<li><a href="/test/mypolls">My Polls</a></li>
+						<li><a href="/test/about">About</a></li>
+						<li><a href="/test/contact">Contact</a></li>
 					</ul>
 					<ul class="nav navbar-nav navbar-right">
-						<li><a href="../navbar-static-top/">Login</a></li>
-						<li><a href="../navbar-fixed-top/">Signup</a></li>
+						<li>${login}</li>
+						<li>${signup}</li>
 					</ul>
 				</div>
 			</div>
@@ -70,6 +72,10 @@
 								<input type="text" class="form-control" id="PollQuestion" name="PollQuestion" placeholder="Question"/>
 							</div>
 							<div class="form-group row">
+								<label for="PollDescription" class="control-label">Description</label>
+								<input type="text" class="form-control" id="PollDescription" name="PollDescription" placeholder="Description"/>
+							</div>
+							<div class="form-group row">
 								<label for="AnswerType" class="control-label">Answer Type</label>
 								<div class="radio">
 									<label>
@@ -88,13 +94,13 @@
 								<label for="pollview" class="control-label">Is this a Public or Private Poll?</label>
 								<div class="radio">
 									<label>
-										<input type="radio" name="pub" id="public" value="public"/>
+										<input type="radio" name="pub" id="Public" value="public"/>
 										Public
 									</label>
 								</div>
 								<div class="radio">
 									<label>
-										<input type="radio" name="pub" id="private" value="private"/>
+										<input type="radio" name="pub" id="Private" value="private"/>
 										Private
 									</label>
 								</div>
