@@ -37,7 +37,6 @@
 				 	$('#login-modal').hide();
 				});
 			});
-			
 			</script>
 			<script language="javascript"><!--
 			function myFunction() {
