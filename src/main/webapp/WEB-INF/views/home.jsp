@@ -27,6 +27,15 @@
 					$('.vote-in-poll').hide();
 					$('.poll-description').show();
 				});	
+				$("#register-link").click(function() {
+				 	$('#login-modal').hide();
+ 					$('.modal-backdrop').hide();
+				});
+				$("#forgot-password-link").click(function() {
+					$("#forgot-password-modal").show();
+					$('.modal-backdrop').hide();
+				 	$('#login-modal').hide();
+				});
 			});
 			
 			</script>
@@ -163,7 +172,7 @@
 						<input type="submit" id="btnLogin" class="btn btn-success" value="Login">
 						</form:form>
 						<div class="login-help">
-						<a href="#" id="btnSignup">Register</a> | <a href="#" id="Logout">Forgot Password</a>
+						<a data-toggle="modal" data-target="#create-account-modal" id="register-link">Register</a> | <a data-toggle="modal" data-target="#forgot-password-modal" id="forgot-password-link">Forgot Password</a>
 						</div>
 					</div>
 						<div class="modal-footer"></div>
@@ -189,6 +198,26 @@
 						<div class="modal-footer"></div>
 				</div>
 			</div>
+		</div>
+		</div>
+			<!--Forgot Password Modal -->
+	<div id="forgot-password-modal" class="modal fade" role="dialog">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<div class="forgotmodal-container text-center">
+						<h2>Forgot Password</h2><br>
+						<form:form method="POST" action="/test/register">
+             		 	<form:input id="txtEmail" type="email" placeholder="Email Address" path="email"/>
+              			<form:input id="txtPassword" type="password" placeholder="Password" path="password"/>
+              			<input type="submit" id="forgot-password-button" class="btn btn-success" value="Login">
+              			</form:form>
+					</div>
+						<div class="modal-footer"></div>
+				</div>
+			</div>
+		</div>
 		</div>
 
 	
