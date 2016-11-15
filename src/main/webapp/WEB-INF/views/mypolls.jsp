@@ -35,33 +35,34 @@
 <body>
     <!-- Navigation -->
     <nav class="navbar navbar-fixed-top" id="main-nav">
-        <div class="container">
-            <div class="navbar-header">
-                <button type="button" style="background-color:#2ecc71;"class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar top-bar"></span>
-                    <span class="icon-bar middle-bar"></span>
-                    <span class="icon-bar bottom-bar"></span>
-                </button>
-                <span class="title">easy<span>Poll</span></span>
-            </div>
-            <div id="navbar" class="navbar-collapse collapse">
-                <ul class="nav navbar-nav navbar-left">
-                    <li><a href="/test/home">Home</a></li>
-                    <li><a href="/test/communitypolls">Community Polls</a></li>
-                    <li><a href="/test/about">About</a></li>
-                    <li><a href="/test/contact">Contact</a></li>
-                </ul>
-                <ul class="nav navbar-nav navbar-right" id="logged-out">
-                    <li>${login}</li>
+		<div class="container">
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+					<span class="sr-only">Toggle navigation</span>
+					<span class="icon-bar top-bar"></span>
+					<span class="icon-bar middle-bar"></span>
+					<span class="icon-bar bottom-bar"></span>
+				</button>
+				<span class="title">easy<span>Poll</span></span>
+			</div>
+			<div id="navbar" class="navbar-collapse collapse">
+				<ul class="nav navbar-nav navbar-left">
+					<li><a href="/test/home">Home</a>
+					<li><a href="/test/communitypolls">Community</a></li>
+					<li><a href="/test/mypolls">My Polls</a></li>
+					<li><a href="/test/about">About</a></li>
+					<li><a href="/test/contact">Contact</a></li>
+				</ul>
+				<ul class="nav navbar-nav navbar-right" id="logged-out">
+					<li>${login}</li>
 					<li>${signup}</li>
-                </ul>
-                <ul class="nav navbar-nav navbar-right" id="user-logged-in">
-                    <li><a>Welcome User</a></li>
-                </ul>
-            </div>
-        </div>
-    </nav>
+				</ul>
+				<ul class="nav navbar-nav navbar-right" id="user-logged-in">
+					<li><a>Welcome User</a></li>
+				</ul>
+			</div>
+		</div>
+	</nav>
 
     <div class="container">
             <div class="page-header">
@@ -109,6 +110,69 @@
             </div>
         </div>
     </footer>
+    
+	<!--Login Modal -->
+	<div id="login-modal" class="modal fade" role="dialog">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<div class="loginmodal-container text-center">
+						<h2>Login to Your Account</h2><br>
+						<form:form method="POST" action="/test/addUser">
+						<form:input id="txtEmail" type="text" placeholder="Email" path="username"/>
+						<form:input id="txtPassword" type="password" placeholder="Password" path="password"/>
+						<input type="submit" id="btnLogin" class="btn btn-success" value="Login">
+						</form:form>
+						<div class="login-help">
+						<a data-toggle="modal" data-target="#create-account-modal" id="register-link">Register</a> | <a data-toggle="modal" data-target="#forgot-password-modal" id="forgot-password-link">Forgot Password</a>
+						</div>
+					</div>
+						<div class="modal-footer"></div>
+				</div>
+			</div>
+		</div>
+		</div>
+	<!--Create Account Modal -->
+	<div id="create-account-modal" class="modal fade" role="dialog">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<div class="loginmodal-container text-center">
+						<h2>Create an Account</h2><br>
+						<form:form method="POST" action="/test/register">
+             		 	<form:input id="txtUsername" type="text" placeholder="Username" path="username"/>
+             		 	<form:input id="txtEmail" type="email" placeholder="Email Address" path="email"/>
+              			<form:input id="txtPassword" type="password" placeholder="Password" path="password"/>
+              			<input type="submit" id="btnLogin" class="btn btn-success" value="Login">
+              			</form:form>
+					</div>
+						<div class="modal-footer"></div>
+				</div>
+			</div>
+		</div>
+		</div>
+			<!--Forgot Password Modal -->
+	<div id="forgot-password-modal" class="modal fade" role="dialog">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<div class="forgotmodal-container text-center">
+						<h2>Forgot Password</h2><br>
+						<form:form method="POST" action="/test/register">
+             		 	<form:input id="txtEmail" type="email" placeholder="Email Address" path="email"/>
+              			<form:input id="txtPassword" type="password" placeholder="Password" path="password"/>
+              			<input type="submit" id="forgot-password-button" class="btn btn-success" value="Login">
+              			</form:form>
+					</div>
+						<div class="modal-footer"></div>
+				</div>
+			</div>
+		</div>
+		</div>
+		
     <!--Adds a click event to each table row-->
     <script type="text/javascript">
         function addRowHandlers() {

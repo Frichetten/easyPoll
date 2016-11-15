@@ -17,8 +17,10 @@
 				$('#add-answer').click(function() {
 					i++;
 					if(i < 11) {
-					$('#answer').clone().attr('id','answer' + $(this).index()).insertBefore('#answer');		
+					$('#answer').clone().attr('id','answer' + $(this).index()).insertBefore('#answer');
+
 					$('#answer').attr("placeholder","Answer " + i);
+					$('#answer').attr("value","");
 					if(i == 10) {
 						$('#add-answer').hide();
 					}
