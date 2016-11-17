@@ -24,9 +24,15 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 @Controller
 public class HomeController {
+<<<<<<< HEAD
 
 	// Create DBConnection
 	Connection dbc = DBConnection.getConnection();
+=======
+	  
+	//Create DBConnection
+	static Connection dbc = DBConnection.getConnection();
+>>>>>>> e562bac61866b4c2facebe46556e850cad337cc1
 
 	// Root mapping
 	@RequestMapping(value = "/", method = RequestMethod.GET)
@@ -250,7 +256,11 @@ public class HomeController {
 			model.addAttribute("id" + String.valueOf(i), toCache.get(i));
 			model.addAttribute("desc" + String.valueOf(i), toDesc.get(i));
 		}
+<<<<<<< HEAD
 
+=======
+		model.addAttribute("polls", toShow);
+>>>>>>> e562bac61866b4c2facebe46556e850cad337cc1
 		return new ModelAndView("mypolls", "command", new User());
 	}
 
