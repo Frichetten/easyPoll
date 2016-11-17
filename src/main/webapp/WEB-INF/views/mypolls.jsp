@@ -78,21 +78,7 @@
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td>${Title0}</td>
-                    <td hidden="true">${id0}</td>
-                    <td>${desc0}</td>
-                </tr>
-                <tr>
-                    <td>${Title1}</td>
-                    <td hidden="true">${id1}</td>
-                    <td>${desc1}</td>
-                </tr>
-                <tr>
-                    <td>${Title2}</td>
-                    <td hidden="true">${id2}</td>
-                    <td>${desc2}</td>
-                </tr>
+               ${polls}
             </tbody>
         </table>
     </div>
