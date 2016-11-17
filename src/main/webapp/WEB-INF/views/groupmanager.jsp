@@ -68,7 +68,7 @@
         <div class="page-header">
             <h1>My Groups</h1>
         </div>
-        <button type="button" class="btn btn-default">Create Group</button>
+        <button type="button" class="btn btn-default" id="createGroup">Create Group</button>
         <table id="groups" class="table table-striped table-hover">
             <thead>
                 <tr>
@@ -82,7 +82,7 @@
                         Group123
                     </td>
                     <td>
-                        <button type="button" class="btn btn-default">Delete</button>
+                        <button type="button" class="btn btn-default" id="deleteGroup">Delete</button>
                     </td>
                 </tr>
             </tbody>

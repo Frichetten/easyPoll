@@ -67,7 +67,7 @@
                         <h3 class="panel-title">Number of polls voted in</h3>
                     </div>
                     <div class="panel-body">
-                        10
+                        ${numVoted}
                     </div>
                 </div>
             </div>
