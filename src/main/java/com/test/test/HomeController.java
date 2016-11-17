@@ -114,7 +114,7 @@ public class HomeController {
 	
 	@RequestMapping(value = "/profile", method = RequestMethod.GET)
 	public ModelAndView profile(@ModelAttribute("SpringWeb")User user, ModelMap model,
-			HttpServletRequest request) {
+			HttpServletRequest request) throws SQLException {
 		//Confirming Login Status
 		User a = (User)request.getSession().getAttribute("token");
 		if (a == null){
@@ -133,6 +133,18 @@ public class HomeController {
 			model.addAttribute("login", login);
 			model.addAttribute("signup", signout);
 		}
+		
+		String numPollsQuery = "Select * from polls where username = " + "'" + a.getUsername() + "'";
+		Statement statement = dbc.createStatement();
+		ResultSet rs = statement.executeQuery(numPollsQuery);
+		
+		int counter = 0;
+		
+		while(rs.next()){
+			counter++;
+		}
+		
+		model.addAttribute("numPolls", counter);
 		
 		return new ModelAndView("userprofile", "command", new User());
 	}
