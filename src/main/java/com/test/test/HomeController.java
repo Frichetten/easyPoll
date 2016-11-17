@@ -213,8 +213,8 @@ public class HomeController {
 		}
 		else{
 			System.out.println("Logged in as " + a.getUsername());
-			String login = "<a href='/profile'>"+a.getUsername()+"</a>";
-			String signout = "<a href='test/signout' >Sign Out</a>";
+			String login = "<a href='/test/profile'>"+a.getUsername()+"</a>";
+			String signout = "<a href='/test/signout' >Sign Out</a>";
 			model.addAttribute("login", login);
 			model.addAttribute("signup", signout);
 		}
