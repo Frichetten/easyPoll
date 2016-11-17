@@ -56,7 +56,7 @@
                         <h3 class="panel-title">Number of polls created</h3>
                     </div>
                     <div class="panel-body">
-                        5
+                        ${numPolls}
                     </div>
                 </div>
             </div>
