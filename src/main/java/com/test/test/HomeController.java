@@ -28,7 +28,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 public class HomeController {
 	  
 	//Create DBConnection
-	Connection dbc = DBConnection.getConnection();
+	static Connection dbc = DBConnection.getConnection();
 
 	//Root mapping
 	@RequestMapping(value = "/", method = RequestMethod.GET)
@@ -240,7 +240,7 @@ public class HomeController {
 			model.addAttribute("id"+String.valueOf(i), toCache.get(i));
 			model.addAttribute("desc"+String.valueOf(i), toDesc.get(i));
 		}
-		
+		model.addAttribute("polls", toShow);
 		return new ModelAndView("mypolls", "command", new User());
 	}
 	
