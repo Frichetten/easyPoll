@@ -54,7 +54,7 @@
                     <h3 class="panel-title">Contact the Developers</h3>
                 </div>
                 <div class="panel-body">
-                    <p>Nick Frichette: </p>
+                    <p>Nick Frichette: nfriche@ilstu.edu</p>
                     <p>Matthew Fletcher: </p>
                     <p>Nick Messina: </p>
                     <p>Kevin Dalle: </p>

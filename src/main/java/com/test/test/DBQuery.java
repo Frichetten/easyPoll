@@ -8,7 +8,7 @@ import java.sql.Statement;
 public class DBQuery{
 
 	static Connection dbc = DBConnection.getConnection();
-	
+
 	static Statement statement;
 	
 	static ResultSet rs;

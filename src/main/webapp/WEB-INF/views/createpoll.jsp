@@ -130,7 +130,7 @@
 					<div class="sidebar-container">
 						<span> easyPoll has had </span>
 						<div class="featured-text-contain">
-							<h3 class="featured-text">572</h3>
+							<h3 class="featured-text">${numberPolls}</h3>
 						</div>
 						<span> Polls Posted </span>
 						<h3>Cheers to one more!</h3>

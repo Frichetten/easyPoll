@@ -43,8 +43,28 @@
         </div>
     </nav>
     <!--End Navigation-->
-
-    <div class="container">
+<div class="container">
+        <div class="page-header">
+            <h1>User Account</h1>
+        </div>
+        <div class="row">
+            <form>
+                <div class="col-md-4 col-sm-4 col-xs-7">
+                    <div class="form-group row">
+                        <label for="username" class="control-label">Username:</label>
+                        <input type="text" class="form-control" id="username" name="username" value=${userName} />
+                    </div>
+                    <div class="form-group row">
+                        <label for="email" class="control-label">Email:</label>
+                        <input type="text" class="form-control" id="email" name="email" value=${email} />
+                    </div>
+                    <div class="form-group row">
+                        <input type="submit" id="btnUpdateAccount" class="btn btn-default" value="Update Account">
+                        <button type="button" class="btn btn-default">Delete Account</button>
+                    </div>
+                </div>
+            </form>
+        </div>
         <div class=page-header>
             <h1>User Statistics</h1>
         </div>
@@ -56,7 +76,7 @@
                         <h3 class="panel-title">Number of polls created</h3>
                     </div>
                     <div class="panel-body">
-                        5
+                        ${numPolls}
                     </div>
                 </div>
             </div>
@@ -67,7 +87,7 @@
                         <h3 class="panel-title">Number of polls voted in</h3>
                     </div>
                     <div class="panel-body">
-                        10
+                        ${numVoted}
                     </div>
                 </div>
             </div>
@@ -78,7 +98,7 @@
                         <h3 class="panel-title">Most Popular Poll</h3>
                     </div>
                     <div class="panel-body">
-                        Favorite Color
+                        ${fave}
                     </div>
                 </div>
             </div>
