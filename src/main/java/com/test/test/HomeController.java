@@ -146,8 +146,23 @@ public class HomeController {
 		while (rs.next()) {
 			counter++;
 		}
-		
+
 		model.addAttribute("numVoted", counter);
+
+		rs = statement.executeQuery(numPollsQuery);
+		if (rs.next()) {
+			int best = Integer.parseInt(rs.getString("Partakers"));
+			String name = rs.getString("PollName");
+			while (rs.next()) {
+				int voters = Integer.parseInt(rs.getString("Partakers"));
+				if (voters > best) {
+					name = rs.getString("PollName");
+				}
+			}
+
+			model.addAttribute("fave", name);
+
+		}
 		return new ModelAndView("userprofile", "command", new User());
 	}
 

@@ -78,7 +78,7 @@
                         <h3 class="panel-title">Most Popular Poll</h3>
                     </div>
                     <div class="panel-body">
-                        Favorite Color
+                        ${fave}
                     </div>
                 </div>
             </div>
