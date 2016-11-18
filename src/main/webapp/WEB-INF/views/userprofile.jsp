@@ -43,28 +43,8 @@
         </div>
     </nav>
     <!--End Navigation-->
-<div class="container">
-        <div class="page-header">
-            <h1>User Account</h1>
-        </div>
-        <div class="row">
-            <form>
-                <div class="col-md-4 col-sm-4 col-xs-7">
-                    <div class="form-group row">
-                        <label for="username" class="control-label">Username:</label>
-                        <input type="text" class="form-control" id="username" name="username" placeholder="Populate with data" />
-                    </div>
-                    <div class="form-group row">
-                        <label for="email" class="control-label">Email:</label>
-                        <input type="text" class="form-control" id="email" name="email" placeholder="Populate with data" />
-                    </div>
-                    <div class="form-group row">
-                        <input type="submit" id="btnUpdateAccount" class="btn btn-default" value="Update Account">
-                        <button type="button" class="btn btn-default">Delete Account</button>
-                    </div>
-                </div>
-            </form>
-        </div>
+
+    <div class="container">
         <div class=page-header>
             <h1>User Statistics</h1>
         </div>
