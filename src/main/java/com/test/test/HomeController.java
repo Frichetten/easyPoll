@@ -57,6 +57,52 @@ public class HomeController {
 
 		return new ModelAndView("home", "command", new User());
 	}
+	
+	//Code for the group page of the site
+	@RequestMapping(value = "/group", method = RequestMethod.GET)
+	public ModelAndView group(@ModelAttribute("SpringWeb") User user, ModelMap model, HttpServletRequest request) {
+		User a = (User) request.getSession().getAttribute("token");
+		if (a == null) {
+			System.out.println("User not logged in");
+			// Login Modifier
+			String login = "<a href='../navbar-static-top/' data-toggle='modal' data-target='#login-modal'>Login</a>";
+			String signup = "<a href='../navbar-fixed-top/' data-toggle='modal' data-target='#create-account-modal'>Signup</a>";
+			model.addAttribute("login", login);
+			model.addAttribute("signup", signup);
+		} else {
+			System.out.println("Logged in as " + a.getUsername());
+			// model.addAttribute("username", a.getUsername());
+			String login = "<a href='/test/profile'>" + a.getUsername() + "</a>";
+			String signout = "<a href='/test/signout' >Sign Out</a>";
+			model.addAttribute("login", login);
+			model.addAttribute("signup", signout);
+		}
+
+		return new ModelAndView("group", "command", new User());
+	}
+
+	//Code for the groupmanager pager
+	@RequestMapping(value = "/groupmanager", method = RequestMethod.GET)
+	public ModelAndView groupmanager(@ModelAttribute("SpringWeb") User user, ModelMap model, HttpServletRequest request) {
+		User a = (User) request.getSession().getAttribute("token");
+		if (a == null) {
+			System.out.println("User not logged in");
+			// Login Modifier
+			String login = "<a href='../navbar-static-top/' data-toggle='modal' data-target='#login-modal'>Login</a>";
+			String signup = "<a href='../navbar-fixed-top/' data-toggle='modal' data-target='#create-account-modal'>Signup</a>";
+			model.addAttribute("login", login);
+			model.addAttribute("signup", signup);
+		} else {
+			System.out.println("Logged in as " + a.getUsername());
+			// model.addAttribute("username", a.getUsername());
+			String login = "<a href='/test/profile'>" + a.getUsername() + "</a>";
+			String signout = "<a href='/test/signout' >Sign Out</a>";
+			model.addAttribute("login", login);
+			model.addAttribute("signup", signout);
+		}
+
+		return new ModelAndView("groupmanager", "command", new User());
+	}
 
 	@RequestMapping(value = "/about", method = RequestMethod.GET)
 	public ModelAndView about(@ModelAttribute("SpringWeb") User user, ModelMap model, HttpServletRequest request) {
@@ -125,6 +171,7 @@ public class HomeController {
 			model.addAttribute("signup", signout);
 		}
 
+		// Below is the MVC populating various parts of the webpage of profile.
 		String numPollsQuery = "Select * from polls where username = " + "'" + a.getUsername() + "'";
 		Statement statement = dbc.createStatement();
 		ResultSet rs = statement.executeQuery(numPollsQuery);
