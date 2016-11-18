@@ -12,12 +12,6 @@ public class Poll {
 	private String pollName;
 	private String pollQuestion;
 	private String pollDescription;
-	public String getPollDescription() {
-		return pollDescription;
-	}
-	public void setPollDescription(String pollDescription) {
-		this.pollDescription = pollDescription;
-	}
 	private String answerType;
 	private String pollView;
 	private String answer;
@@ -58,6 +52,12 @@ public class Poll {
 	}
 	public void setPollQuestion(String pollQuestion) {
 		this.pollQuestion = pollQuestion;
+	}
+	public String getPollDescription() {
+		return pollDescription;
+	}
+	public void setPollDescription(String pollDescription) {
+		this.pollDescription = pollDescription;
 	}
 	
 	

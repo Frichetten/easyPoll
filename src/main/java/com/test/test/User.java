@@ -1,10 +1,17 @@
 package com.test.test;
 
+import java.sql.ResultSet;
+
 public class User {
 	   private String username;
 	   private String password;
 	   private String email;
-
+	   
+	   public ResultSet getPublicPolls(){
+		   
+		   return null;
+	   }
+	   
 	   public void setUsername(String username) {
 	      this.username = username;
 	   }

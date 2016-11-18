@@ -245,7 +245,7 @@ public class HomeController {
 			toDesc.add(rs.getString(10));
 		}
 		String thyme = "";
-		for (int i =0; i< toShow.size(); i++){
+		for (int i =(toShow.size()-1); i >= 0; i--){
 			thyme = thyme + "<tr><td>"+toShow.get(i)+"</td><td hidden='true'>"+toCache.get(i)+"</td><td>"+toDesc.get(i)+"</td></tr>";
 		}
 		model.addAttribute("polls", thyme);
@@ -270,7 +270,8 @@ public class HomeController {
 			model.addAttribute("login", login);
 			model.addAttribute("signup", signout);
 		}
-
+		
+		
 		return new ModelAndView("communitypolls");
 	}
 
@@ -443,7 +444,7 @@ public class HomeController {
 					+ column + " + 1 WHERE p.PollNum = " + pollId + " ;";
 			Statement statement = dbc.createStatement();
 			statement.execute(updateQuery);
-			String updatePollsQuery = "Update polls Set Partakers=Partakers+1 where pollnum = " + pollId + " ;";
+			String updatePollsQuery = "Update Polls Set Partakers=Partakers+1 WHERE PollNum = " + pollId + " ;";
 			statement.execute(updatePollsQuery);
 			String insertQuery = "INSERT INTO PollTaker (Username, PollNum) VALUES('" + a.getUsername() + "', " + pollId
 					+ ");";
