@@ -4,6 +4,12 @@
  */
 package com.test.test;
 
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
+
 /**
  * @author kwdalle
  *
@@ -17,6 +23,7 @@ public class Poll {
 	private String answer;
 	private String pub;
 	private String pollNum;
+	static Connection dbc = DBConnection.getConnection();
 	
 	public String getPollNum() {
 		return pollNum;
@@ -27,6 +34,17 @@ public class Poll {
 	}
 	
 	public Poll(){	
+	}
+	
+	public static int getTotalPoll() throws SQLException{
+		String publicPollsQuery= "SELECT * FROM Polls;";
+		Statement st = dbc.createStatement();
+		ResultSet rs = st.executeQuery(publicPollsQuery);
+		int toReturn = 0;
+		while (rs.next()) {
+			toReturn++;
+		}
+		return toReturn;
 	}
 	
 	public Poll(String pollName, String pollQuestion, String pollDescription, 

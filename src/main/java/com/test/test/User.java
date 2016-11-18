@@ -13,7 +13,6 @@ public class User {
 	   static Connection dbc = DBConnection.getConnection();
 	   
 	   public static ArrayList<Poll> getPublicPolls() throws SQLException{
-		   // Insert the user into the database
 		   String publicPollsQuery= "SELECT PollName, Description, p.PollNum FROM Polls p JOIN PollData pd on pd.PollNum = p.PollNum;";
 		   Statement st = dbc.createStatement();
 		   ResultSet rs = st.executeQuery(publicPollsQuery);
