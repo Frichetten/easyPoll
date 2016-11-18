@@ -259,13 +259,11 @@ public class HomeController {
 			toShow.add(rs.getString(4));
 			toDesc.add(rs.getString(10));
 		}
-
-		for (int i = 0; i < toShow.size(); i++) {
-			model.addAttribute("Title" + String.valueOf(i), toShow.get(i));
-			model.addAttribute("id" + String.valueOf(i), toCache.get(i));
-			model.addAttribute("desc" + String.valueOf(i), toDesc.get(i));
+		String thyme = "";
+		for (int i =0; i< toShow.size(); i++){
+			thyme = thyme + "<tr><td>"+toShow.get(i)+"</td><td hidden='true'>"+toCache.get(i)+"</td><td>"+toDesc.get(i)+"</td></tr>";
 		}
-		model.addAttribute("polls", toShow);
+		model.addAttribute("polls", thyme);
 		return new ModelAndView("mypolls", "command", new User());
 	}
 
