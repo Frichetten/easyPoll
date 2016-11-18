@@ -125,7 +125,7 @@ public class HomeController {
 			model.addAttribute("signup", signout);
 		}
 
-		String numPollsQuery = "Select * from polls where username = " + "'" + a.getUsername() + "'";
+		String numPollsQuery = "Select * FROM Polls WHERE Username = " + "'" + a.getUsername() + "'";
 		Statement statement = dbc.createStatement();
 		ResultSet rs = statement.executeQuery(numPollsQuery);
 
@@ -137,7 +137,7 @@ public class HomeController {
 
 		model.addAttribute("numPolls", counter);
 
-		String votedQuery = "select * from polltaker where username = " + "'" + a.getUsername() + "'";
+		String votedQuery = "SELECT * FROM POLLTAKER WHERE Username = " + "'" + a.getUsername() + "'";
 
 		rs = statement.executeQuery(votedQuery);
 
@@ -220,7 +220,7 @@ public class HomeController {
 		if (rs.next()) {
 			System.out.println("User already exists");
 		} else {
-			// Insert the user into the database
+			// Insert the user into the database	
 			String insertUserQuery = "insert into RUser (Username, Pword, Email) Values (" + username + "," + password
 					+ "," + email + ")";
 			Statement st2 = dbc.createStatement();
@@ -268,7 +268,7 @@ public class HomeController {
 	}
 
 	@RequestMapping(value = "/communitypolls", method = RequestMethod.GET)
-	public ModelAndView community(@ModelAttribute("SpringWeb") User user, ModelMap model, HttpServletRequest request) {
+	public ModelAndView community(@ModelAttribute("SpringWeb") User user, ModelMap model, HttpServletRequest request) throws SQLException {
 		// Confirming Login Status
 		User a = (User) request.getSession().getAttribute("token");
 		if (a == null) {
@@ -286,6 +286,13 @@ public class HomeController {
 			model.addAttribute("signup", signout);
 		}
 		
+		ArrayList<Poll> pollArr = User.getPublicPolls();
+		
+		String thyme = "";
+		for (int i =(pollArr.size()-1); i >= 0; i--){
+			thyme = thyme + "<tr><td>"+pollArr.get(i).getPollName()+"</td><td hidden='true'>"+pollArr.get(i).getPollNum()+"</td><td>"+pollArr.get(i).getPollDescription()+"</td></tr>";
+		}
+		model.addAttribute("polls", thyme);
 		
 		return new ModelAndView("communitypolls");
 	}

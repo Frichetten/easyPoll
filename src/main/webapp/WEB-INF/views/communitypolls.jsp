@@ -84,18 +84,7 @@
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td>Poll 1</td>
-                    <td>lorem ipsum</td>
-                </tr>
-                <tr>
-                    <td>Poll 2</td>
-                    <td>lorem ipsum</td>
-                </tr>
-                <tr>
-                    <td>Poll 3</td>
-                    <td>lorem ipsum</td>
-                </tr>
+                ${polls}
             </tbody>
         </table>
     </div>

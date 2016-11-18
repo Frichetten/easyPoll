@@ -16,6 +16,31 @@ public class Poll {
 	private String pollView;
 	private String answer;
 	private String pub;
+	private String pollNum;
+	
+	public String getPollNum() {
+		return pollNum;
+	}
+
+	public void setPollNum(String pollNum) {
+		this.pollNum = pollNum;
+	}
+	
+	public Poll(){
+		
+		
+	}
+	
+	public Poll(String pollName, String pollQuestion, String pollDescription, 
+			String answerType, String pollView, String answer, String pollNum){
+		this.pollName = pollName;
+		this.pollQuestion = pollQuestion;
+		this.pollDescription = pollDescription;
+		this.answerType = answerType;
+		this.pollView = pollView;
+		this.answer = answer;
+		this.pollNum = pollNum;
+	}
 	
 	public String getPub() {
 		return pub;
