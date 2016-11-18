@@ -119,7 +119,7 @@ public class HomeController {
 			System.out.println("Logged in as " + a.getUsername());
 			// model.addAttribute("username", a.getUsername());
 			String login = "<a href='/test/profile'>" + a.getUsername() + "</a>";
-			String signout = "<a href='test/signout' >Sign Out</a>";
+			String signout = "<a href='/test/signout' >Sign Out</a>";
 			model.addAttribute("login", login);
 			model.addAttribute("signup", signout);
 		}
@@ -142,7 +142,7 @@ public class HomeController {
 			System.out.println("Logged in as " + a.getUsername());
 			// model.addAttribute("username", a.getUsername());
 			String login = "<a href='/test/profile'>" + a.getUsername() + "</a>";
-			String signout = "<a href='test/signout' >Sign Out</a>";
+			String signout = "<a href='/test/signout' >Sign Out</a>";
 			model.addAttribute("login", login);
 			model.addAttribute("signup", signout);
 		}
