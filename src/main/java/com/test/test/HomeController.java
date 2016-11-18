@@ -162,6 +162,14 @@ public class HomeController {
 
 			model.addAttribute("fave", name);
 
+			model.addAttribute("userName", a.getUsername());
+
+			String emailQuery = "Select * from ruser where username = " + "'" + a.getUsername() + "'";
+			rs = statement.executeQuery(emailQuery);
+
+			if (rs.next()) {
+				model.addAttribute("email",rs.getString("Email"));
+			}
 		}
 		return new ModelAndView("userprofile", "command", new User());
 	}
@@ -260,8 +268,9 @@ public class HomeController {
 			toDesc.add(rs.getString(10));
 		}
 		String thyme = "";
-		for (int i =0; i< toShow.size(); i++){
-			thyme = thyme + "<tr><td>"+toShow.get(i)+"</td><td hidden='true'>"+toCache.get(i)+"</td><td>"+toDesc.get(i)+"</td></tr>";
+		for (int i = 0; i < toShow.size(); i++) {
+			thyme = thyme + "<tr><td>" + toShow.get(i) + "</td><td hidden='true'>" + toCache.get(i) + "</td><td>"
+					+ toDesc.get(i) + "</td></tr>";
 		}
 		model.addAttribute("polls", thyme);
 		return new ModelAndView("mypolls", "command", new User());
