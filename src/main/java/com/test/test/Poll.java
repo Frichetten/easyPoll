@@ -26,9 +26,7 @@ public class Poll {
 		this.pollNum = pollNum;
 	}
 	
-	public Poll(){
-		
-		
+	public Poll(){	
 	}
 	
 	public Poll(String pollName, String pollQuestion, String pollDescription, 

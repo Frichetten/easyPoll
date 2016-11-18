@@ -173,9 +173,9 @@
                 var createClickHandler =
                     function (row) {
                         return function () {
-                            var cell = row.getElementsByTagName("td")[0];
+                        	var cell = row.getElementsByTagName("td")[1];
                             var id = cell.innerHTML;
-                            alert("id:" + id);
+                            document.location = "/test/singlepoll/"+id;
                         };
                     };
 

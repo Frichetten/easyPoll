@@ -166,7 +166,7 @@ public class HomeController {
 			System.out.println("Logged in as " + a.getUsername());
 			// model.addAttribute("username", a.getUsername());
 			String login = "<a href='/test/profile'>" + a.getUsername() + "</a>";
-			String signout = "<a href='test/signout' >Sign Out</a>";
+			String signout = "<a href='/test/signout' >Sign Out</a>";
 			model.addAttribute("login", login);
 			model.addAttribute("signup", signout);
 		}
@@ -183,7 +183,7 @@ public class HomeController {
 
 		model.addAttribute("numPolls", counter);
 
-		String votedQuery = "SELECT * FROM POLLTAKER WHERE Username = " + "'" + a.getUsername() + "'";
+		String votedQuery = "SELECT * FROM PollTaker WHERE Username = " + "'" + a.getUsername() + "'";
 
 		rs = statement.executeQuery(votedQuery);
 
@@ -210,7 +210,7 @@ public class HomeController {
 
 			model.addAttribute("userName", a.getUsername());
 
-			String emailQuery = "Select * from ruser where username = " + "'" + a.getUsername() + "'";
+			String emailQuery = "SELECT * FROM RUser WHERE Username = " + "'" + a.getUsername() + "'";
 			rs = statement.executeQuery(emailQuery);
 
 			if (rs.next()) {
