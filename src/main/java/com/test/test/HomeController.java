@@ -61,7 +61,7 @@ public class HomeController {
 		}
 		
 		ArrayList<Poll> polls = User.getPublicPolls();
-		if (polls.size() > 1){
+		if (polls.size() > 3){
 			for(int i = (polls.size()-1), j = 0; i > (polls.size()-5); i--, j++){
 				model.addAttribute("title"+String.valueOf(j),polls.get(i).getPollName());
 				model.addAttribute("pollDesc"+String.valueOf(j),polls.get(i).getPollDescription());
@@ -584,6 +584,7 @@ public class HomeController {
 			for (int i = 0; i < Integer.valueOf(rs.getString(8)); i++) {
 				optionsList = optionsList + "'" + options[i] + "',";
 				valuesList = valuesList + "'" + values[i] + "',";
+				System.out.println(options[i]);
 			}
 			model.addAttribute("optionsList", optionsList);
 			model.addAttribute("valuesList", valuesList);
