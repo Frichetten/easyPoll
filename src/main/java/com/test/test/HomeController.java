@@ -41,23 +41,13 @@ public class HomeController {
 
 	// Root mapping
 	@RequestMapping(value = "/home", method = RequestMethod.GET)
-<<<<<<< HEAD
-	public ModelAndView home(@ModelAttribute("SpringWeb")User user, ModelMap model,
-			HttpServletRequest request) throws SQLException {
-		//DBQuery.dbQuery("garbage");
-		//Confirming Login Status
-		User a = (User)request.getSession().getAttribute("token");
-		if (a == null){
-			System.out.println("DEBUG 2: User not logged in");
-			//Login Modifier
-=======
+
 	public ModelAndView home(@ModelAttribute("SpringWeb") User user, ModelMap model, HttpServletRequest request) {
 		// Confirming Login Status
 		User a = (User) request.getSession().getAttribute("token");
 		if (a == null) {
 			System.out.println("User not logged in");
 			// Login Modifier
->>>>>>> f0b8c9520420e5e7b5ef889fbc9789f4e1b8a8cf
 			String login = "<a href='../navbar-static-top/' data-toggle='modal' data-target='#login-modal'>Login</a>";
 			String signup = "<a href='../navbar-fixed-top/' data-toggle='modal' data-target='#create-account-modal'>Signup</a>";
 			model.addAttribute("login", login);
@@ -237,75 +227,47 @@ public class HomeController {
 	}
 
 	@RequestMapping(value = "/addUser", method = RequestMethod.POST)
-<<<<<<< HEAD
-	public ModelAndView addUser(@ModelAttribute("SpringWeb")User user, ModelMap model,
-			HttpServletRequest request) throws SQLException {
-		//Authentication
+	public ModelAndView addUser(@ModelAttribute("SpringWeb") User user, ModelMap model, HttpServletRequest request)
+			throws SQLException {
+		// Authentication
 		User ruser = new User();
 		System.out.println("User username: " + user.getUsername());
 		System.out.println("User username: " + user.getPassword());
 		ruser = User.verifyUser(user.getUsername(), user.getPassword());
 		
 		//ResultSet rs = statement.executeQuery(loginQuery);
-		System.out.println("RUser username: " + ruser.getUsername());
-			if(ruser.getUsername().equals("")){
-				System.out.println("DEBUG 1: User not logged in");
-				//Login Modifier
-=======
-	public ModelAndView addUser(@ModelAttribute("SpringWeb") User user, ModelMap model, HttpServletRequest request)
-			throws SQLException {
-		// Authentication
-		String username = "'" + user.getUsername() + "'";
-		String password = "'" + user.getPassword() + "'";
-		String loginQuery = "SELECT Username FROM RUser WHERE Username = " + username + "AND Pword = " + password;
-		Statement statement = dbc.createStatement();
-		ResultSet rs = statement.executeQuery(loginQuery);
-		if (rs.next()) {
-			System.out.println("User Logged in: " + rs.getString(1));
-			// If Authentication successful
-			// Add these attributes to the model so they will appear
-			model.addAttribute("username", user.getUsername());
-			model.addAttribute("password", user.getPassword());
-			request.getSession().setAttribute("token", user);
-
-			User a = (User) request.getSession().getAttribute("token");
-			if (a == null) {
-				System.out.println("User not logged in");
-				// Login Modifier
->>>>>>> f0b8c9520420e5e7b5ef889fbc9789f4e1b8a8cf
-				String login = "<a href='../navbar-static-top/' data-toggle='modal' data-target='#login-modal'>Login</a>";
-				String signup = "<a href='../navbar-fixed-top/' data-toggle='modal' data-target='#create-account-modal'>Signup</a>";
-				model.addAttribute("login", login);
-				model.addAttribute("signup", signup);
-<<<<<<< HEAD
-				System.out.println("Failure To Login");
-				return new ModelAndView("index", "command", ruser);
-			}
-			else{
-				System.out.println("Logged in as " + ruser.getUsername());
-				//model.addAttribute("username", a.getUsername());
-				String login = "<a href='/test/profile'>"+ruser.getUsername()+"</a>";
-=======
-			} else {
-				System.out.println("Logged in as " + a.getUsername());
-				// model.addAttribute("username", a.getUsername());
-				String login = "<a href='/test/profile'>" + a.getUsername() + "</a>";
->>>>>>> f0b8c9520420e5e7b5ef889fbc9789f4e1b8a8cf
-				String signout = "<a href='/test/signout' >Sign Out</a>";
-				model.addAttribute("login", login);
-				model.addAttribute("signup", signout);
-			}
-<<<<<<< HEAD
-			return new ModelAndView("home", "command", new User() );
+			if(!ruser.getUsername().equals("")){
+				System.out.println("User Logged in: " + ruser.getUsername());
+				// If Authentication successful
+				// Add these attributes to the model so they will appear
+				model.addAttribute("username", user.getUsername());
+				model.addAttribute("password", user.getPassword());
+				request.getSession().setAttribute("token", user);
+	
+				User a = (User) request.getSession().getAttribute("token");
+				if (a == null) {
+					System.out.println("User not logged in");
+					// Login Modifier
+					String login = "<a href='../navbar-static-top/' data-toggle='modal' data-target='#login-modal'>Login</a>";
+					String signup = "<a href='../navbar-fixed-top/' data-toggle='modal' data-target='#create-account-modal'>Signup</a>";
+					model.addAttribute("login", login);
+					model.addAttribute("signup", signup);
+					System.out.println("Failure To Login");
+					return new ModelAndView("index", "command", ruser);
+				}
+				 else {
+					System.out.println("Logged in as " + a.getUsername());
+					// model.addAttribute("username", a.getUsername());
+					String login = "<a href='/test/profile'>" + a.getUsername() + "</a>";
+					String signout = "<a href='/test/signout' >Sign Out</a>";
+					model.addAttribute("login", login);
+					model.addAttribute("signup", signout);
+				}
+			return new ModelAndView("home", "command", ruser);
 		}
-=======
-			return new ModelAndView("home", "command", new User());
-		} else {
-			System.out.println("Failure To Login");
-			return new ModelAndView("index", "command", new User());
-		}
+			return new ModelAndView("home", "command", ruser);
 	}
->>>>>>> f0b8c9520420e5e7b5ef889fbc9789f4e1b8a8cf
+
 
 	@RequestMapping(value = "/register", method = RequestMethod.POST)
 	public ModelAndView register(@ModelAttribute("SpringWeb") User user, ModelMap model, HttpServletRequest request)
@@ -607,14 +569,9 @@ public class HomeController {
 	}
 
 	@RequestMapping(value = "/signout", method = RequestMethod.GET)
-<<<<<<< HEAD
-	public ModelAndView signout(@ModelAttribute("SpringWeb")User user, ModelMap model,
-			HttpServletRequest request) throws SQLException{
-		//Setting token to null so that the user no longer exist
-=======
 	public ModelAndView signout(@ModelAttribute("SpringWeb") User user, ModelMap model, HttpServletRequest request) {
 		// Setting token to null so that the user no longer exist
->>>>>>> f0b8c9520420e5e7b5ef889fbc9789f4e1b8a8cf
+
 		request.getSession().setAttribute("token", null);
 
 		return home(user, model, request);
