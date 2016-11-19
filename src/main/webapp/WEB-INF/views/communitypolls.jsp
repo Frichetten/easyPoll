@@ -73,7 +73,7 @@
 	
 	 <div class="container">
             <div class="page-header">
-                <h1>Communtiy Polls</h1>
+                <h1>Community Polls</h1>
             </div>
         <p>Click on a poll to vote!</p>
         <table id="tableId" class="table table-striped table-hover">

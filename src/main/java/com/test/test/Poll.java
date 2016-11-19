@@ -47,7 +47,7 @@ public class Poll {
 		}
 		return toReturn;
 	}
-	
+
 	public Poll(String pollName, String pollQuestion, String pollDescription, 
 			String answerType, String pollView, String answer, String pollNum, String pollPoster){
 		this.pollName = pollName;
@@ -60,6 +60,12 @@ public class Poll {
 		this.pollPoster = pollPoster;
 	}
 	
+	public String getPollPoster() {
+		return pollPoster;
+	}
+	public void setPollPoster(String pollPoster) {
+		this.pollPoster = pollPoster;
+	}
 	public String getPub() {
 		return pub;
 	}

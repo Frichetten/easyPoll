@@ -350,7 +350,7 @@ public class HomeController {
 		
 		String thyme = "";
 		for (int i =(pollArr.size()-1); i >= 0; i--){
-			thyme = thyme + "<tr><td>"+pollArr.get(i).getPollName()+"</td><td hidden='true'>"+pollArr.get(i).getPollNum()+"</td><td>"+pollArr.get(i).getPollDescription()+"</td></tr>";
+			thyme = thyme + "<tr><td>"+pollArr.get(i).getPollName()+"</td><td hidden='true'>"+pollArr.get(i).getPollNum()+"</td><td>"+pollArr.get(i).getPollDescription()+"</td><td>"+pollArr.get(i).getPollPoster()+"</td></tr>";
 		}
 		model.addAttribute("polls", thyme);
 		
@@ -403,7 +403,7 @@ public class HomeController {
 		st2.execute(insertPollDataQuery);
 		System.out.println("Successful insertion");
 
-		return new ModelAndView("createpoll");
+		return mypolls(new User(), model, request);
 	}
 
 	@RequestMapping(value = "/singlepoll/{pollId}", method = RequestMethod.GET)

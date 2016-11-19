@@ -23,12 +23,12 @@ public class User {
 	   }
 	   
 	   public static ArrayList<Poll> getPublicPolls() throws SQLException{
-		   String publicPollsQuery= "SELECT PollName, Description, p.PollNum FROM Polls p JOIN PollData pd on pd.PollNum = p.PollNum;";
+		   String publicPollsQuery= "SELECT PollName, Description, p.PollNum, Username FROM Polls p JOIN PollData pd on pd.PollNum = p.PollNum;";
 		   Statement st = dbc.createStatement();
 		   ResultSet rs = st.executeQuery(publicPollsQuery);
 		   ArrayList<Poll> toReturn = new ArrayList<Poll>();
 		   while (rs.next()) {
-			   toReturn.add(new Poll(rs.getString(1),null, rs.getString(2),null,null,null,rs.getString(3),null));
+			   toReturn.add(new Poll(rs.getString(1),null, rs.getString(2),null,null,null,rs.getString(3),rs.getString(4)));
 		   }
 		   return toReturn;
 	   }
