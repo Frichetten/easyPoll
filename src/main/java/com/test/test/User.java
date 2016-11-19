@@ -50,8 +50,8 @@ public class User {
 	   public void setEmail(String email){
 		   this.email = email;
 	   }
-	   public static User verifyUser(String username, String password) throws SQLException{
-				return  DBQuery.Login(username, password);
+	   public static User verifyUser(String email, String password) throws SQLException{
+		   return DBQuery.Login(email, password);
 	   }
 	   
 	   public String getEmail(){

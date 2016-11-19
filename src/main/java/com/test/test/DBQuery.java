@@ -11,15 +11,14 @@ public class DBQuery{
 	static Statement statement;
 	static ResultSet rs;
 	
-	public static User Login(String username, String password) throws SQLException{
+	public static User Login(String email, String password) throws SQLException{
 		User tempUser = new User();
-		username = "'" + username + "'";
+		email = "'" + email + "'";
 		password = "'" + password + "'";
 		   
-		String loginQuery = "SELECT Username FROM RUser WHERE Username = " + username + 
+		String loginQuery = "SELECT Username FROM RUser WHERE Email = " + email + 
 					" AND Pword = " + password + ";";
 		statement = dbc.createStatement();
-		//System.out.println(query);
 		rs = statement.executeQuery(loginQuery);
 		if(rs.next()){
 			System.out.println("User Logged in: " + rs.getString(1));

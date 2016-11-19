@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<%@taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <html>
 	<head>
 		<meta charset="UTF-8">
@@ -57,8 +58,8 @@
 					<li><a href="/test/home">Home</a>
 					<li><a href="/test/communitypolls">Community</a></li>
 					<li><a href="/test/mypolls">My Polls</a></li>
-					<li><a href="#">About</a></li>
-					<li><a href="#">Contact</a></li>
+					<li><a href="/test/about">About</a></li>
+					<li><a href="/test/contact">Contact</a></li>
 				</ul>
 				<ul class="nav navbar-nav navbar-right" id="logged-out">
 					<li>${login}</li>
@@ -112,11 +113,11 @@
 					<button type="button" class="close" data-dismiss="modal">&times;</button>
 					<div class="loginmodal-container text-center">
 						<h2>Login to Your Account</h2><br>
-						<form onsubmit="myFunction(); return false;">
-						<input id="txtEmail" type="email" placeholder="Email">
-						<input id="txtPassword" type="password" placeholder="Password">
+						<form:form method="POST" action="/test/login">
+						<form:input id="txtEmail" type="email" placeholder="Email" path="email"/>
+						<form:input id="txtPassword" type="password" placeholder="Password" path="password"/>
 						<input type="submit" id="btnLogin" class="btn btn-success" value="Login">
-						</form>
+						</form:form>
 						<div class="login-help">
 						<a data-toggle="modal" data-target="#create-account-modal" id="register-link">Register</a> | <a data-toggle="modal" data-target="#forgot-password-modal" id="forgot-password-link">Forgot Password</a>
 						</div>

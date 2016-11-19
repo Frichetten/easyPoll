@@ -231,23 +231,22 @@ public class HomeController {
 		return new ModelAndView("userprofile", "command", new User());
 	}
 
-	@RequestMapping(value = "/addUser", method = RequestMethod.POST)
+	@RequestMapping(value = "/login", method = RequestMethod.POST)
 	public ModelAndView addUser(@ModelAttribute("SpringWeb") User user, ModelMap model, HttpServletRequest request)
 			throws SQLException {
 		// Authentication
 		User ruser = new User();
-		System.out.println("User username: " + user.getUsername());
-		System.out.println("User username: " + user.getPassword());
-		ruser = User.verifyUser(user.getUsername(), user.getPassword());
+		System.out.println("User email: " + user.getEmail());
+		System.out.println("User password: " + user.getPassword());
+		ruser = User.verifyUser(user.getEmail(), user.getPassword());
 		
 		//ResultSet rs = statement.executeQuery(loginQuery);
 			if(!ruser.getUsername().equals("")){
 				System.out.println("User Logged in: " + ruser.getUsername());
 				// If Authentication successful
 				// Add these attributes to the model so they will appear
-				model.addAttribute("username", user.getUsername());
-				model.addAttribute("password", user.getPassword());
-				request.getSession().setAttribute("token", user);
+				model.addAttribute("username", ruser.getUsername());
+				request.getSession().setAttribute("token", ruser);
 	
 				User a = (User) request.getSession().getAttribute("token");
 				if (a == null) {
@@ -269,7 +268,7 @@ public class HomeController {
 					model.addAttribute("signup", signout);
 				}
 			}
-			return new ModelAndView("home", "command", ruser);
+			return home(ruser, model, request);
 	}
 
 	@RequestMapping(value = "/register", method = RequestMethod.POST)
@@ -360,7 +359,7 @@ public class HomeController {
 		}
 		model.addAttribute("polls", thyme);
 		
-		return new ModelAndView("communitypolls");
+		return new ModelAndView("communitypolls", "command", new User());
 	}
 
 	@RequestMapping(value = "/createpoll", method = RequestMethod.GET)
