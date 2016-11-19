@@ -17,16 +17,16 @@
 				$('#landing-title').fadeIn(3000).removeClass('hidden');								
 				$('#user-logged-in').hide();
 				$(document).on("click", "#box0", function(){
-					   alert(document.getElementById("run0").innerText);
+					document.location = "/test/singlepoll/"+document.getElementById("run0").innerText;
 				});
 				$(document).on("click", "#box1", function(){
-					   alert(document.getElementById("run1").innerText);
+					document.location = "/test/singlepoll/"+document.getElementById("run1").innerText;
 				});
 				$(document).on("click", "#box2", function(){
-					   alert(document.getElementById("run2").innerText);
+					document.location = "/test/singlepoll/"+document.getElementById("run2").innerText;
 				});
 				$(document).on("click", "#box3", function(){
-					   alert(document.getElementById("run3").innerText);
+					document.location = "/test/singlepoll/"+document.getElementById("run3").innerText;
 				});
 				$(".poll-ad-container").hover(function(){
 					$(this).find('.vote-in-poll').each(function(e){
@@ -105,7 +105,7 @@
 		<div class="poll-ad-container">
 			<div class="poll-description">
 				<h3>${title0}</h3>
-				<h3 id="run0" hidden="true">run0</h3>
+				<h3 id="run0" hidden="true">${pollId0}</h3>
 				<span> ${pollDesc0} </span>
 			</div>
 			<div id="box0" class="vote-in-poll">
@@ -118,7 +118,7 @@
 		<div class="poll-ad-container">
 			<div class="poll-description">
 				<h3>${title1}</h3>
-				<h3 id="run1" hidden="true">run1</h3>
+				<h3 id="run1" hidden="true">${pollId1}</h3>
 				<span> ${pollDesc1} </span>
 			</div>
 			<div id="box1" class="vote-in-poll">
@@ -131,7 +131,7 @@
 		<div class="poll-ad-container">
 			<div class="poll-description">
 				<h3>${title2}</h3>
-				<h3 id="run2" hidden="true">run2</h3>
+				<h3 id="run2" hidden="true">${pollId2}</h3>
 				<span> ${pollDesc2} </span>
 			</div>
 			<div id="box2" class="vote-in-poll">
@@ -144,7 +144,7 @@
 		<div class="poll-ad-container">
 			<div class="poll-description">
 				<h3>${title3}</h3>
-				<h3 id="run3" hidden="true">run3</h3>
+				<h3 id="run3" hidden="true">${pollId3}</h3>
 				<span> ${pollDesc3} </span>
 			</div>
 			<div id="box3" class="vote-in-poll">

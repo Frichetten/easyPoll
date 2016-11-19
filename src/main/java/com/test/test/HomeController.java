@@ -64,6 +64,7 @@ public class HomeController {
 		for(int i = (polls.size()-1), j = 0; i > (polls.size()-5); i--, j++){
 			model.addAttribute("title"+String.valueOf(j),polls.get(i).getPollName());
 			model.addAttribute("pollDesc"+String.valueOf(j),polls.get(i).getPollDescription());
+			model.addAttribute("pollId"+String.valueOf(j),polls.get(i).getPollNum());
 		}
 		return new ModelAndView("home", "command", new User());
 	}
