@@ -29,6 +29,24 @@ public class DBQuery{
 		return tempUser;
 	}
 	
+	public static Administrator adminLogin(String email, String password) throws SQLException{
+		Administrator tempAdmin = new Administrator();
+		email = "'" + email + "'";
+		password = "'" + password + "'";
+		   
+		String loginQuery = "SELECT Username FROM AdminUser WHERE Email = " + email + 
+					" AND Pword = " + password + ";";
+		statement = dbc.createStatement();
+		rs = statement.executeQuery(loginQuery);
+		if(rs.next()){
+			System.out.println("User Logged in: " + rs.getString(1));
+			tempAdmin.setUsername(rs.getString(1));
+		}
+		else
+			tempAdmin.setUsername("");
+		return tempAdmin;
+	}
+	
 	public static String getPollDescription(String pollId) throws SQLException{
 		String toReturn = "";
 		String searchQuery = "SELECT Description FROM PollData WHERE PollNum= '"+pollId+"';";

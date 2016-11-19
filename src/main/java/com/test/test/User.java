@@ -22,6 +22,10 @@ public class User {
 		   email = "";
 	   }
 	   
+	   public static User verifyUser(String email, String password) throws SQLException{
+		   return DBQuery.Login(email, password);
+	   }
+	   
 	   public static ArrayList<Poll> getPublicPolls() throws SQLException{
 		   String publicPollsQuery= "SELECT PollName, Description, p.PollNum, Username FROM Polls p JOIN PollData pd on pd.PollNum = p.PollNum;";
 		   Statement st = dbc.createStatement();
@@ -49,9 +53,6 @@ public class User {
 	   
 	   public void setEmail(String email){
 		   this.email = email;
-	   }
-	   public static User verifyUser(String email, String password) throws SQLException{
-		   return DBQuery.Login(email, password);
 	   }
 	   
 	   public String getEmail(){

@@ -61,10 +61,12 @@ public class HomeController {
 		}
 		
 		ArrayList<Poll> polls = User.getPublicPolls();
-		for(int i = (polls.size()-1), j = 0; i > (polls.size()-5); i--, j++){
-			model.addAttribute("title"+String.valueOf(j),polls.get(i).getPollName());
-			model.addAttribute("pollDesc"+String.valueOf(j),polls.get(i).getPollDescription());
-			model.addAttribute("pollId"+String.valueOf(j),polls.get(i).getPollNum());
+		if (polls.size() > 1){
+			for(int i = (polls.size()-1), j = 0; i > (polls.size()-5); i--, j++){
+				model.addAttribute("title"+String.valueOf(j),polls.get(i).getPollName());
+				model.addAttribute("pollDesc"+String.valueOf(j),polls.get(i).getPollDescription());
+				model.addAttribute("pollId"+String.valueOf(j),polls.get(i).getPollNum());
+			}
 		}
 		return new ModelAndView("home", "command", new User());
 	}
@@ -267,6 +269,9 @@ public class HomeController {
 					model.addAttribute("login", login);
 					model.addAttribute("signup", signout);
 				}
+			}
+			else{
+				return home(ruser,model,request);
 			}
 			return home(ruser, model, request);
 	}
@@ -595,5 +600,47 @@ public class HomeController {
 		request.getSession().setAttribute("token", null);
 
 		return home(user, model, request);
+	}
+	
+	@RequestMapping(value = "/adminLogin", method = RequestMethod.POST)
+	public ModelAndView adminLogin(@ModelAttribute("SpringWeb")Administrator admin, ModelMap model,
+		HttpServletRequest request) throws SQLException{
+		Administrator logAdmin = new Administrator();
+		
+		logAdmin = Administrator.verifyAdmin(admin.getEmail(),admin.getPassword());
+		System.out.println(logAdmin.getUsername());
+		
+		if(!logAdmin.getUsername().equals("")){
+			System.out.println("Admin Logged in: " + logAdmin.getUsername());
+			// If Authentication successful
+			// Add these attributes to the model so they will appear
+			request.getSession().setAttribute("token", logAdmin);
+			return admin(logAdmin, model, request);
+		}
+		else{
+			return home(new User(),model,request);
+		}
+	}
+	
+	@RequestMapping(value = "/admin", method = RequestMethod.GET)
+	public ModelAndView admin(@ModelAttribute("SpringWeb")Administrator admin, ModelMap model,
+		HttpServletRequest request) throws SQLException{
+		// Confirming Login Status
+		if (admin.getUsername() == null){
+			System.out.println("User not logged in");
+			// Login Modifier
+			String login = "<a href='../navbar-static-top/' data-toggle='modal' data-target='#login-modal'>Login</a>";
+			String signup = "<a href='../navbar-fixed-top/' data-toggle='modal' data-target='#create-account-modal'>Signup</a>";
+			model.addAttribute("login", login);
+			model.addAttribute("signup", signup);
+		} else {
+			System.out.println("Logged in as " + admin.getUsername());
+			String login = "<a href='#'>" + admin.getUsername() + "</a>";
+			String signout = "<a href='/test/signout' >Sign Out</a>";
+			model.addAttribute("login", login);
+			model.addAttribute("signup", signout);
+		}
+				
+		return new ModelAndView("admin", "command", new User());
 	}
 }
