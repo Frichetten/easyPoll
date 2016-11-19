@@ -16,6 +16,18 @@
 			$(document).ready(function () {
 				$('#landing-title').fadeIn(3000).removeClass('hidden');								
 				$('#user-logged-in').hide();
+				$(document).on("click", "#box0", function(){
+					   alert(document.getElementById("run0").innerText);
+				});
+				$(document).on("click", "#box1", function(){
+					   alert(document.getElementById("run1").innerText);
+				});
+				$(document).on("click", "#box2", function(){
+					   alert(document.getElementById("run2").innerText);
+				});
+				$(document).on("click", "#box3", function(){
+					   alert(document.getElementById("run3").innerText);
+				});
 				$(".poll-ad-container").hover(function(){
 					$(this).find('.vote-in-poll').each(function(e){
 						    $(this).show();
@@ -84,19 +96,19 @@
 	    </div>
 	<a name="home-vote" style="display:block;margin-top:20px;"></a>
 	</div>
-	</div>
 	<div class="call-to-action">
 		<h1>Welcome to Our Polling Community!</h1>
 		<h2>Vote in polls that interest you</h2>
 	</div>
-	<div class="container main-content">
+	<div id="tableId" class="container main-content">
 	<div class="col-md-6">
 		<div class="poll-ad-container">
 			<div class="poll-description">
 				<h3>${title0}</h3>
+				<h3 id="run0" hidden="true">run0</h3>
 				<span> ${pollDesc0} </span>
 			</div>
-			<div class="vote-in-poll">
+			<div id="box0" class="vote-in-poll">
 				<span>Vote in this Poll</span>
 				<i class="fa fa-bar-chart" aria-hidden="true"></i>
 			</div>
@@ -106,9 +118,10 @@
 		<div class="poll-ad-container">
 			<div class="poll-description">
 				<h3>${title1}</h3>
+				<h3 id="run1" hidden="true">run1</h3>
 				<span> ${pollDesc1} </span>
 			</div>
-			<div class="vote-in-poll">
+			<div id="box1" class="vote-in-poll">
 				<span>Vote in this Poll</span>
 				<i class="fa fa-bar-chart" aria-hidden="true"></i>
 			</div>
@@ -118,9 +131,10 @@
 		<div class="poll-ad-container">
 			<div class="poll-description">
 				<h3>${title2}</h3>
+				<h3 id="run2" hidden="true">run2</h3>
 				<span> ${pollDesc2} </span>
 			</div>
-			<div class="vote-in-poll">
+			<div id="box2" class="vote-in-poll">
 				<span>Vote in this Poll</span>
 				<i class="fa fa-bar-chart" aria-hidden="true"></i>
 			</div>
@@ -130,9 +144,10 @@
 		<div class="poll-ad-container">
 			<div class="poll-description">
 				<h3>${title3}</h3>
+				<h3 id="run3" hidden="true">run3</h3>
 				<span> ${pollDesc3} </span>
 			</div>
-			<div class="vote-in-poll">
+			<div id="box3" class="vote-in-poll">
 				<span>Vote in this Poll</span>
 				<i class="fa fa-bar-chart" aria-hidden="true"></i>
 			</div>
@@ -219,10 +234,5 @@
 			</div>
 		</div>
 		</div>
-
-	
-	
-	
-	
 	</body>
 </html>
