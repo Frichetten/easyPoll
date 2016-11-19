@@ -93,8 +93,8 @@
 	<div class="col-md-6">
 		<div class="poll-ad-container">
 			<div class="poll-description">
-				<h3>Poll Name</h3>
-				<span> Poll Description asd asd asd </span>
+				<h3>${title0}</h3>
+				<span> ${pollDesc0} </span>
 			</div>
 			<div class="vote-in-poll">
 				<span>Vote in this Poll</span>
@@ -105,8 +105,8 @@
 	<div class="col-md-6">
 		<div class="poll-ad-container">
 			<div class="poll-description">
-				<h3>Poll Name</h3>
-				<span> Poll Description asd asd asd </span>
+				<h3>${title1}</h3>
+				<span> ${pollDesc1} </span>
 			</div>
 			<div class="vote-in-poll">
 				<span>Vote in this Poll</span>
@@ -117,8 +117,8 @@
 	<div class="col-md-6">
 		<div class="poll-ad-container">
 			<div class="poll-description">
-				<h3>Poll Name</h3>
-				<span> Poll Description asd asd asd </span>
+				<h3>${title2}</h3>
+				<span> ${pollDesc2} </span>
 			</div>
 			<div class="vote-in-poll">
 				<span>Vote in this Poll</span>
@@ -129,8 +129,8 @@
 	<div class="col-md-6">
 		<div class="poll-ad-container">
 			<div class="poll-description">
-				<h3>Poll Name</h3>
-				<span>Poll Description asd asd asd </span>
+				<h3>${title3}</h3>
+				<span> ${pollDesc3} </span>
 			</div>
 			<div class="vote-in-poll">
 				<span>Vote in this Poll</span>

@@ -41,7 +41,7 @@ public class HomeController {
 
 	// Root mapping
 	@RequestMapping(value = "/home", method = RequestMethod.GET)
-	public ModelAndView home(@ModelAttribute("SpringWeb") User user, ModelMap model, HttpServletRequest request) {
+	public ModelAndView home(@ModelAttribute("SpringWeb") User user, ModelMap model, HttpServletRequest request) throws SQLException {
 		// Confirming Login Status
 		User a = (User) request.getSession().getAttribute("token");
 		if (a == null) {
@@ -59,7 +59,12 @@ public class HomeController {
 			model.addAttribute("login", login);
 			model.addAttribute("signup", signout);
 		}
-
+		
+		ArrayList<Poll> polls = User.getPublicPolls();
+		for(int i = (polls.size()-1), j = 0; i > (polls.size()-5); i--, j++){
+			model.addAttribute("title"+String.valueOf(j),polls.get(i).getPollName());
+			model.addAttribute("pollDesc"+String.valueOf(j),polls.get(i).getPollDescription());
+		}
 		return new ModelAndView("home", "command", new User());
 	}
 	
@@ -426,9 +431,18 @@ public class HomeController {
 			model.addAttribute("login", login);
 			model.addAttribute("signup", signout);
 		}
-
+		
+		//Need to identify is anonymous user
+		String toPut = "";
+		if (a == null){
+			toPut = request.getRemoteAddr();
+		}
+		else {
+			toPut = a.getUsername();
+		}
+		
 		// Before doing anything, we need to confirm that they havent voted yet
-		String check = "SELECT * FROM PollTaker WHERE Username = '" + a.getUsername() + "' and PollNum = " + pollId
+		String check = "SELECT * FROM PollTaker WHERE Username = '" + toPut + "' and PollNum = " + pollId
 				+ ";";
 		Statement checkStatement = dbc.createStatement();
 		ResultSet checkRS = checkStatement.executeQuery(check);
@@ -464,6 +478,7 @@ public class HomeController {
 				optionsList = optionsList + "'" + options[i] + "',";
 				valuesList = valuesList + "'" + values[i] + "',";
 			}
+			model.addAttribute("pollDesc",DBQuery.getPollDescription(pollId));
 			model.addAttribute("optionsList", optionsList);
 			model.addAttribute("valuesList", valuesList);
 			model.addAttribute("builder", builder);
@@ -530,7 +545,14 @@ public class HomeController {
 			statement.execute(updateQuery);
 			String updatePollsQuery = "Update Polls Set Partakers=Partakers+1 WHERE PollNum = " + pollId + " ;";
 			statement.execute(updatePollsQuery);
-			String insertQuery = "INSERT INTO PollTaker (Username, PollNum) VALUES('" + a.getUsername() + "', " + pollId
+			String toPut = "";
+			if (a == null){
+				toPut = request.getRemoteAddr();
+			}
+			else{
+				toPut = a.getUsername();
+			}
+			String insertQuery = "INSERT INTO PollTaker (Username, PollNum) VALUES('" + toPut + "', " + pollId
 					+ ");";
 			statement.execute(insertQuery);
 			System.out.println("Update complete");
@@ -560,6 +582,7 @@ public class HomeController {
 			}
 			model.addAttribute("optionsList", optionsList);
 			model.addAttribute("valuesList", valuesList);
+			model.addAttribute("pollDesc",DBQuery.getPollDescription(pollId));
 		}
 
 		return new ModelAndView("singlepolldata");
