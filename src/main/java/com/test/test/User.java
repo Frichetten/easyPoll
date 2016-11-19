@@ -1,8 +1,8 @@
 package com.test.test;
 
 import java.sql.ResultSet;
+import java.sql.*;
 import java.sql.SQLException;
-
 import org.springframework.web.servlet.ModelAndView;
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -14,14 +14,13 @@ public class User {
 	   private String username;
 	   private String password;
 	   private String email;
+	   static Connection dbc = DBConnection.getConnection();
 	   
 	   public User(){
 		   username = "";
 		   password = "";
 		   email = "";
 	   }
-
-	   static Connection dbc = DBConnection.getConnection();
 	   
 	   public static ArrayList<Poll> getPublicPolls() throws SQLException{
 		   String publicPollsQuery= "SELECT PollName, Description, p.PollNum FROM Polls p JOIN PollData pd on pd.PollNum = p.PollNum;";
@@ -29,7 +28,7 @@ public class User {
 		   ResultSet rs = st.executeQuery(publicPollsQuery);
 		   ArrayList<Poll> toReturn = new ArrayList<Poll>();
 		   while (rs.next()) {
-			   toReturn.add(new Poll(rs.getString(1),null, rs.getString(2),null,null,null, rs.getString(3)));
+			   toReturn.add(new Poll(rs.getString(1),null, rs.getString(2),null,null,null,rs.getString(3),null));
 		   }
 		   return toReturn;
 	   }
@@ -51,20 +50,9 @@ public class User {
 	   public void setEmail(String email){
 		   this.email = email;
 	   }
-	   public static User verifyUser (String username, String password) throws SQLException{
-		   username = "'" + username + "'";
-		   password = "'" + password + "'";
-		   
-		   
-		   String loginQuery = "SELECT Username FROM RUser WHERE Username = " + username + 
-					" AND Pword = " + password + ";";
-		   
-		   System.out.println("DEBUG::User: " + username + ", password: " + password);
-		   
-				return  DBQuery.Login(loginQuery);
-		   
+	   public static User verifyUser(String username, String password) throws SQLException{
+				return  DBQuery.Login(username, password);
 	   }
-	   
 	   
 	   public String getEmail(){
 		   return email;

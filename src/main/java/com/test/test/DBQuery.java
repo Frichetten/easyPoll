@@ -17,13 +17,22 @@ public class DBQuery{
 	//	statement = dbc.createStatement();
 	//}
 	
-	public static User Login(String query) throws SQLException{
+	public static User Login(String username, String password) throws SQLException{
 			User tempUser = new User();
+			username = "'" + username + "'";
+			password = "'" + password + "'";
+			   
+			   
+			String loginQuery = "SELECT Username FROM RUser WHERE Username = " + username + 
+						" AND Pword = " + password + ";";
+			   
+			System.out.println("DEBUG::User: " + username + ", password: " + password);
+			
+			
 			statement = dbc.createStatement();
-			System.out.println(query);
-			rs = statement.executeQuery(query);
-			System.out.println(query);
-			int hi = rs.findColumn("Username");
+			//System.out.println(query);
+			rs = statement.executeQuery(loginQuery);
+			System.out.println(loginQuery);
 			if(rs.next()){
 				System.out.println("User Logged in: " + rs.getString(1));
 				tempUser.setUsername(rs.getString(1));
