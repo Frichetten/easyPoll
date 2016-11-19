@@ -81,6 +81,7 @@
                 <tr>
                     <th>Title</th>
                     <th>Description</th>
+                    <th>Poster Name
                 </tr>
             </thead>
             <tbody>

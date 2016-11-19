@@ -23,6 +23,7 @@ public class Poll {
 	private String answer;
 	private String pub;
 	private String pollNum;
+	private String pollPoster;
 	static Connection dbc = DBConnection.getConnection();
 	
 	public String getPollNum() {
@@ -48,7 +49,7 @@ public class Poll {
 	}
 	
 	public Poll(String pollName, String pollQuestion, String pollDescription, 
-			String answerType, String pollView, String answer, String pollNum){
+			String answerType, String pollView, String answer, String pollNum, String pollPoster){
 		this.pollName = pollName;
 		this.pollQuestion = pollQuestion;
 		this.pollDescription = pollDescription;
@@ -56,6 +57,7 @@ public class Poll {
 		this.pollView = pollView;
 		this.answer = answer;
 		this.pollNum = pollNum;
+		this.pollPoster = pollPoster;
 	}
 	
 	public String getPub() {
