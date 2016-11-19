@@ -440,7 +440,7 @@ public class HomeController {
 		} else {
 			System.out.println("Logged in as " + a.getUsername());
 			// model.addAttribute("username", a.getUsername());
-			String login = "<a href='/profile'>" + a.getUsername() + "</a>";
+			String login = "<a href='/test/profile'>" + a.getUsername() + "</a>";
 			String signout = "<a href='/test/signout' >Sign Out</a>";
 			model.addAttribute("login", login);
 			model.addAttribute("signup", signout);
@@ -499,7 +499,7 @@ public class HomeController {
 			model.addAttribute("pollID", pollId);
 		}
 
-		return new ModelAndView("singlepoll");
+		return new ModelAndView("singlepoll", "command", new Answer());
 	}
 
 	@RequestMapping(value = "/singlepolldata/{pollId}", method = RequestMethod.GET)
@@ -652,5 +652,32 @@ public class HomeController {
 		}
 				
 		return new ModelAndView("admin", "command", new User());
+	}
+	
+	@RequestMapping(value = "/recommend", method = RequestMethod.POST)
+	public String recommendPoll(@ModelAttribute("SpringWeb")Email email, ModelMap model,
+		HttpServletRequest request) throws SQLException{
+		// Confirming Login Status
+		User a = (User)request.getSession().getAttribute("token");
+		if (a == null){
+			System.out.println("User not logged in");
+			String referer = request.getHeader("Referer");
+		    return "redirect:"+ referer;
+		} else {
+			System.out.println("Logged in as " + a.getUsername());
+			String login = "<a href='#'>" + a.getUsername() + "</a>";
+			String signout = "<a href='/test/signout' >Sign Out</a>";
+			model.addAttribute("login", login);
+			model.addAttribute("signup", signout);
+		}
+		System.out.println(email.getAddress());
+		String info = "To whom it may concern,\n\nA friend of yours is interested in getting you opinion on "
+				+ "a poll! Follow the link to learn more...\n\n" + request.getHeader("Referer") + "\n\nGot "
+				+ "a question you'd like to ask a vibrant community of polltakers? Visit us at easyPoll.com\n\n "
+				+ "All the best!\n\t-easyPoll Team";
+		System.out.println(info);
+		Email.sendMail(email.getAddress(), "You've been invited to a poll!", info);
+		String referer = request.getHeader("Referer");
+	    return "redirect:"+ referer;
 	}
 }

@@ -11,9 +11,10 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
 public class Email {
-
 	
-	public static void sendMail(String recipient){
+	private String address;
+
+	public static void sendMail(String recipient, String subject, String info){
 		final String username = "easypollsystem@gmail.com";
 		final String password = "Team3IT326";
 
@@ -35,13 +36,27 @@ public class Email {
 			message.setFrom(new InternetAddress("easypollsystem@gmail.com"));
 			message.setRecipients(Message.RecipientType.TO,
 				InternetAddress.parse(recipient));
-			message.setSubject("Testing Subject");
-			message.setText("Dear Mail Crawler,"
-				+ "\n\n No spam to my email, please!");
+			message.setSubject(subject);
+			message.setText(info);
 			Transport.send(message);
 			System.out.println("Done");
 		} catch (MessagingException e) {
 			throw new RuntimeException(e);
 		}
+	}
+	
+	public Email(String email){
+		this.address = email;
+	}
+	
+	public Email(){
+		
+	}
+	
+	public String getAddress() {
+		return address;
+	}
+	public void setAddress(String address) {
+		this.address = address;
 	}
 }
