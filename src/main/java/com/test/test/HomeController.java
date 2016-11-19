@@ -68,6 +68,10 @@ public class HomeController {
 				model.addAttribute("pollId"+String.valueOf(j),polls.get(i).getPollNum());
 			}
 		}
+		
+		//Email testing
+		
+		
 		return new ModelAndView("home", "command", new User());
 	}
 	
