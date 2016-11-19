@@ -6,8 +6,16 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Properties;
 
 import javax.annotation.Resource;
+import javax.mail.Message;
+import javax.mail.MessagingException;
+import javax.mail.PasswordAuthentication;
+import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpServletRequest;
 import javax.xml.ws.WebServiceContext;
 
@@ -68,9 +76,6 @@ public class HomeController {
 				model.addAttribute("pollId"+String.valueOf(j),polls.get(i).getPollNum());
 			}
 		}
-		
-		//Email testing
-		
 		
 		return new ModelAndView("home", "command", new User());
 	}
