@@ -15,6 +15,7 @@ public class User {
 	   private String password;
 	   private String email;
 	   static Connection dbc = DBConnection.getConnection();
+	   public ArrayList<Poll> polls;
 	   
 	   public User(){
 		   username = "";
@@ -26,15 +27,14 @@ public class User {
 		   return DBQuery.Login(email, password);
 	   }
 	   
-	   public static ArrayList<Poll> getPublicPolls() throws SQLException{
-		   String publicPollsQuery= "SELECT PollName, Description, p.PollNum, Username FROM Polls p JOIN PollData pd on pd.PollNum = p.PollNum;";
-		   Statement st = dbc.createStatement();
-		   ResultSet rs = st.executeQuery(publicPollsQuery);
-		   ArrayList<Poll> toReturn = new ArrayList<Poll>();
-		   while (rs.next()) {
-			   toReturn.add(new Poll(rs.getString(1),null, rs.getString(2),null,null,null,rs.getString(3),rs.getString(4)));
-		   }
-		   return toReturn;
+	   public static ArrayList<Poll> getPolls() throws SQLException{
+
+		   return DBQuery.getPolls();
+	   }
+	   
+	   public static ArrayList<Poll> getMyPolls(String username) throws SQLException{
+
+		   return DBQuery.getMyPolls(username);
 	   }
 	   
 	   public void setUsername(String username) {
