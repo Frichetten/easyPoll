@@ -599,19 +599,19 @@ public class HomeController {
 		if (rs.next()) {
 			model.addAttribute("posterUsername", rs.getString(2));
 			model.addAttribute("pollName", rs.getString(4));
-			model.addAttribute("pollQuestion", rs.getString(9));
+			model.addAttribute("pollQuestion", rs.getString(11));
 			// Creating builder
 			String builder = "";
 			String[] options = new String[10];
 			String[] values = new String[10];
-			for (int i = 0; i < Integer.valueOf(rs.getString(8)); i++) {
-				options[i] = rs.getString(12 + i);
-				values[i] = rs.getString(22 + i);
+			for (int i = 0; i < Integer.valueOf(rs.getString(10)); i++) {
+				options[i] = rs.getString(14 + i);
+				values[i] = rs.getString(24 + i);
 			}
 			String optionsList = "";
 			String valuesList = "";
-			for (int i = 0; i < Integer.valueOf(rs.getString(8)); i++) {
-				if(i != Integer.valueOf(rs.getString(8))-1)
+			for (int i = 0; i < Integer.valueOf(rs.getString(10)); i++) {
+				if(i != Integer.valueOf(rs.getString(10))-1)
 				{
 					optionsList = optionsList + "'" + options[i] + "', ";
 					valuesList = valuesList + "'" + values[i] + "', ";
