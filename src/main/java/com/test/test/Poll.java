@@ -16,48 +16,60 @@ import java.util.ArrayList;
  */
 public class Poll {
 	private String pollName;
+	private int pollNum;
 	private String pollQuestion;
+	private String isCurrent;
+	private String closeDate;
 	private String pollDescription;
-	private String answerType;
-	private String pollView;
-	private String answer;
-	private String pub;
-	private String pollNum;
+	private String PollType;
+	private PollData pollData;
 	private String pollPoster;
-	static Connection dbc = DBConnection.getConnection();
+	private ArrayList<Tag> tags;
 	
-	public String getPollNum() {
+	public int getPollNum() {
 		return pollNum;
 	}
 
-	public void setPollNum(String pollNum) {
+	public void setPollNum(int pollNum) {
 		this.pollNum = pollNum;
 	}
 	
 	public Poll(){	
 	}
-	
+/*	
 	public static int getTotalPoll() throws SQLException{
 		String publicPollsQuery= "SELECT * FROM Polls;";
-		Statement st = dbc.createStatement();
-		ResultSet rs = st.executeQuery(publicPollsQuery);
+		//Statement st = dbc.createStatement();
+		//ResultSet rs = st.executeQuery(publicPollsQuery);
+		/*
 		int toReturn = 0;
 		while (rs.next()) {
 			toReturn++;
 		}
 		return toReturn;
 	}
-
-	public Poll(String pollName, String pollQuestion, String pollDescription, 
-			String answerType, String pollView, String answer, String pollNum, String pollPoster){
+*/
+	public Poll(String pollName, int pollNum, String pollQuestion, String isCurrent, 
+			String pollDescription, String PollType, PollData pollData, String pollPoster,
+			ArrayList<Tag> tags){
 		this.pollName = pollName;
-		this.pollQuestion = pollQuestion;
-		this.pollDescription = pollDescription;
-		this.answerType = answerType;
-		this.pollView = pollView;
-		this.answer = answer;
 		this.pollNum = pollNum;
+		this.pollQuestion = pollQuestion;
+		this.isCurrent = isCurrent;
+		this.pollDescription = pollDescription;
+		this.PollType = PollType;
+		this.pollData = pollData;
 		this.pollPoster = pollPoster;
+		this.tags = tags;
+	}
+	
+	public PollData getPollData(){
+		
+		return this.pollData;
+	}
+	
+	public static int getTotalPoll() throws SQLException{
+		return DBQuery.getTotalPolls();
 	}
 	
 	public String getPollPoster() {
@@ -66,29 +78,24 @@ public class Poll {
 	public void setPollPoster(String pollPoster) {
 		this.pollPoster = pollPoster;
 	}
-	public String getPub() {
-		return pub;
+	public String getIsPublic() {
+		return "";
 	}
 	public void setPub(String pub) {
-		this.pub = pub;
+
 	}
-	public String getAnswer() {
-		return answer;
-	}
-	public void setAnswer(String answer) {
-		this.answer = answer;
-	}
+
 	public String getPollView() {
-		return pollView;
+		return "";
 	}
 	public void setPollView(String pollView) {
-		this.pollView = pollView;
+		//this.pollView = pollView;
 	}
 	public String getAnswerType() {
-		return answerType;
+		return "";
 	}
 	public void setAnswerType(String answerType) {
-		this.answerType = answerType;
+		//this.answerType = answerType;
 	}
 	public void setPollName(String pollName) {
 	   this.pollName = pollName;
