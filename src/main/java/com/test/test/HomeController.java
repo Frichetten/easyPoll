@@ -395,22 +395,22 @@ public class HomeController {
 		System.out.println(poll.getPollQuestion());
 		System.out.println(poll.getPollDescription());
 		System.out.println(poll.getAnswerType());
-		System.out.println(poll.getPub());
-		System.out.println(poll.getAnswer());
+		System.out.println(poll.getIsPublic());
+		System.out.println(poll.getPollData().getAnswer().getAnswerChosen());
 
 		// Splitting answers by comma delimeters
-		String[] answers = poll.getAnswer().split(",");
-		String[] answersArray = new String[10];
+		ArrayList<String> answers = poll.getPollData().getAnswer().getAnswerChosen();
+		ArrayList<String> answersArray = new ArrayList<String>();
 		for (int i = 0; i < 10; i++) {
-			if (i < answers.length)
-				answersArray[i] = answers[i];
+			if (i < answers.size())
+				answersArray.add(answers.get(i));
 			else
-				answersArray[i] = null;
+				answersArray.add(null);
 		}
 
 		// Insert the user into the database
 		String insertPollsQuery = "INSERT INTO Polls (Username, isCurrent, PollName, Partakers, PollType) "
-				+ "VALUES ('" + a.getUsername() + "',1,'" + poll.getPollName() + "',0,'" + poll.getPub() + "');";
+				+ "VALUES ('" + a.getUsername() + "',1,'" + poll.getPollName() + "',0,'" + poll.getIsPublic() + "');";
 		Statement st2 = dbc.createStatement();
 		st2.execute(insertPollsQuery);
 		String insertPollDataQuery = "INSERT INTO PollData(PollNum, Question, Description, Params, isRadio, AnsOne, AnsTwo, AnsThree, "

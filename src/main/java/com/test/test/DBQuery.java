@@ -149,6 +149,19 @@ public class DBQuery{
 		   }
 		   
 	
+	public static int getTotalPolls() throws SQLException{
+		String totalPolls = "SELECT COUNT(pollNum) from Polls;";
+		statement = dbc.createStatement();
+		ResultSet rs = statement.executeQuery(totalPolls);
+		
+		if(rs.next()){
+			
+			return Integer.parseInt(rs.getString(1));
+		}
+		
+		return 0;
+	}
+	
 	public static ArrayList<Poll> getMyPolls(String username) throws SQLException{
 			
 		   username = "'" + username + "'";

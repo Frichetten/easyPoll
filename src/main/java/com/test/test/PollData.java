@@ -4,16 +4,16 @@ import java.util.ArrayList;
 
 public class PollData {
 	
-	private Answer cumAnswers;
+	private Answer totAnswers;
 	private ArrayList<PollTaker> polltakers;
 	
 	PollData(Answer answer, ArrayList<PollTaker> polltakers){
-		this.cumAnswers = answer;
+		this.totAnswers = answer;
 		this.polltakers = polltakers;
 	}
 	
-	public Answer getCumAnswer(){
+	public Answer getAnswer(){
 		
-		return null;
+		return this.totAnswers;
 	}
 }

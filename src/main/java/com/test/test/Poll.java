@@ -63,6 +63,14 @@ public class Poll {
 		this.tags = tags;
 	}
 	
+	public PollData getPollData(){
+		
+		return this.pollData;
+	}
+	
+	public static int getTotalPoll() throws SQLException{
+		return DBQuery.getTotalPolls();
+	}
 	
 	public String getPollPoster() {
 		return pollPoster;

@@ -19,7 +19,7 @@ public class Answer {
 	String answer = "";
 	
 	public Answer(){
-	
+		
 	}
 	public String getAnswer(){
 		return this.answer;
@@ -28,7 +28,11 @@ public class Answer {
 		this.answerOptions = options;
 		this.answersChosen = chosen;
 	}
-	 
+	
+	public ArrayList<String> getAnswerChosen(){
+		return this.answersChosen;
+	}
+	
 	/*
 	public String[] getAnswerOptions(int Pollnum, String username) throws SQLException{
 		Connection Dbcon = DBConnection.getConnection();
