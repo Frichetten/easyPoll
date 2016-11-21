@@ -381,8 +381,24 @@ public class HomeController {
 	@RequestMapping(value = "/createpoll", method = RequestMethod.GET)
 	public ModelAndView createpoll(@ModelAttribute("SpringWeb") User user, ModelMap model, HttpServletRequest request) throws SQLException {
 		int num = Poll.getTotalPoll();
+		User a = (User) request.getSession().getAttribute("token");
+		if (a == null) {
+			System.out.println("User not logged in");
+			// Login Modifier
+			String login = "<a href='../navbar-static-top/' data-toggle='modal' data-target='#login-modal'>Login</a>";
+			String signup = "<a href='../navbar-fixed-top/' data-toggle='modal' data-target='#create-account-modal'>Signup</a>";
+			model.addAttribute("login", login);
+			model.addAttribute("signup", signup);
+		} else {
+			System.out.println("Logged in as " + a.getUsername());
+			// model.addAttribute("username", a.getUsername());
+			String login = "<a href='/test/profile'>" + a.getUsername() + "</a>";
+			String signout = "<a href='/test/signout' >Sign Out</a>";
+			model.addAttribute("login", login);
+			model.addAttribute("signup", signout);
+		}
 		model.addAttribute("numberPolls", String.valueOf(num));
-		return new ModelAndView("createpoll");
+		return new ModelAndView("createpoll", "command" ,new User());
 	}
 
 	@RequestMapping(value = "/createpollfunction", method = RequestMethod.POST)
@@ -417,10 +433,10 @@ public class HomeController {
 				+ "AnsFour, AnsFive, AnsSix, AnsSeven, AnsEight, AnsNine, AnsTen, "
 				+ "TotalOne, TotalTwo, TotalThree, TotalFour, TotalFive, TotalSix, TotalSeven, TotalEight, "
 				+ "TotalNine, TotalTen) VALUES ((SELECT LAST_INSERT_ID()), '" + poll.getPollQuestion() + "', '"
-				+ poll.getPollDescription() + "', " + answers.length + ", true, '" + answersArray[0] + "', " + "'"
-				+ answersArray[1] + "' , '" + answersArray[2] + "' , '" + answersArray[3] + "' , '" + answersArray[4]
-				+ "' ," + "'" + answersArray[5] + "', '" + answersArray[6] + "' , '" + answersArray[7] + "' , '"
-				+ answersArray[8] + "' , " + "'" + answersArray[9] + "'" + ", 0, 0, 0,0,0,0,0,0,0,0);";
+				+ poll.getPollDescription() + "', " + answers.size() + ", true, '" + answersArray.get(0) + "', " + "'"
+				+ answersArray.get(1) + "' , '" + answersArray.get(2) + "' , '" + answersArray.get(3) + "' , '" + answersArray.get(4)
+				+ "' ," + "'" + answersArray.get(5) + "', '" + answersArray.get(6) + "' , '" + answersArray.get(7) + "' , '"
+				+ answersArray.get(8) + "' , " + "'" + answersArray.get(9) + "'" + ", 0, 0, 0,0,0,0,0,0,0,0);";
 		st2.execute(insertPollDataQuery);
 		System.out.println("Successful insertion");
 
@@ -523,13 +539,13 @@ public class HomeController {
 			String signout = "<a href='/test/signout' >Sign Out</a>";
 			model.addAttribute("login", login);
 			model.addAttribute("signup", signout);
+			
 		}
 
 		// Getting Column names and username
 		System.out.println("singlepolldataaaa");
 		// If answer equals null, do nothing
-		// Else put that in the DB
-		System.out.println(answer.getAnswer());
+		// Else put that in the DB;
 		if (answer.getAnswer() == null) {
 			System.out.println("We are coming without giving an answer");
 		} else {
@@ -556,6 +572,7 @@ public class HomeController {
 				column = "TotalNine";
 			else if (ans.equals("10"))
 				column = "TotalTen";
+			System.out.println("Column: " + column + " pollId: " + pollId + " ans: " + ans);
 			String updateQuery = "UPDATE Polls p JOIN PollData on PollData.PollNum = p.PollNum SET " + column + " = "
 					+ column + " + 1 WHERE p.PollNum = " + pollId + " ;";
 			Statement statement = dbc.createStatement();
@@ -594,9 +611,19 @@ public class HomeController {
 			String optionsList = "";
 			String valuesList = "";
 			for (int i = 0; i < Integer.valueOf(rs.getString(8)); i++) {
-				optionsList = optionsList + "'" + options[i] + "',";
-				valuesList = valuesList + "'" + values[i] + "',";
-				System.out.println(options[i]);
+				if(i != Integer.valueOf(rs.getString(8))-1)
+				{
+					optionsList = optionsList + "'" + options[i] + "', ";
+					valuesList = valuesList + "'" + values[i] + "', ";
+					System.out.println(options[i]);
+				}
+				else
+				{
+					optionsList = optionsList + "'" + options[i] + "'";
+					valuesList = valuesList + "'" + values[i] + "'";
+					System.out.println(options[i]);
+				}
+				
 			}
 			model.addAttribute("optionsList", optionsList);
 			model.addAttribute("valuesList", valuesList);

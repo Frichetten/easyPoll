@@ -237,3 +237,4 @@ a {
 .btn {
     font-size:17px;
 }
+tr:hover { cursor: pointer; cursor: hand; }

@@ -194,15 +194,7 @@
 		</footer>
 		
 		<script>
-		  function showValues() {
-		    var str = $( "form" ).serialize();
-		    $( "#results" ).text( str );
-		  }
-		  $( "input[type='checkbox'], input[type='radio']" ).on( "click", showValues );
-		  $( "input[type='text']" ).keypress(showValues);
-		  $( "#create-poll" ).click(showValues);
-		  $( "select" ).on( "change", console.log(showValues));
-		  showValues();
+		  
 		  
  		  $( "#create-poll" ).click(function(){
  			  $.ajax({

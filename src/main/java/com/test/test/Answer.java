@@ -9,20 +9,16 @@ import java.util.ArrayList;
 public class Answer {
 	
 	//public String[] getAnswerOptions(String textQuestion) throws Exception;
-
-
-
-	
 	boolean isRadio;
 	ArrayList<String> answerOptions = null;
 	ArrayList<String> answersChosen = null;
-	String answer = "";
+	String answer = null;
 	
 	public Answer(){
 		
 	}
 	public String getAnswer(){
-		return this.answer;
+		return answer;
 	}
 	public Answer(ArrayList<String> options, ArrayList<String> chosen){
 		this.answerOptions = options;
@@ -55,7 +51,6 @@ public class Answer {
 	}
 	*/
 	public Answer getUserAnswer(int pollNum, String username){
-		
 		return DBQuery.getUserAnswer(pollNum, username);
 	}
 
