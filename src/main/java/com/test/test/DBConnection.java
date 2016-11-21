@@ -18,7 +18,7 @@ public final class DBConnection {
 		} catch (ClassNotFoundException e) {
 			System.out.println("Class Not Found Exception");
 		} catch (SQLException e) {
-			System.out.println("SQL Exception");
+			System.out.println("SQL Exception in DBConnection");
 		}
 	    return connection;
 	  }

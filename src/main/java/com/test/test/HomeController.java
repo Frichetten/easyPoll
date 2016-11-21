@@ -1,6 +1,7 @@
 package com.test.test;
 
 import java.sql.Connection;
+
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -68,7 +69,7 @@ public class HomeController {
 			model.addAttribute("signup", signout);
 		}
 		
-		ArrayList<Poll> polls = User.getPublicPolls();
+		ArrayList<Poll> polls = User.getPolls();
 		if (polls.size() > 3){
 			for(int i = (polls.size()-1), j = 0; i > (polls.size()-5); i--, j++){
 				model.addAttribute("title"+String.valueOf(j),polls.get(i).getPollName());
@@ -324,23 +325,23 @@ public class HomeController {
 		}
 		model.addAttribute("username", a.getUsername());
 		String username = a.getUsername();
+		
+		ArrayList<Poll> myPolls = User.getMyPolls(username);
 
 		// Add attributes to the model that are Polls
-		String searchQuery = "SELECT * FROM Polls p JOIN PollData on PollData.PollNum = p.PollNum "
-				+ "WHERE p.Username = '" + username + "' and p.isCurrent = 1";
-		Statement statement = dbc.createStatement();
-		ResultSet rs = statement.executeQuery(searchQuery);
+		
 		ArrayList<String> toShow = new ArrayList<String>();
 		ArrayList<String> toCache = new ArrayList<String>();
 		ArrayList<String> toDesc = new ArrayList<String>();
-		while (rs.next()) {
-			toCache.add(rs.getString(1));
-			toShow.add(rs.getString(4));
-			toDesc.add(rs.getString(10));
+		
+		for (int i = 0; i < myPolls.size(); i++) {
+			toCache.add(Integer.toString(myPolls.get(i).getPollNum()));
+			toShow.add(myPolls.get(i).getPollName());
+			toDesc.add(myPolls.get(i).getPollDescription());
 		}
 		String thyme = "";
-		for (int i =(toShow.size()-1); i >= 0; i--){
-			thyme = thyme + "<tr><td>"+toShow.get(i)+"</td><td hidden='true'>"+toCache.get(i)+"</td><td>"+toDesc.get(i)+"</td></tr>";
+		for (int j =(toShow.size()-1); j >= 0; j--){
+			thyme = thyme + "<tr><td>"+toShow.get(j)+"</td><td hidden='true'>"+toCache.get(j)+"</td><td>"+toDesc.get(j)+"</td></tr>";
 		}
 		model.addAttribute("polls", thyme);
 		return new ModelAndView("mypolls", "command", new User());
@@ -365,7 +366,8 @@ public class HomeController {
 			model.addAttribute("signup", signout);
 		}
 		
-		ArrayList<Poll> pollArr = User.getPublicPolls();
+		ArrayList<Poll> pollArr = User.getPolls();
+		
 		
 		String thyme = "";
 		for (int i =(pollArr.size()-1); i >= 0; i--){
@@ -380,7 +382,7 @@ public class HomeController {
 	public ModelAndView createpoll(@ModelAttribute("SpringWeb") User user, ModelMap model, HttpServletRequest request) throws SQLException {
 		int num = Poll.getTotalPoll();
 		model.addAttribute("numberPolls", String.valueOf(num));
-		return new ModelAndView("createpoll");
+		return new ModelAndView("createpoll", "command" ,new User());
 	}
 
 	@RequestMapping(value = "/createpollfunction", method = RequestMethod.POST)
@@ -393,32 +395,32 @@ public class HomeController {
 		System.out.println(poll.getPollQuestion());
 		System.out.println(poll.getPollDescription());
 		System.out.println(poll.getAnswerType());
-		System.out.println(poll.getPub());
-		System.out.println(poll.getAnswer());
+		System.out.println(poll.getIsPublic());
+		System.out.println(poll.getPollData().getAnswer().getAnswerChosen());
 
 		// Splitting answers by comma delimeters
-		String[] answers = poll.getAnswer().split(",");
-		String[] answersArray = new String[10];
+		ArrayList<String> answers = poll.getPollData().getAnswer().getAnswerChosen();
+		ArrayList<String> answersArray = new ArrayList<String>();
 		for (int i = 0; i < 10; i++) {
-			if (i < answers.length)
-				answersArray[i] = answers[i];
+			if (i < answers.size())
+				answersArray.add(answers.get(i));
 			else
-				answersArray[i] = null;
+				answersArray.add(null);
 		}
 
 		// Insert the user into the database
 		String insertPollsQuery = "INSERT INTO Polls (Username, isCurrent, PollName, Partakers, PollType) "
-				+ "VALUES ('" + a.getUsername() + "',1,'" + poll.getPollName() + "',0,'" + poll.getPub() + "');";
+				+ "VALUES ('" + a.getUsername() + "',1,'" + poll.getPollName() + "',0,'" + poll.getIsPublic() + "');";
 		Statement st2 = dbc.createStatement();
 		st2.execute(insertPollsQuery);
 		String insertPollDataQuery = "INSERT INTO PollData(PollNum, Question, Description, Params, isRadio, AnsOne, AnsTwo, AnsThree, "
 				+ "AnsFour, AnsFive, AnsSix, AnsSeven, AnsEight, AnsNine, AnsTen, "
 				+ "TotalOne, TotalTwo, TotalThree, TotalFour, TotalFive, TotalSix, TotalSeven, TotalEight, "
 				+ "TotalNine, TotalTen) VALUES ((SELECT LAST_INSERT_ID()), '" + poll.getPollQuestion() + "', '"
-				+ poll.getPollDescription() + "', " + answers.length + ", true, '" + answersArray[0] + "', " + "'"
-				+ answersArray[1] + "' , '" + answersArray[2] + "' , '" + answersArray[3] + "' , '" + answersArray[4]
-				+ "' ," + "'" + answersArray[5] + "', '" + answersArray[6] + "' , '" + answersArray[7] + "' , '"
-				+ answersArray[8] + "' , " + "'" + answersArray[9] + "'" + ", 0, 0, 0,0,0,0,0,0,0,0);";
+				+ poll.getPollDescription() + "', " + answers.size() + ", true, '" + answersArray.get(0) + "', " + "'"
+				+ answersArray.get(1) + "' , '" + answersArray.get(2) + "' , '" + answersArray.get(3) + "' , '" + answersArray.get(4)
+				+ "' ," + "'" + answersArray.get(5) + "', '" + answersArray.get(6) + "' , '" + answersArray.get(7) + "' , '"
+				+ answersArray.get(8) + "' , " + "'" + answersArray.get(9) + "'" + ", 0, 0, 0,0,0,0,0,0,0,0);";
 		st2.execute(insertPollDataQuery);
 		System.out.println("Successful insertion");
 
@@ -521,12 +523,14 @@ public class HomeController {
 			String signout = "<a href='/test/signout' >Sign Out</a>";
 			model.addAttribute("login", login);
 			model.addAttribute("signup", signout);
+			
 		}
 
 		// Getting Column names and username
 		System.out.println("singlepolldataaaa");
 		// If answer equals null, do nothing
 		// Else put that in the DB
+		System.out.println(answer.getAnswer());
 		if (answer.getAnswer() == null) {
 			System.out.println("We are coming without giving an answer");
 		} else {
