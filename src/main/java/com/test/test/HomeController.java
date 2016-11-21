@@ -381,6 +381,22 @@ public class HomeController {
 	@RequestMapping(value = "/createpoll", method = RequestMethod.GET)
 	public ModelAndView createpoll(@ModelAttribute("SpringWeb") User user, ModelMap model, HttpServletRequest request) throws SQLException {
 		int num = Poll.getTotalPoll();
+		User a = (User) request.getSession().getAttribute("token");
+		if (a == null) {
+			System.out.println("User not logged in");
+			// Login Modifier
+			String login = "<a href='../navbar-static-top/' data-toggle='modal' data-target='#login-modal'>Login</a>";
+			String signup = "<a href='../navbar-fixed-top/' data-toggle='modal' data-target='#create-account-modal'>Signup</a>";
+			model.addAttribute("login", login);
+			model.addAttribute("signup", signup);
+		} else {
+			System.out.println("Logged in as " + a.getUsername());
+			// model.addAttribute("username", a.getUsername());
+			String login = "<a href='/test/profile'>" + a.getUsername() + "</a>";
+			String signout = "<a href='/test/signout' >Sign Out</a>";
+			model.addAttribute("login", login);
+			model.addAttribute("signup", signout);
+		}
 		model.addAttribute("numberPolls", String.valueOf(num));
 		return new ModelAndView("createpoll", "command" ,new User());
 	}
