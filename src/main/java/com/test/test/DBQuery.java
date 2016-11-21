@@ -1,6 +1,7 @@
 package com.test.test;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -52,22 +53,37 @@ public class DBQuery{
 			   String PollName = rs.getString(4);
 			   String Partakers = rs.getString(5);
 			   String pollType = rs.getString(6);
-			   String Params = rs.getString(8);
-			   String Question = rs.getString(9);
-			   String Description = rs.getString(10);
-			   String isRadio = rs.getString(11);
+			   int EndTotal;
+			   if(rs.getString(7)!=null)
+				   EndTotal = Integer.parseInt(rs.getString(7));
+			   else
+				   EndTotal = -1;
+			   System.out.println(EndTotal);
+			   Date EndTime;
+			   if(rs.getString(8)!=null)
+				   EndTime = Date.valueOf(rs.getString(8));
+			   else
+				   EndTime = null;
+			   System.out.println(EndTime);
+			   String Params = rs.getString(10);
+			   System.out.println(Params);
+			   String Question = rs.getString(11);
+			   System.out.println(Question);
+			   String Description = rs.getString(12);
+			   System.out.println(Description);
+			   String isRadio = rs.getString(13);
 			   boolean gotTags = false;
 			   ArrayList<String> answers = new ArrayList<String>();
-			   int i = 12;
-			   while (i < 22 && rs.getString(i)!=null){
-				   System.out.println("DEBUG: ANSWERChoice " + (i-11)+ ": " +rs.getString(i));
+			   int i = 14;
+			   while (i < 24 && rs.getString(i)!=null){
+				   System.out.println("DEBUG: ANSWERChoice " + (i-13)+ ": " +rs.getString(i));
 				   answers.add(rs.getString(i));
 				   i++;
 			   }
 			   ArrayList<String> totals = new ArrayList<String>();
-			   i = 22;
-			   while (i < 32 && rs.getString(i)!=null){
-				   System.out.println("DEBUG: TOTANSWER " + (i-21)+ ": "+rs.getString(i));
+			   i = 24;
+			   while (i < 34 && rs.getString(i)!=null){
+				   System.out.println("DEBUG: TOTANSWER " + (i-23)+ ": "+rs.getString(i));
 				   answers.add(rs.getString(i));
 				   i++;
 			   }
@@ -80,21 +96,21 @@ public class DBQuery{
 				   int pollNum = 0;
 				   String publicAnswer = null;
 				   ArrayList<String> userans = new ArrayList<String>();
-				   if(poller!=null && !poller.equals(rs.getString(32))){
-					   poller = rs.getString(32);
+				   if(poller!=null && !poller.equals(rs.getString(34))){
+					   poller = rs.getString(34);
 					   if(poller==null){
 						   poller = "";
 					   }
-					   if(rs.getString(33)==null)
+					   if(rs.getString(35)==null)
 						   pollNum = 0;
 					   else
-						   pollNum = Integer.parseInt(rs.getString(33));
+						   pollNum = Integer.parseInt(rs.getString(35));
 					   
-					   publicAnswer = rs.getString(34);
-					   i = 35;
+					   publicAnswer = rs.getString(36);
+					   i = 37;
 					   
-					   while(i < 45 && rs.getString(i)!=null){
-						   System.out.println("DEBUG: USERANSWER " +(i-34) + ": " +rs.getString(i));
+					   while(i < 47 && rs.getString(i)!=null){
+						   System.out.println("DEBUG: USERANSWER " +(i-36) + ": " +rs.getString(i));
 						   userans.add(rs.getString(i));
 						   i++;
 					   }
@@ -102,12 +118,12 @@ public class DBQuery{
 					   pollers.add(new PollTaker(poller, (pollNum), Boolean.parseBoolean(publicAnswer), userans));
 				   }
 				   
-				   String PollTag = rs.getString(45);
+				   String PollTag = rs.getString(47);
 				   System.out.println("DEBUG: PollTag: " + PollTag);
 				   if(PollTag!=null && !gotTags){
 					   do{ 
-							   System.out.println("DEBUG: TAG: " + rs.getString(47));
-							   tag.add(new Tag(rs.getString(47), Integer.parseInt(rs.getString(46)), Integer.parseInt(rs.getString(45))));
+							   System.out.println("DEBUG: TAG: " + rs.getString(49));
+							   tag.add(new Tag(rs.getString(49), Integer.parseInt(rs.getString(48)), Integer.parseInt(rs.getString(47))));
 							   
 							   try{
 								   next = rs.next();
@@ -115,14 +131,14 @@ public class DBQuery{
 							   catch(SQLException se){
 								   next = false;
 							   }
-							   System.out.println("DEBUG: WHOLETAG: " +rs.getString(45) +rs.getString(46) + rs.getString(47));
+							   System.out.println("DEBUG: WHOLETAG: " +rs.getString(47) +rs.getString(48) + rs.getString(49));
 							   System.out.println(pollPoster + "==" + rs.getString(2));
-							   System.out.println(PollTag + "==" + rs.getString(45));
+							   System.out.println(PollTag + "==" + rs.getString(47));
 							   System.out.println(next);
 							   System.out.println(currentPollNum + "==" + Integer.parseInt(rs.getString(1)));
 							   
 					   }
-					   while(!rs.getString(45).equals(PollTag) 
+					   while(!rs.getString(47).equals(PollTag) 
 							   && next 
 							   && rs.getString(2).equals(pollPoster)
 							   && Integer.parseInt(rs.getString(1))==(currentPollNum));
@@ -183,22 +199,37 @@ public class DBQuery{
 			   String PollName = rs.getString(4);
 			   String Partakers = rs.getString(5);
 			   String pollType = rs.getString(6);
-			   String Params = rs.getString(8);
-			   String Question = rs.getString(9);
-			   String Description = rs.getString(10);
-			   String isRadio = rs.getString(11);
+			   int EndTotal;
+			   if(rs.getString(7)!=null)
+				   EndTotal = Integer.parseInt(rs.getString(7));
+			   else
+				   EndTotal = -1;
+			   System.out.println(EndTotal);
+			   Date EndTime;
+			   if(rs.getString(8)!=null)
+				   EndTime = Date.valueOf(rs.getString(8));
+			   else
+				   EndTime = null;
+			   System.out.println(EndTime);
+			   String Params = rs.getString(10);
+			   System.out.println(Params);
+			   String Question = rs.getString(11);
+			   System.out.println(Question);
+			   String Description = rs.getString(12);
+			   System.out.println(Description);
+			   String isRadio = rs.getString(13);
 			   boolean gotTags = false;
 			   ArrayList<String> answers = new ArrayList<String>();
-			   int i = 12;
-			   while (i < 22 && rs.getString(i)!=null){
-				   System.out.println("DEBUG: ANSWERChoice " + (i-11)+ ": " +rs.getString(i));
+			   int i = 14;
+			   while (i < 24 && rs.getString(i)!=null){
+				   System.out.println("DEBUG: ANSWERChoice " + (i-13)+ ": " +rs.getString(i));
 				   answers.add(rs.getString(i));
 				   i++;
 			   }
 			   ArrayList<String> totals = new ArrayList<String>();
-			   i = 22;
-			   while (i < 32 && rs.getString(i)!=null){
-				   System.out.println("DEBUG: TOTANSWER " + (i-21)+ ": "+rs.getString(i));
+			   i = 24;
+			   while (i < 34 && rs.getString(i)!=null){
+				   System.out.println("DEBUG: TOTANSWER " + (i-23)+ ": "+rs.getString(i));
 				   answers.add(rs.getString(i));
 				   i++;
 			   }
@@ -211,21 +242,21 @@ public class DBQuery{
 				   int pollNum = 0;
 				   String publicAnswer = null;
 				   ArrayList<String> userans = new ArrayList<String>();
-				   if(poller!=null && !poller.equals(rs.getString(32))){
-					   poller = rs.getString(32);
+				   if(poller!=null && !poller.equals(rs.getString(34))){
+					   poller = rs.getString(34);
 					   if(poller==null){
 						   poller = "";
 					   }
-					   if(rs.getString(33)==null)
+					   if(rs.getString(35)==null)
 						   pollNum = 0;
 					   else
-						   pollNum = Integer.parseInt(rs.getString(33));
+						   pollNum = Integer.parseInt(rs.getString(35));
 					   
-					   publicAnswer = rs.getString(34);
-					   i = 35;
+					   publicAnswer = rs.getString(36);
+					   i = 37;
 					   
-					   while(i < 45 && rs.getString(i)!=null){
-						   System.out.println("DEBUG: USERANSWER " +(i-34) + ": " +rs.getString(i));
+					   while(i < 47 && rs.getString(i)!=null){
+						   System.out.println("DEBUG: USERANSWER " +(i-36) + ": " +rs.getString(i));
 						   userans.add(rs.getString(i));
 						   i++;
 					   }
@@ -233,12 +264,12 @@ public class DBQuery{
 					   pollers.add(new PollTaker(poller, (pollNum), Boolean.parseBoolean(publicAnswer), userans));
 				   }
 				   
-				   String PollTag = rs.getString(45);
+				   String PollTag = rs.getString(47);
 				   System.out.println("DEBUG: PollTag: " + PollTag);
 				   if(PollTag!=null && !gotTags){
 					   do{ 
-							   System.out.println("DEBUG: TAG: " + rs.getString(47));
-							   tag.add(new Tag(rs.getString(47), Integer.parseInt(rs.getString(46)), Integer.parseInt(rs.getString(45))));
+							   System.out.println("DEBUG: TAG: " + rs.getString(49));
+							   tag.add(new Tag(rs.getString(49), Integer.parseInt(rs.getString(48)), Integer.parseInt(rs.getString(47))));
 							   
 							   try{
 								   next = rs.next();
@@ -246,14 +277,14 @@ public class DBQuery{
 							   catch(SQLException se){
 								   next = false;
 							   }
-							   System.out.println("DEBUG: WHOLETAG: " +rs.getString(45) +rs.getString(46) + rs.getString(47));
+							   System.out.println("DEBUG: WHOLETAG: " +rs.getString(47) +rs.getString(48) + rs.getString(49));
 							   System.out.println(pollPoster + "==" + rs.getString(2));
-							   System.out.println(PollTag + "==" + rs.getString(45));
+							   System.out.println(PollTag + "==" + rs.getString(47));
 							   System.out.println(next);
 							   System.out.println(currentPollNum + "==" + Integer.parseInt(rs.getString(1)));
 							   
 					   }
-					   while(!rs.getString(45).equals(PollTag) 
+					   while(!rs.getString(47).equals(PollTag) 
 							   && next 
 							   && rs.getString(2).equals(pollPoster)
 							   && Integer.parseInt(rs.getString(1))==(currentPollNum));

@@ -5,6 +5,7 @@
 package com.test.test;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -21,6 +22,8 @@ public class Poll {
 	private String isCurrent;
 	private String closeDate;
 	private String pollDescription;
+	private int endTotal;
+	private Date EndTime;
 	private String PollType;
 	private PollData pollData;
 	private String pollPoster;
