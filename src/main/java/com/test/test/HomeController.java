@@ -417,10 +417,10 @@ public class HomeController {
 				+ "AnsFour, AnsFive, AnsSix, AnsSeven, AnsEight, AnsNine, AnsTen, "
 				+ "TotalOne, TotalTwo, TotalThree, TotalFour, TotalFive, TotalSix, TotalSeven, TotalEight, "
 				+ "TotalNine, TotalTen) VALUES ((SELECT LAST_INSERT_ID()), '" + poll.getPollQuestion() + "', '"
-				+ poll.getPollDescription() + "', " + answers.length + ", true, '" + answersArray[0] + "', " + "'"
-				+ answersArray[1] + "' , '" + answersArray[2] + "' , '" + answersArray[3] + "' , '" + answersArray[4]
-				+ "' ," + "'" + answersArray[5] + "', '" + answersArray[6] + "' , '" + answersArray[7] + "' , '"
-				+ answersArray[8] + "' , " + "'" + answersArray[9] + "'" + ", 0, 0, 0,0,0,0,0,0,0,0);";
+				+ poll.getPollDescription() + "', " + answers.size() + ", true, '" + answersArray.get(0) + "', " + "'"
+				+ answersArray.get(1) + "' , '" + answersArray.get(2) + "' , '" + answersArray.get(3) + "' , '" + answersArray.get(4)
+				+ "' ," + "'" + answersArray.get(5) + "', '" + answersArray.get(6) + "' , '" + answersArray.get(7) + "' , '"
+				+ answersArray.get(8) + "' , " + "'" + answersArray.get(9) + "'" + ", 0, 0, 0,0,0,0,0,0,0,0);";
 		st2.execute(insertPollDataQuery);
 		System.out.println("Successful insertion");
 
