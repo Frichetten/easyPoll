@@ -591,9 +591,19 @@ public class HomeController {
 			String optionsList = "";
 			String valuesList = "";
 			for (int i = 0; i < Integer.valueOf(rs.getString(8)); i++) {
-				optionsList = optionsList + "'" + options[i] + "',";
-				valuesList = valuesList + "'" + values[i] + "',";
-				System.out.println(options[i]);
+				if(i != Integer.valueOf(rs.getString(8))-1)
+				{
+					optionsList = optionsList + "'" + options[i] + "', ";
+					valuesList = valuesList + "'" + values[i] + "', ";
+					System.out.println(options[i]);
+				}
+				else
+				{
+					optionsList = optionsList + "'" + options[i] + "'";
+					valuesList = valuesList + "'" + values[i] + "'";
+					System.out.println(options[i]);
+				}
+				
 			}
 			model.addAttribute("optionsList", optionsList);
 			model.addAttribute("valuesList", valuesList);

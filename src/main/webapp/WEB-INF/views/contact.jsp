@@ -55,9 +55,9 @@
                 </div>
                 <div class="panel-body">
                     <p>Nick Frichette: nfriche@ilstu.edu</p>
-                    <p>Matthew Fletcher: </p>
-                    <p>Nick Messina: </p>
-                    <p>Kevin Dalle: </p>
+                    <p>Matthew Fletcher: mfletch1@ilstu.edu</p>
+                    <p>Nick Messina: nmessi1@ilstu.edu</p>
+                    <p>Kevin Dalle: kwdalle@ilstu.edu</p>
                     <p>Casey Cook: clcoo10@ilstu.edu</p>
                 </div>
             </div>
