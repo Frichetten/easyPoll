@@ -380,7 +380,7 @@ public class HomeController {
 	public ModelAndView createpoll(@ModelAttribute("SpringWeb") User user, ModelMap model, HttpServletRequest request) throws SQLException {
 		int num = Poll.getTotalPoll();
 		model.addAttribute("numberPolls", String.valueOf(num));
-		return new ModelAndView("createpoll");
+		return new ModelAndView("createpoll", "command" ,new User());
 	}
 
 	@RequestMapping(value = "/createpollfunction", method = RequestMethod.POST)
@@ -521,6 +521,7 @@ public class HomeController {
 			String signout = "<a href='/test/signout' >Sign Out</a>";
 			model.addAttribute("login", login);
 			model.addAttribute("signup", signout);
+			
 		}
 
 		// Getting Column names and username
