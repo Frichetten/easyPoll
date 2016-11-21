@@ -1,5 +1,7 @@
 /**
- * 
+ * Author: Kevin Dalle
+ * Date: 11/21/16
+ * Purpose: This is the group class that will be used for group polls.
  */
 package com.test.test;
 
@@ -12,12 +14,12 @@ import java.util.ArrayList;
 public class Group {
 
 	private int groupID;
-	private User admin;
+	private String admin;
 	private Poll groupPoll;
 	private ArrayList<String> members = new ArrayList<String>();
 	
 	// Allows for the creation of a group object with an already available member list
-	public Group(int groupID, User admin, Poll poll, ArrayList<String> mem){
+	public Group(int groupID, String admin, Poll poll, ArrayList<String> mem){
 		this.groupID = groupID;
 		this.admin = admin;
 		this.groupPoll = poll;
@@ -25,7 +27,7 @@ public class Group {
 	}
 	
 	// This is for if you do not have a list of people already
-	public Group(int groupID, User admin, Poll poll)
+	public Group(int groupID, String admin, Poll poll)
 	{
 		this.groupID = groupID;
 		this.admin = admin;
@@ -40,7 +42,7 @@ public class Group {
 		return groupID;
 	}
 
-	public User getAdmin() {
+	public String getAdmin() {
 		return admin;
 	}
 
@@ -48,8 +50,8 @@ public class Group {
 		return groupPoll;
 	}
 	
-	// This simple method is just adding someone to the group
-	public void invite(String newUser){
+	// This simple method is just adding someone to the groupdd
+	public void addUser(String newUser){
 		members.add(newUser);
 	}
 }
