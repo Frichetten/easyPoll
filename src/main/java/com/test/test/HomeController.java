@@ -545,8 +545,7 @@ public class HomeController {
 		// Getting Column names and username
 		System.out.println("singlepolldataaaa");
 		// If answer equals null, do nothing
-		// Else put that in the DB
-		System.out.println(answer.getAnswer());
+		// Else put that in the DB;
 		if (answer.getAnswer() == null) {
 			System.out.println("We are coming without giving an answer");
 		} else {
@@ -573,6 +572,7 @@ public class HomeController {
 				column = "TotalNine";
 			else if (ans.equals("10"))
 				column = "TotalTen";
+			System.out.println("Column: " + column + " pollId: " + pollId + " ans: " + ans);
 			String updateQuery = "UPDATE Polls p JOIN PollData on PollData.PollNum = p.PollNum SET " + column + " = "
 					+ column + " + 1 WHERE p.PollNum = " + pollId + " ;";
 			Statement statement = dbc.createStatement();
