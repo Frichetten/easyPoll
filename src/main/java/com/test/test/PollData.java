@@ -13,7 +13,6 @@ public class PollData {
 	}
 	
 	public Answer getAnswer(){
-		
 		return this.totAnswers;
 	}
 }

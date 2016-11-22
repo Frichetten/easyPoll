@@ -13,12 +13,22 @@ public class Answer {
 	ArrayList<String> answerOptions = null;
 	ArrayList<String> answersChosen = null;
 	String answer = null;
+	private String answerparams;
 	
+	public String getAnswerparams() {
+		return answerparams;
+	}
+	public void setAnswerparams(String answerparams) {
+		this.answerparams = answerparams;
+	}
 	public Answer(){
 		
 	}
 	public String getAnswer(){
 		return answer;
+	}
+	public void setAnswer(String answer){
+		this.answer = answer;
 	}
 	public Answer(ArrayList<String> options, ArrayList<String> chosen){
 		this.answerOptions = options;

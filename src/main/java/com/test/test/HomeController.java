@@ -26,6 +26,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -412,7 +413,8 @@ public class HomeController {
 		System.out.println(poll.getPollDescription());
 		System.out.println(poll.getAnswerType());
 		System.out.println(poll.getIsPublic());
-		System.out.println(poll.getPollData().getAnswer().getAnswerChosen());
+		System.out.println(poll.getPollData());
+		System.out.println(poll.getAnswerParams());
 
 		// Splitting answers by comma delimeters
 		ArrayList<String> answers = poll.getPollData().getAnswer().getAnswerChosen();
@@ -680,6 +682,11 @@ public class HomeController {
 			model.addAttribute("login", login);
 			model.addAttribute("signup", signout);
 		}
+		Boolean newsCheck = (Boolean)request.getSession().getAttribute("newsletter");
+		if (newsCheck != null){
+			model.addAttribute("sentNewsletter", "Newsletter Sent!");
+			request.getSession().setAttribute("newsletter", null);
+		}
 				
 		return new ModelAndView("admin", "command", new User());
 	}
@@ -707,6 +714,19 @@ public class HomeController {
 				+ "All the best!\n\t-easyPoll Team";
 		System.out.println(info);
 		Email.sendMail(email.getAddress(), "You've been invited to a poll!", info);
+		String referer = request.getHeader("Referer");
+	    return "redirect:"+ referer;
+	}
+	
+	@RequestMapping(value = "/sendnewsletter", method = RequestMethod.POST)
+	public String sendnewsletter(@RequestParam("textarea")String textarea, ModelMap model,
+		HttpServletRequest request) throws SQLException{
+		// Confirming Login Status
+		System.out.println("Sending news letter");
+		System.out.println(textarea);
+		request.getSession().setAttribute("newsletter", true);
+		Email.sendMassMail(textarea);
+		
 		String referer = request.getHeader("Referer");
 	    return "redirect:"+ referer;
 	}

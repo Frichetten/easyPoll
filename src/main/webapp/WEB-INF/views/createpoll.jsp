@@ -17,10 +17,10 @@
 				$('#add-answer').click(function() {
 					i++;
 					if(i < 11) {
-					$('#answer').clone().attr('id','answer' + $(this).index()).insertBefore('#answer');
+					$('#answerParams').clone().attr('id','answer' + $(this).index()).insertBefore('#answerParams');
 
-					$('#answer').attr("placeholder","Answer " + i);
-					$('#answer').attr("value","");
+					$('#answerParams').attr("placeholder","Answer " + i);
+					$('#answerParams').attr("value","");
 					if(i == 10) {
 						$('#add-answer').hide();
 					}
@@ -109,7 +109,7 @@
 							</div>
 							<div class="form-group row">
 								<label for="Answers" class="control-label">Answers</label>
-								<input type="text" class="form-control" id="answer" name ="answer" placeholder="Answer 1" />
+								<input type="text" class="form-control" id="answerParams" name ="answerParams" placeholder="Answer 1" />
 							 </div>
 							 <div class="form-group row">
 								<button type="button" id="add-answer" class="btn btn-default"><i class="fa fa-plus" aria-hidden="true"></i> 										Add Answer
