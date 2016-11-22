@@ -88,18 +88,22 @@
                     </div>
                 </div>
             </div>
+            
+            
             <!--End poll that people vote in-->
             <!--Poll Statistics-->
             <div class="col-md-12" id="pollStats">
                 <canvas id="myChart"></canvas>
                 
             </div>
+            </div>
             <!--End Poll Statistics-->
             <!--More Poll Data-->
-            <div class="col-md-6">
+             
+            <div class="row">
                 <div class="poll-panel" >
                     <!--Poll Created By-->
-                    <div class="col-md-12">
+                    <div class="col-md-6">
                         <div class="panel panel-default">
                             <div class="panel-heading">
                                 <h3 class="panel-title">Poll Created By</h3>
@@ -112,7 +116,7 @@
                 </div>
                 <div>
                     <!--More Poll Data-->
-                    <div class="col-md-12">
+                    <div class="col-md-6">
                         <div class="panel panel-default">
                             <div class="panel-heading">
                                 <h3 class="panel-title">Data</h3>
@@ -124,7 +128,7 @@
                     </div>
                 </div>
             </div>
-        </div>
+        
 	</div>
         <!--Additional Info-->
 	<div class="container">
