@@ -45,9 +45,10 @@
     <!--End Navigation-->
 
     <div class="container">
-        <div class=page-header>
+        <div class="page-header">
             <h1>Contact</h1>
         </div>
+        <div class="row">
         <div class="col-md-6">
             <div class="panel panel-default">
                 <div class="panel-heading">
@@ -61,6 +62,7 @@
                     <p>Casey Cook: clcoo10@ilstu.edu</p>
                 </div>
             </div>
+        </div>
         </div>
        
     </div>

@@ -48,12 +48,12 @@
     <!--End Navigation-->
 
     <div class="container">
-        <div class=page-header>
+        <div class="page-header">
             <h1>About easyPoll</h1>
         </div>
         <div class="row">
             <p>
-                This project was created for IT 326. It allows users to paticpate and create polls.
+                This project was created for IT 326. It allows users to participate and create polls.
             </p>
         </div>
         <div class="row">
@@ -146,8 +146,5 @@
 			</div>
 		</div>
 		</div>
-		
-		
-
 </body>
 </html>
