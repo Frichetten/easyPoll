@@ -300,6 +300,20 @@ public class DBQuery{
 		   return publicPolls;
 		   }
 		   
+	public static ArrayList<String> getAllEmails(){
+		ArrayList<String> toReturn = new ArrayList<String>();
+		String emailQuery = "SELECT Email FROM RUser WHERE Username = 'Nick';";
+		try {
+			statement = dbc.createStatement();
+			ResultSet rs = statement.executeQuery(emailQuery);
+			while(rs.next()){
+				toReturn.add(rs.getString(1));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return toReturn;
+	}
 	
 	public static int getTotalPolls() throws SQLException{
 		String totalPolls = "SELECT COUNT(pollNum) from Polls;";

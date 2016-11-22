@@ -28,7 +28,16 @@ public class Poll {
 	private PollData pollData;
 	private String pollPoster;
 	private ArrayList<Tag> tags;
+	private String answerParams;
 	
+	public String getAnswerParams() {
+		return answerParams;
+	}
+
+	public void setAnswerParams(String answerParams) {
+		this.answerParams = answerParams;
+	}
+
 	public int getPollNum() {
 		return pollNum;
 	}
@@ -37,7 +46,7 @@ public class Poll {
 		this.pollNum = pollNum;
 	}
 	
-	public Poll(){	
+	public Poll(){
 	}
 /*	
 	public static int getTotalPoll() throws SQLException{
@@ -152,6 +161,11 @@ public class Poll {
 	}
 	public void setPollDescription(String pollDescription) {
 		this.pollDescription = pollDescription;
+	}
+
+
+	public void setPollType(String pollType) {
+		PollType = pollType;
 	}
 	
 	

@@ -43,7 +43,7 @@
         </div>
     </nav>
     <!--End Navigation-->
-
+	
     <div class="container">
         <div class="page-header">
             <h1>Reported Polls</h1>
@@ -70,6 +70,14 @@
                 </tr>
             </tbody>
         </table>
+    </div>
+    
+    <div class="container">
+    		<form:form method="POST" action="/test/sendnewsletter">
+    			<textarea rows="4" cols="50" name="textarea"></textarea>
+    			<input type="submit" id="btnLogin" class="btn btn-success" value="Send Newsletter">
+    			<h3>${sentNewsletter}</h3>
+    		</form:form>
     </div>
 
 

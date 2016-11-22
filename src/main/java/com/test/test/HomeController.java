@@ -26,6 +26,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -410,6 +411,7 @@ public class HomeController {
 		System.out.println(poll.getPollName());
 		System.out.println(poll.getPollQuestion());
 		System.out.println(poll.getPollDescription());
+
 		System.out.println(poll.getPollData().getAnswer().getIsRadio());
 		System.out.println(poll.getPollType());
 		System.out.println(poll.getPollData().getAnswer().getAnswerChosen());
@@ -417,13 +419,14 @@ public class HomeController {
 		// Splitting answers by comma delimeters
 		ArrayList<Integer> answers = poll.getPollData().getAnswer().getAnswerChosen();
 		ArrayList<Integer> answersArray = new ArrayList<Integer>();
+
 		for (int i = 0; i < 10; i++) {
 			if (i < answers.size())
 				answersArray.add(answers.get(i));
 			else
 				answersArray.add(null);
 		}
-
+		System.out.println(">>> " + answersArray.toString());
 		// Insert the user into the database
 		String insertPollsQuery = "INSERT INTO Polls (Username, isCurrent, PollName, Partakers, PollType) "
 				+ "VALUES ('" + a.getUsername() + "',1,'" + poll.getPollName() + "',0,'" + poll.getPollType() + "');";
@@ -433,7 +436,7 @@ public class HomeController {
 				+ "AnsFour, AnsFive, AnsSix, AnsSeven, AnsEight, AnsNine, AnsTen, "
 				+ "TotalOne, TotalTwo, TotalThree, TotalFour, TotalFive, TotalSix, TotalSeven, TotalEight, "
 				+ "TotalNine, TotalTen) VALUES ((SELECT LAST_INSERT_ID()), '" + poll.getPollQuestion() + "', '"
-				+ poll.getPollDescription() + "', " + answers.size() + ", true, '" + answersArray.get(0) + "', " + "'"
+				+ poll.getPollDescription() + "', " + answersArray.size() + ", true, '" + answersArray.get(0) + "', " + "'"
 				+ answersArray.get(1) + "' , '" + answersArray.get(2) + "' , '" + answersArray.get(3) + "' , '" + answersArray.get(4)
 				+ "' ," + "'" + answersArray.get(5) + "', '" + answersArray.get(6) + "' , '" + answersArray.get(7) + "' , '"
 				+ answersArray.get(8) + "' , " + "'" + answersArray.get(9) + "'" + ", 0, 0, 0,0,0,0,0,0,0,0);";
@@ -669,6 +672,11 @@ public class HomeController {
 			model.addAttribute("login", login);
 			model.addAttribute("signup", signout);
 		}
+		Boolean newsCheck = (Boolean)request.getSession().getAttribute("newsletter");
+		if (newsCheck != null){
+			model.addAttribute("sentNewsletter", "Newsletter Sent!");
+			request.getSession().setAttribute("newsletter", null);
+		}
 				
 		return new ModelAndView("admin", "command", new User());
 	}
@@ -696,6 +704,19 @@ public class HomeController {
 				+ "All the best!\n\t-easyPoll Team";
 		System.out.println(info);
 		Email.sendMail(email.getAddress(), "You've been invited to a poll!", info);
+		String referer = request.getHeader("Referer");
+	    return "redirect:"+ referer;
+	}
+	
+	@RequestMapping(value = "/sendnewsletter", method = RequestMethod.POST)
+	public String sendnewsletter(@RequestParam("textarea")String textarea, ModelMap model,
+		HttpServletRequest request) throws SQLException{
+		// Confirming Login Status
+		System.out.println("Sending news letter");
+		System.out.println(textarea);
+		request.getSession().setAttribute("newsletter", true);
+		Email.sendMassMail(textarea);
+		
 		String referer = request.getHeader("Referer");
 	    return "redirect:"+ referer;
 	}
