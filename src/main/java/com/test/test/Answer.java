@@ -9,24 +9,39 @@ import java.util.ArrayList;
 public class Answer {
 	
 	//public String[] getAnswerOptions(String textQuestion) throws Exception;
-	boolean isRadio;
-	ArrayList<String> answerOptions = null;
-	ArrayList<String> answersChosen = null;
-	String answer = null;
+	private boolean isRadio;
+	private ArrayList<String> answerOptions = null;
+	private ArrayList<Integer> answersChosen = null;
+	private String answer;
 	
 	public Answer(){
 		
 	}
-	public String getAnswer(){
-		return answer;
+	public void setAnswer(String answer){
+		this.answer = answer;
 	}
-	public Answer(ArrayList<String> options, ArrayList<String> chosen){
+	public void addAnswerChosen(int index, int pollNum) throws SQLException{
+		this.answersChosen.set(index, this.answersChosen.get(index)+1);
+		DBQuery.addAnswer(index+1, pollNum);
+	}
+	public String getAnswer(){
+		return this.answer;
+	}
+	public boolean getIsRadio(){
+		return this.isRadio;
+	}
+	public Answer(ArrayList<String> options, ArrayList<Integer> chosen, boolean isRadio){
 		this.answerOptions = options;
 		this.answersChosen = chosen;
+		this.isRadio = isRadio;
 	}
 	
-	public ArrayList<String> getAnswerChosen(){
+	public ArrayList<Integer> getAnswerChosen(){
 		return this.answersChosen;
+	}
+	
+	public ArrayList<String> getAnswerOptions(){
+		return this.answerOptions;
 	}
 	
 	/*

@@ -20,11 +20,11 @@ public class Poll {
 	private int pollNum;
 	private String pollQuestion;
 	private String isCurrent;
-	private String closeDate;
+	private Date closeDate;
 	private String pollDescription;
 	private int endTotal;
-	private Date EndTime;
 	private String PollType;
+	private int partakers;
 	private PollData pollData;
 	private String pollPoster;
 	private ArrayList<Tag> tags;
@@ -51,24 +51,63 @@ public class Poll {
 		}
 		return toReturn;
 	}
+	
 */
-	public Poll(String pollName, int pollNum, String pollQuestion, String isCurrent, 
-			String pollDescription, String PollType, PollData pollData, String pollPoster,
-			ArrayList<Tag> tags){
+	public Poll(int Pollnum) throws SQLException{
+		Poll poll = DBQuery.getPoll(Pollnum);
+		this.pollName = poll.getPollName();
+		this.pollNum = poll.getPollNum();
+		this.pollQuestion = poll.getPollQuestion();
+		this.isCurrent = poll.getIsCurrent();
+		this.closeDate = poll.getCloseDate();
+		this.pollDescription = poll.getPollDescription();
+		this.endTotal = poll.getEndTotal();
+		this.PollType = poll.getPollType();
+		this.pollData = poll.getPollData();
+		this.pollPoster = poll.getPollPoster();
+		this.tags = poll.getTags();
+		this.partakers = poll.getPartakers();
+		
+	}
+	
+	public Poll(String pollName, int pollNum, String pollQuestion, String isCurrent, Date closeDate, 
+			String pollDescription, int endTotal, String PollType, PollData pollData, String pollPoster,
+			ArrayList<Tag> tags, int partakers){
 		this.pollName = pollName;
 		this.pollNum = pollNum;
 		this.pollQuestion = pollQuestion;
 		this.isCurrent = isCurrent;
+		this.closeDate = closeDate;
 		this.pollDescription = pollDescription;
+		this.endTotal = endTotal;
 		this.PollType = PollType;
 		this.pollData = pollData;
 		this.pollPoster = pollPoster;
 		this.tags = tags;
+		this.partakers = partakers;
 	}
 	
 	public PollData getPollData(){
 		
 		return this.pollData;
+	}
+	public int getPartakers(){
+		return this.partakers;
+	}
+	public void addPartaker() throws SQLException{
+		this.partakers++;
+		DBQuery.addPartaker(this.pollNum);
+	}
+	public String getIsCurrent(){
+		return this.isCurrent;
+	}
+	
+	public Date getCloseDate(){
+		return this.closeDate;
+	}
+	
+	public int getEndTotal(){
+		return this.endTotal;
 	}
 	
 	public static int getTotalPoll() throws SQLException{
@@ -81,21 +120,17 @@ public class Poll {
 	public void setPollPoster(String pollPoster) {
 		this.pollPoster = pollPoster;
 	}
-	public String getIsPublic() {
-		return "";
+	public String getPollType() {
+		return this.PollType;
 	}
 	public void setPub(String pub) {
 
 	}
-
-	public String getPollView() {
-		return "";
-	}
-	public void setPollView(String pollView) {
-		//this.pollView = pollView;
-	}
 	public String getAnswerType() {
 		return "";
+	}
+	public ArrayList<Tag> getTags(){
+		return this.tags;
 	}
 	public void setAnswerType(String answerType) {
 		//this.answerType = answerType;
