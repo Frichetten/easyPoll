@@ -411,21 +411,20 @@ public class HomeController {
 		System.out.println(poll.getPollName());
 		System.out.println(poll.getPollQuestion());
 		System.out.println(poll.getPollDescription());
-		System.out.println(poll.getAnswerType());
+		System.out.println(poll.getPollType());
 		System.out.println(poll.getIsPublic());
-		System.out.println(poll.getPollData());
 		System.out.println(poll.getAnswerParams());
 
 		// Splitting answers by comma delimeters
-		ArrayList<String> answers = poll.getPollData().getAnswer().getAnswerChosen();
+		String[] answers = poll.getAnswerParams().split(",");
 		ArrayList<String> answersArray = new ArrayList<String>();
 		for (int i = 0; i < 10; i++) {
-			if (i < answers.size())
-				answersArray.add(answers.get(i));
+			if (i < answers.length)
+				answersArray.add(answers[i]);
 			else
 				answersArray.add(null);
 		}
-
+		System.out.println(">>> " + answersArray.toString());
 		// Insert the user into the database
 		String insertPollsQuery = "INSERT INTO Polls (Username, isCurrent, PollName, Partakers, PollType) "
 				+ "VALUES ('" + a.getUsername() + "',1,'" + poll.getPollName() + "',0,'" + poll.getIsPublic() + "');";
@@ -435,7 +434,7 @@ public class HomeController {
 				+ "AnsFour, AnsFive, AnsSix, AnsSeven, AnsEight, AnsNine, AnsTen, "
 				+ "TotalOne, TotalTwo, TotalThree, TotalFour, TotalFive, TotalSix, TotalSeven, TotalEight, "
 				+ "TotalNine, TotalTen) VALUES ((SELECT LAST_INSERT_ID()), '" + poll.getPollQuestion() + "', '"
-				+ poll.getPollDescription() + "', " + answers.size() + ", true, '" + answersArray.get(0) + "', " + "'"
+				+ poll.getPollDescription() + "', " + answersArray.size() + ", true, '" + answersArray.get(0) + "', " + "'"
 				+ answersArray.get(1) + "' , '" + answersArray.get(2) + "' , '" + answersArray.get(3) + "' , '" + answersArray.get(4)
 				+ "' ," + "'" + answersArray.get(5) + "', '" + answersArray.get(6) + "' , '" + answersArray.get(7) + "' , '"
 				+ answersArray.get(8) + "' , " + "'" + answersArray.get(9) + "'" + ", 0, 0, 0,0,0,0,0,0,0,0);";

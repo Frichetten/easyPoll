@@ -69,7 +69,7 @@ public class Poll {
 		this.pollQuestion = pollQuestion;
 		this.isCurrent = isCurrent;
 		this.pollDescription = pollDescription;
-		this.PollType = PollType;
+		this.setPollType(PollType);
 		this.pollData = pollData;
 		this.pollPoster = pollPoster;
 		this.tags = tags;
@@ -126,6 +126,14 @@ public class Poll {
 	}
 	public void setPollDescription(String pollDescription) {
 		this.pollDescription = pollDescription;
+	}
+
+	public String getPollType() {
+		return PollType;
+	}
+
+	public void setPollType(String pollType) {
+		PollType = pollType;
 	}
 	
 	
