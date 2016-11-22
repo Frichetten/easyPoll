@@ -26,6 +26,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -381,6 +382,22 @@ public class HomeController {
 	@RequestMapping(value = "/createpoll", method = RequestMethod.GET)
 	public ModelAndView createpoll(@ModelAttribute("SpringWeb") User user, ModelMap model, HttpServletRequest request) throws SQLException {
 		int num = Poll.getTotalPoll();
+		User a = (User) request.getSession().getAttribute("token");
+		if (a == null) {
+			System.out.println("User not logged in");
+			// Login Modifier
+			String login = "<a href='../navbar-static-top/' data-toggle='modal' data-target='#login-modal'>Login</a>";
+			String signup = "<a href='../navbar-fixed-top/' data-toggle='modal' data-target='#create-account-modal'>Signup</a>";
+			model.addAttribute("login", login);
+			model.addAttribute("signup", signup);
+		} else {
+			System.out.println("Logged in as " + a.getUsername());
+			// model.addAttribute("username", a.getUsername());
+			String login = "<a href='/test/profile'>" + a.getUsername() + "</a>";
+			String signout = "<a href='/test/signout' >Sign Out</a>";
+			model.addAttribute("login", login);
+			model.addAttribute("signup", signout);
+		}
 		model.addAttribute("numberPolls", String.valueOf(num));
 		return new ModelAndView("createpoll", "command" ,new User());
 	}
@@ -394,30 +411,32 @@ public class HomeController {
 		System.out.println(poll.getPollName());
 		System.out.println(poll.getPollQuestion());
 		System.out.println(poll.getPollDescription());
-		System.out.println(poll.getAnswerType());
-		System.out.println(poll.getIsPublic());
+
+		System.out.println(poll.getPollData().getAnswer().getIsRadio());
+		System.out.println(poll.getPollType());
 		System.out.println(poll.getPollData().getAnswer().getAnswerChosen());
 
 		// Splitting answers by comma delimeters
-		ArrayList<String> answers = poll.getPollData().getAnswer().getAnswerChosen();
-		ArrayList<String> answersArray = new ArrayList<String>();
+		ArrayList<Integer> answers = poll.getPollData().getAnswer().getAnswerChosen();
+		ArrayList<Integer> answersArray = new ArrayList<Integer>();
+
 		for (int i = 0; i < 10; i++) {
 			if (i < answers.size())
 				answersArray.add(answers.get(i));
 			else
 				answersArray.add(null);
 		}
-
+		System.out.println(">>> " + answersArray.toString());
 		// Insert the user into the database
 		String insertPollsQuery = "INSERT INTO Polls (Username, isCurrent, PollName, Partakers, PollType) "
-				+ "VALUES ('" + a.getUsername() + "',1,'" + poll.getPollName() + "',0,'" + poll.getIsPublic() + "');";
+				+ "VALUES ('" + a.getUsername() + "',1,'" + poll.getPollName() + "',0,'" + poll.getPollType() + "');";
 		Statement st2 = dbc.createStatement();
 		st2.execute(insertPollsQuery);
 		String insertPollDataQuery = "INSERT INTO PollData(PollNum, Question, Description, Params, isRadio, AnsOne, AnsTwo, AnsThree, "
 				+ "AnsFour, AnsFive, AnsSix, AnsSeven, AnsEight, AnsNine, AnsTen, "
 				+ "TotalOne, TotalTwo, TotalThree, TotalFour, TotalFive, TotalSix, TotalSeven, TotalEight, "
 				+ "TotalNine, TotalTen) VALUES ((SELECT LAST_INSERT_ID()), '" + poll.getPollQuestion() + "', '"
-				+ poll.getPollDescription() + "', " + answers.size() + ", true, '" + answersArray.get(0) + "', " + "'"
+				+ poll.getPollDescription() + "', " + answersArray.size() + ", true, '" + answersArray.get(0) + "', " + "'"
 				+ answersArray.get(1) + "' , '" + answersArray.get(2) + "' , '" + answersArray.get(3) + "' , '" + answersArray.get(4)
 				+ "' ," + "'" + answersArray.get(5) + "', '" + answersArray.get(6) + "' , '" + answersArray.get(7) + "' , '"
 				+ answersArray.get(8) + "' , " + "'" + answersArray.get(9) + "'" + ", 0, 0, 0,0,0,0,0,0,0,0);";
@@ -457,44 +476,52 @@ public class HomeController {
 			toPut = a.getUsername();
 		}
 		
+		Poll poll = DBQuery.getPoll(Integer.parseInt(pollId));
+		
 		// Before doing anything, we need to confirm that they havent voted yet
-		String check = "SELECT * FROM PollTaker WHERE Username = '" + toPut + "' and PollNum = " + pollId
-				+ ";";
-		Statement checkStatement = dbc.createStatement();
-		ResultSet checkRS = checkStatement.executeQuery(check);
+		//String check = "SELECT * FROM PollTaker WHERE Username = '" + toPut + "' and PollNum = " + pollId
+		//		+ ";";
+		//Statement checkStatement = dbc.createStatement();
+		//ResultSet checkRS = checkStatement.executeQuery(check);
 		// If YES, This user has already voted
 		// Else, they have not!
-		if (checkRS.next()) {
-			return singlePollData(new Answer(), model, request, pollId);
+		if(poll!=null){
+			for(int i = 0; i < poll.getPollData().getPollTakers().size(); i++){
+				System.out.println(poll.getPollData().getPollTakers().get(i).getUsername() + " equals " + toPut);
+				if (poll.getPollData().getPollTakers().get(i).getUsername().equals(toPut)) {
+					return singlePollData(new Answer(), model, request, pollId);
+				}
+			}
 		}
-
 		// Getting Column names and username
 		System.out.println("Starting dynamic url");
-		String searchQuery = "SELECT * FROM Polls p JOIN PollData on PollData.PollNum = p.PollNum "
-				+ "WHERE p.PollNum = " + pollId + ";";
-		Statement statement = dbc.createStatement();
-		ResultSet rs = statement.executeQuery(searchQuery);
-		if (rs.next()) {
-			model.addAttribute("posterUsername", rs.getString(2));
-			model.addAttribute("pollName", rs.getString(4));
-			model.addAttribute("pollQuestion", rs.getString(9));
+		//String searchQuery = "SELECT * FROM Polls p JOIN PollData on PollData.PollNum = p.PollNum "
+		//		+ "WHERE p.PollNum = " + pollId + ";";
+		//Statement statement = dbc.createStatement();
+		//ResultSet rs = statement.executeQuery(searchQuery);
+		if (poll!=null) {
+			model.addAttribute("posterUsername", poll.getPollPoster());
+			model.addAttribute("pollName", poll.getPollName());
+			model.addAttribute("pollQuestion", poll.getPollQuestion());
 			// Creating builder
 			String builder = "";
 			String[] options = new String[10];
-			String[] values = new String[10];
-			for (int i = 0; i < Integer.valueOf(rs.getString(8)); i++) {
+			int[] values = new int[10];
+			for (int i = 0; i < poll.getPollData().getParams(); i++) {
 				builder = builder + "<div class='radio'><label><input type='radio' name='answer' id='Private' value='"
-						+ String.valueOf(i + 1) + "'/>" + rs.getString(12 + i) + "</label></div>";
-				options[i] = rs.getString(12 + i);
-				values[i] = rs.getString(22 + i);
+						+ String.valueOf(i + 1) + "'/>" + poll.getPollData().getAnswer().getAnswerOptions().get(i) + "</label></div>";
+				options[i] = poll.getPollData().getAnswer().getAnswerOptions().get(i);
+				System.out.println("DEBUG: ANSWER OPTION " + (i+1) + ": "+ poll.getPollData().getAnswer().getAnswerOptions().get(i));
+				values[i] = poll.getPollData().getAnswer().getAnswerChosen().get(i);
+				System.out.println("DEBUG: ANSWER VALUE " + (i+1) + ": "+ poll.getPollData().getAnswer().getAnswerChosen().get(i));
 			}
 			String optionsList = "";
 			String valuesList = "";
-			for (int i = 0; i < Integer.valueOf(rs.getString(8)); i++) {
+			for (int i = 0; i < poll.getPollData().getParams(); i++) {
 				optionsList = optionsList + "'" + options[i] + "',";
 				valuesList = valuesList + "'" + values[i] + "',";
 			}
-			model.addAttribute("pollDesc",DBQuery.getPollDescription(pollId));
+			model.addAttribute("pollDesc",poll.getPollDescription());
 			model.addAttribute("optionsList", optionsList);
 			model.addAttribute("valuesList", valuesList);
 			model.addAttribute("builder", builder);
@@ -529,40 +556,22 @@ public class HomeController {
 		// Getting Column names and username
 		System.out.println("singlepolldataaaa");
 		// If answer equals null, do nothing
-		// Else put that in the DB
-		System.out.println(answer.getAnswer());
+		// Else put that in the DB;
 		if (answer.getAnswer() == null) {
 			System.out.println("We are coming without giving an answer");
 		} else {
 			System.out.println("We are giving an answer " + answer.getAnswer());
 			String column = "";
-			String ans = answer.getAnswer();
-			if (ans.equals("1"))
-				column = "TotalOne";
-			else if (ans.equals("2"))
-				column = "TotalTwo";
-			else if (ans.equals("3"))
-				column = "TotalThree";
-			else if (ans.equals("4"))
-				column = "TotalFour";
-			else if (ans.equals("5"))
-				column = "TotalFive";
-			else if (ans.equals("6"))
-				column = "TotalSix";
-			else if (ans.equals("7"))
-				column = "TotalSeven";
-			else if (ans.equals("8"))
-				column = "TotalEight";
-			else if (ans.equals("9"))
-				column = "TotalNine";
-			else if (ans.equals("10"))
-				column = "TotalTen";
-			String updateQuery = "UPDATE Polls p JOIN PollData on PollData.PollNum = p.PollNum SET " + column + " = "
-					+ column + " + 1 WHERE p.PollNum = " + pollId + " ;";
-			Statement statement = dbc.createStatement();
-			statement.execute(updateQuery);
-			String updatePollsQuery = "Update Polls Set Partakers=Partakers+1 WHERE PollNum = " + pollId + " ;";
-			statement.execute(updatePollsQuery);
+			Poll poll = DBQuery.getPoll(Integer.parseInt(pollId));
+			int ans = Integer.parseInt(answer.getAnswer());
+			
+			
+			//update answer totals
+			poll.getPollData().getAnswer().addAnswerChosen(ans-1, poll.getPollNum());
+			
+			//update partakers in poll
+			poll.addPartaker();
+
 			String toPut = "";
 			if (a == null){
 				toPut = request.getRemoteAddr();
@@ -570,9 +579,8 @@ public class HomeController {
 			else{
 				toPut = a.getUsername();
 			}
-			String insertQuery = "INSERT INTO PollTaker (Username, PollNum) VALUES('" + toPut + "', " + pollId
-					+ ");";
-			statement.execute(insertQuery);
+			poll.getPollData().addPollTaker(toPut, poll.getPollNum(),false, poll.getPollData().getAnswer().getAnswerChosen());
+			
 			System.out.println("Update complete");
 		}
 
@@ -583,19 +591,19 @@ public class HomeController {
 		if (rs.next()) {
 			model.addAttribute("posterUsername", rs.getString(2));
 			model.addAttribute("pollName", rs.getString(4));
-			model.addAttribute("pollQuestion", rs.getString(9));
+			model.addAttribute("pollQuestion", rs.getString(11));
 			// Creating builder
 			String builder = "";
 			String[] options = new String[10];
 			String[] values = new String[10];
-			for (int i = 0; i < Integer.valueOf(rs.getString(8)); i++) {
-				options[i] = rs.getString(12 + i);
-				values[i] = rs.getString(22 + i);
+			for (int i = 0; i < Integer.valueOf(rs.getString(10)); i++) {
+				options[i] = rs.getString(14 + i);
+				values[i] = rs.getString(24 + i);
 			}
 			String optionsList = "";
 			String valuesList = "";
-			for (int i = 0; i < Integer.valueOf(rs.getString(8)); i++) {
-				if(i != Integer.valueOf(rs.getString(8))-1)
+			for (int i = 0; i < Integer.valueOf(rs.getString(10)); i++) {
+				if(i != Integer.valueOf(rs.getString(10))-1)
 				{
 					optionsList = optionsList + "'" + options[i] + "', ";
 					valuesList = valuesList + "'" + values[i] + "', ";
@@ -664,6 +672,11 @@ public class HomeController {
 			model.addAttribute("login", login);
 			model.addAttribute("signup", signout);
 		}
+		Boolean newsCheck = (Boolean)request.getSession().getAttribute("newsletter");
+		if (newsCheck != null){
+			model.addAttribute("sentNewsletter", "Newsletter Sent!");
+			request.getSession().setAttribute("newsletter", null);
+		}
 				
 		return new ModelAndView("admin", "command", new User());
 	}
@@ -691,6 +704,19 @@ public class HomeController {
 				+ "All the best!\n\t-easyPoll Team";
 		System.out.println(info);
 		Email.sendMail(email.getAddress(), "You've been invited to a poll!", info);
+		String referer = request.getHeader("Referer");
+	    return "redirect:"+ referer;
+	}
+	
+	@RequestMapping(value = "/sendnewsletter", method = RequestMethod.POST)
+	public String sendnewsletter(@RequestParam("textarea")String textarea, ModelMap model,
+		HttpServletRequest request) throws SQLException{
+		// Confirming Login Status
+		System.out.println("Sending news letter");
+		System.out.println(textarea);
+		request.getSession().setAttribute("newsletter", true);
+		Email.sendMassMail(textarea);
+		
 		String referer = request.getHeader("Referer");
 	    return "redirect:"+ referer;
 	}
