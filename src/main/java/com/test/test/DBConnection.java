@@ -13,7 +13,7 @@ public final class DBConnection {
 			if (connection == null || connection.isClosed()) {
 				Class.forName("com.mysql.jdbc.Driver");
 				String url = "jdbc:mysql://localhost:3306/easyPoll";
-				connection = DriverManager.getConnection(url,"root","password44");
+				connection = DriverManager.getConnection(url,"root","CookieChip95");
 			}
 		} catch (ClassNotFoundException e) {
 			System.out.println("Class Not Found Exception");
