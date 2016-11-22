@@ -116,6 +116,27 @@
                             </div>
                         </div>
                     </div>
+                    <!-- REPORT -->
+                    <div class="col-md-12">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h3 class="panel-title">Report Offensive Poll</h3>
+                            </div>
+							<div class="panel-body">
+							<div class="row">
+								<div class="col-md-3">
+								<form:form method="POST" action="/test/report">
+								<input type="button" name="dumb" id="dumbbutton" hidden="true">
+								<input type="submit" id="report" name="report" class="btn btn-success" value="Report">
+								</form:form>
+								</div>
+								<div class="col-md-9">
+								${reportStatus}
+								</div>
+								</div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -138,6 +159,11 @@
      		 	<input id="email" name="address" type="email" placeholder="Email Address" />
        			<input type="submit" id="sendEmail" class="btn btn-success" value="Send Email">
        		</form:form>
+		</div>
+		<div class="col-md-12">
+			<form:form method="POST" action="/test/report">
+				<input type="submit" id="report" class="btn btn-success" value="Report Offensive Poll">
+			</form:form>
 		</div>
 	</div>
 	<!--Login Modal -->

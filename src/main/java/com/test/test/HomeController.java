@@ -594,10 +594,10 @@ public class HomeController {
 			model.addAttribute("pollQuestion", rs.getString(11));
 			// Creating builder
 			String builder = "";
-			String[] options = new String[10];
+			ArrayList<String> options = new ArrayList<String>();
 			String[] values = new String[10];
 			for (int i = 0; i < Integer.valueOf(rs.getString(10)); i++) {
-				options[i] = rs.getString(14 + i);
+				options.add(rs.getString(14 + i));
 				values[i] = rs.getString(24 + i);
 			}
 			String optionsList = "";
@@ -605,15 +605,15 @@ public class HomeController {
 			for (int i = 0; i < Integer.valueOf(rs.getString(10)); i++) {
 				if(i != Integer.valueOf(rs.getString(10))-1)
 				{
-					optionsList = optionsList + "'" + options[i] + "', ";
+					optionsList = optionsList + "'" + options.get(i) + "', ";
 					valuesList = valuesList + "'" + values[i] + "', ";
-					System.out.println(options[i]);
+					
 				}
 				else
 				{
-					optionsList = optionsList + "'" + options[i] + "'";
+					optionsList = optionsList + "'" + options.get(i) + "'";
 					valuesList = valuesList + "'" + values[i] + "'";
-					System.out.println(options[i]);
+					
 				}
 				
 			}
@@ -637,7 +637,7 @@ public class HomeController {
 	@RequestMapping(value = "/adminLogin", method = RequestMethod.POST)
 	public ModelAndView adminLogin(@ModelAttribute("SpringWeb")Administrator admin, ModelMap model,
 		HttpServletRequest request) throws SQLException{
-		Administrator logAdmin = new Administrator();
+		Administrator logAdmin = null;
 		
 		logAdmin = Administrator.verifyAdmin(admin.getEmail(),admin.getPassword());
 		System.out.println(logAdmin.getUsername());
@@ -646,7 +646,7 @@ public class HomeController {
 			System.out.println("Admin Logged in: " + logAdmin.getUsername());
 			// If Authentication successful
 			// Add these attributes to the model so they will appear
-			request.getSession().setAttribute("token", logAdmin);
+			request.getSession().setAttribute("admintoken", logAdmin);
 			return admin(logAdmin, model, request);
 		}
 		else{
@@ -657,8 +657,11 @@ public class HomeController {
 	@RequestMapping(value = "/admin", method = RequestMethod.GET)
 	public ModelAndView admin(@ModelAttribute("SpringWeb")Administrator admin, ModelMap model,
 		HttpServletRequest request) throws SQLException{
+		Administrator a = (Administrator) request.getSession().getAttribute("admintoken");
 		// Confirming Login Status
-		if (admin.getUsername() == null){
+		
+		Administrator ad;
+		if (a == null){
 			System.out.println("User not logged in");
 			// Login Modifier
 			String login = "<a href='../navbar-static-top/' data-toggle='modal' data-target='#login-modal'>Login</a>";
@@ -666,11 +669,15 @@ public class HomeController {
 			model.addAttribute("login", login);
 			model.addAttribute("signup", signup);
 		} else {
-			System.out.println("Logged in as " + admin.getUsername());
-			String login = "<a href='#'>" + admin.getUsername() + "</a>";
+			System.out.println("Logged in as " + a.getUsername());
+			String login = "<a href='#'>" + a.getUsername() + "</a>";
 			String signout = "<a href='/test/signout' >Sign Out</a>";
 			model.addAttribute("login", login);
 			model.addAttribute("signup", signout);
+			ad = new Administrator(a.getUsername());
+			System.out.println(ad.getReportedQuestions().get(0).getQuestion());
+			System.out.println(ad.getReportedQuestions().get(1).getQuestion());
+			
 		}
 		Boolean newsCheck = (Boolean)request.getSession().getAttribute("newsletter");
 		if (newsCheck != null){
@@ -720,4 +727,23 @@ public class HomeController {
 		String referer = request.getHeader("Referer");
 	    return "redirect:"+ referer;
 	}
+	
+	@RequestMapping(value = "/report", method = RequestMethod.POST)
+	public String report(@ModelAttribute("SpringWeb")User user, ModelMap model,
+		HttpServletRequest request) throws SQLException{
+		// Confirming Login Status
+		User a = (User) request.getSession().getAttribute("token");
+		
+		System.out.println("$%$%$@%$%$%$%$%$%$%$%$%$%$%$%$%$%$%$%$%$");
+		String referer = request.getHeader("Referer");
+		int index= referer.lastIndexOf("/");
+		int pollNum = Integer.valueOf(referer.substring(index+1));
+		ReportedQuestion.addReportedQuestion(a.getUsername(), pollNum);
+		System.out.println(a.getUsername());
+		
+		
+	    return "redirect:"+referer;
+	}
+	
+	
 }

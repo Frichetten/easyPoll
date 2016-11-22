@@ -459,22 +459,38 @@ public class DBQuery{
 		   return myPolls;
 	}
 	
-	public static Administrator adminLogin(String email, String password) throws SQLException{
-		Administrator tempAdmin = new Administrator();
-		email = "'" + email + "'";
-		password = "'" + password + "'";
+	public static Administrator getAdmin(String username) throws SQLException{
+		String user = "'" + username + "'";
 		   
-		String loginQuery = "SELECT Username FROM AdminUser WHERE Email = " + email + 
-					" AND Pword = " + password + ";";
-		statement = dbc.createStatement();
-		rs = statement.executeQuery(loginQuery);
+		String adminQuery = "SELECT * FROM AdminUser WHERE Username = " + user + 
+					";";
+		Statement statement = dbc.createStatement();
+		System.out.println(adminQuery);
+		rs = statement.executeQuery(adminQuery);
+		
+		String email = "";
+		ArrayList<ReportedQuestion> rq = new ArrayList<ReportedQuestion>();
+		
 		if(rs.next()){
-			System.out.println("User Logged in: " + rs.getString(1));
-			tempAdmin.setUsername(rs.getString(1));
+			email = rs.getString(2);
 		}
-		else
-			tempAdmin.setUsername("");
-		return tempAdmin;
+		
+		String reportedQuestionsQuery = "SELECT * FROM ReportedQuestions;";
+		Statement statement2 = dbc.createStatement();
+		rs = statement2.executeQuery(reportedQuestionsQuery);
+		
+		while(rs.next()){
+			int PollNum = Integer.parseInt(rs.getString(1));
+			String reporter = rs.getString(2);
+			String Question = rs.getString(3);
+			String description = rs.getString(4);
+			String pollName = rs.getString(5);
+			rq.add(new ReportedQuestion(PollNum, reporter, Question, description, pollName));
+		}
+		
+		
+		
+		return new Administrator(username, email, rq);
 	}
 	
 	public static String getPollDescription(String pollId) throws SQLException{
@@ -565,6 +581,50 @@ public class DBQuery{
 		Statement statement = dbc.createStatement();
 		statement.execute(insertQuery);
 		
+	}
+
+	public static void addReportedQuestion(String username, int pollNum) throws SQLException {
+		String getPollQuery = "select * from Polls join PollData ON PollData.PollNum = Polls.PollNum" +
+							" where Polls.pollNum = " + pollNum + ";";
+		
+		Statement statement = dbc.createStatement();
+		rs = statement.executeQuery(getPollQuery);
+		
+		String PollName = "";
+		String Question = "";
+		String Description = "";
+	
+		if(rs.next()){
+			PollName = rs.getString(4);
+			Question = rs.getString(11);
+			Description = rs.getString(12);		
+		}
+		
+		String addReportedQuestion = "INSERT INTO ReportedQuestions" +
+									" VALUES(" + pollNum + ", '" + username + "', '" +
+									Question + "', '" +Description + "', '" + PollName + "');";
+		System.out.println(addReportedQuestion);			
+		Statement statement2 = dbc.createStatement();
+		statement2.execute(addReportedQuestion);
+						
+	}
+	
+	public static Administrator adminLogin(String email, String password) throws SQLException{
+		Administrator tempAdmin = new Administrator();
+		email = "'" + email + "'";
+		password = "'" + password + "'";
+		   
+		String loginQuery = "SELECT Username FROM AdminUser WHERE Email = " + email + 
+					" AND Pword = " + password + ";";
+		statement = dbc.createStatement();
+		rs = statement.executeQuery(loginQuery);
+		if(rs.next()){
+			System.out.println("User Logged in: " + rs.getString(1));
+			tempAdmin.setUsername(rs.getString(1));
+		}
+		else
+			tempAdmin.setUsername("");
+		return tempAdmin;
 	}
 
 }
