@@ -7,6 +7,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Properties;
 
 import javax.annotation.Resource;
@@ -450,8 +451,17 @@ public class HomeController {
 	public ModelAndView singlePoll(@ModelAttribute("SpringWeb") User user, ModelMap model, HttpServletRequest request,
 			@PathVariable String pollId) throws SQLException {
 		// Confirming Login Status
+		Administrator ad = (Administrator) request.getSession().getAttribute("admintoken");
 		User a = (User) request.getSession().getAttribute("token");
-		if (a == null) {
+		if (ad != null){
+			System.out.println("Logged in as " + ad.getUsername());
+			// model.addAttribute("username", a.getUsername());
+			String login = "<a href='/test/profile'>" + ad.getUsername() + "</a>";
+			String signout = "<a href='/test/signout' >Sign Out</a>";
+			model.addAttribute("login", login);
+			model.addAttribute("signup", signout);
+		}
+		else if (a == null) {
 			System.out.println("User not logged in");
 			// Login Modifier
 			String login = "<a href='../navbar-static-top/' data-toggle='modal' data-target='#login-modal'>Login</a>";
@@ -630,12 +640,12 @@ public class HomeController {
 			HttpServletRequest request) throws SQLException{
 		//Setting token to null so that the user no longer exist
 		request.getSession().setAttribute("token", null);
-
+		request.getSession().setAttribute("admintoken", null);
 		return home(user, model, request);
 	}
 	
 	@RequestMapping(value = "/adminLogin", method = RequestMethod.POST)
-	public ModelAndView adminLogin(@ModelAttribute("SpringWeb")Administrator admin, ModelMap model,
+	public String adminLogin(@ModelAttribute("SpringWeb")Administrator admin, ModelMap model,
 		HttpServletRequest request) throws SQLException{
 		Administrator logAdmin = null;
 		
@@ -647,10 +657,11 @@ public class HomeController {
 			// If Authentication successful
 			// Add these attributes to the model so they will appear
 			request.getSession().setAttribute("admintoken", logAdmin);
-			return admin(logAdmin, model, request);
+			String referer = request.getHeader("Referer");
+		    return "redirect:"+ referer;
 		}
 		else{
-			return home(new User(),model,request);
+			return "redirect:http://localhost:8080/test/admin";
 		}
 	}
 	
@@ -675,12 +686,27 @@ public class HomeController {
 			model.addAttribute("login", login);
 			model.addAttribute("signup", signout);
 			ad = new Administrator(a.getUsername());
-			System.out.println(ad.getReportedQuestions().get(0).getQuestion());
-			System.out.println(ad.getReportedQuestions().get(1).getQuestion());
 			ArrayList<ReportedQuestion> pollArr = ad.getReportedQuestions();
+			HashMap<Integer,Integer> map = new HashMap<Integer,Integer>();
+			for(ReportedQuestion rp : pollArr){
+				Integer i = map.get(rp.getPollNum());
+				if (i == null)
+					map.put(rp.getPollNum(),1);
+				else 
+					map.put(rp.getPollNum(),i+1);
+			}
+			ArrayList<ReportedQuestion> polls = new ArrayList<ReportedQuestion>();
+			ArrayList<Integer> poller = new ArrayList<Integer>();
+			for(ReportedQuestion rp : pollArr){
+				if (!poller.contains(rp.getPollNum())){
+					polls.add(rp);
+					poller.add(rp.getPollNum());
+				}
+			}
+			System.out.println("---- " + polls.size());
 			String thyme = "";
-			for (int i =(pollArr.size()-1); i >= 0; i--){
-				thyme = thyme + "<tr><td>"+pollArr.get(i).getPollName()+"</td><td hidden='true'>"+pollArr.get(i).getPollNum()+"</td><td>"+pollArr.get(i).getPollDescription()+"</td><td>"+pollArr.get(i).getUsername()+"</td></tr>";
+			for (int i =(polls.size()-1); i >= 0; i--){
+				thyme = thyme + "<tr><td>"+polls.get(i).getPollName()+"</td><td hidden='true'>"+polls.get(i).getPollNum()+"</td><td>"+polls.get(i).getPollDescription()+"</td><td>"+polls.get(i).getUsername()+"</td><td>"+map.get(polls.get(i).getPollNum())+"</td></tr>";
 				System.out.println(pollArr.get(i).getPollNum());
 			}
 			model.addAttribute("polls", thyme);
@@ -690,7 +716,6 @@ public class HomeController {
 			model.addAttribute("sentNewsletter", "Newsletter Sent!");
 			request.getSession().setAttribute("newsletter", null);
 		}
-				
 		return new ModelAndView("admin", "command", new User());
 	}
 	
@@ -746,7 +771,6 @@ public class HomeController {
 		int pollNum = Integer.valueOf(referer.substring(index+1));
 		ReportedQuestion.addReportedQuestion(a.getUsername(), pollNum);
 		System.out.println(a.getUsername());
-		
 		
 	    return "redirect:"+referer;
 	}

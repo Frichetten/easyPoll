@@ -53,7 +53,8 @@
                 <tr>
                     <th>Title</th>
                     <th>Description</th>
-                    <th>Reporter Username</th>
+                    <th>Latest Reporter</th>
+                    <th># of Reports</th>
                 </tr>
             </thead>
             <tbody>
