@@ -19,7 +19,7 @@ public class ReportedQuestion {
 	private String username;
 	private String pollDescription;
 	
-	public ReportedQuestion(int pollNum, String username, String Question, String pollName, String pollDescription){
+	public ReportedQuestion(int pollNum, String username, String Question, String pollDescription, String pollName){
 		this.pollNum = pollNum;
 		this.username = username;
 		this.pollDescription = pollDescription;

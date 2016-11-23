@@ -82,7 +82,7 @@
                 <tr>
                     <th>Title</th>
                     <th>Description</th>
-                    <th>Poster Name
+                    <th>Poster Name</th>
                 </tr>
             </thead>
             <tbody>
