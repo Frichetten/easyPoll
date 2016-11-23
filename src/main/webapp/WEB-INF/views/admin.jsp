@@ -53,21 +53,11 @@
                 <tr>
                     <th>Title</th>
                     <th>Description</th>
+                    <th>Reporter Username</th>
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td>Poll 1</td>
-                    <td>lorem ipsum</td>
-                </tr>
-                <tr>
-                    <td>Poll 2</td>
-                    <td>lorem ipsum</td>
-                </tr>
-                <tr>
-                    <td>Poll 3</td>
-                    <td>lorem ipsum</td>
-                </tr>
+                ${polls}
             </tbody>
         </table>
     </div>
@@ -164,9 +154,9 @@
                 var createClickHandler =
                     function (row) {
                         return function () {
-                            var cell = row.getElementsByTagName("td")[0];
+                            var cell = row.getElementsByTagName("td")[1];
                             var id = cell.innerHTML;
-                            alert("id:" + id);
+                            document.location = "/test/singlepoll/"+id;
                         };
                     };
 

@@ -160,11 +160,6 @@
        			<input type="submit" id="sendEmail" class="btn btn-success" value="Send Email">
        		</form:form>
 		</div>
-		<div class="col-md-12">
-			<form:form method="POST" action="/test/report">
-				<input type="submit" id="report" class="btn btn-success" value="Report Offensive Poll">
-			</form:form>
-		</div>
 	</div>
 	<!--Login Modal -->
 	<div id="login-modal" class="modal fade" role="dialog">

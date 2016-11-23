@@ -34,4 +34,48 @@ public class ReportedQuestion {
 	public String getQuestion(){
 		return this.Question;
 	}
+
+	public String getReason() {
+		return reason;
+	}
+
+	public void setReason(String reason) {
+		this.reason = reason;
+	}
+
+	public int getPollNum() {
+		return pollNum;
+	}
+
+	public void setPollNum(int pollNum) {
+		this.pollNum = pollNum;
+	}
+
+	public String getPollName() {
+		return pollName;
+	}
+
+	public void setPollName(String pollName) {
+		this.pollName = pollName;
+	}
+
+	public String getUsername() {
+		return username;
+	}
+
+	public void setUsername(String username) {
+		this.username = username;
+	}
+
+	public String getPollDescription() {
+		return pollDescription;
+	}
+
+	public void setPollDescription(String pollDescription) {
+		this.pollDescription = pollDescription;
+	}
+
+	public void setQuestion(String question) {
+		Question = question;
+	}
 }

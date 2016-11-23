@@ -677,7 +677,13 @@ public class HomeController {
 			ad = new Administrator(a.getUsername());
 			System.out.println(ad.getReportedQuestions().get(0).getQuestion());
 			System.out.println(ad.getReportedQuestions().get(1).getQuestion());
-			
+			ArrayList<ReportedQuestion> pollArr = ad.getReportedQuestions();
+			String thyme = "";
+			for (int i =(pollArr.size()-1); i >= 0; i--){
+				thyme = thyme + "<tr><td>"+pollArr.get(i).getPollName()+"</td><td hidden='true'>"+pollArr.get(i).getPollNum()+"</td><td>"+pollArr.get(i).getPollDescription()+"</td><td>"+pollArr.get(i).getUsername()+"</td></tr>";
+				System.out.println(pollArr.get(i).getPollNum());
+			}
+			model.addAttribute("polls", thyme);
 		}
 		Boolean newsCheck = (Boolean)request.getSession().getAttribute("newsletter");
 		if (newsCheck != null){
