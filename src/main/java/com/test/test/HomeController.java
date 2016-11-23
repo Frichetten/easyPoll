@@ -417,7 +417,7 @@ public class HomeController {
 		System.out.println(poll.getPollQuestion());
 		System.out.println(poll.getPollDescription());
 
-		System.out.println(poll.getPollData().getAnswer().getIsRadio());
+		//System.out.println(poll.getPollData().getAnswer().getIsRadio());
 		System.out.println(poll.getPollType());
 		System.out.println(poll.getPollData().getAnswer().getAnswerChosen());
 
