@@ -415,8 +415,10 @@ public class DBQuery{
 							   catch(SQLException se){
 								   next = false;
 							   }
+							   
 					   }
-					   while(next && !rs.getString(47).equals(PollTag) 
+					   while(next
+							   && !rs.getString(47).equals(PollTag) 
 							   && rs.getString(2).equals(pollPoster)
 							   && Integer.parseInt(rs.getString(1))==(currentPollNum));
 				   }
