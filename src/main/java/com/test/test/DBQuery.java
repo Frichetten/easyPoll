@@ -2,6 +2,7 @@ package com.test.test;
 
 import java.sql.Connection;
 import java.sql.Date;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -538,29 +539,34 @@ public class DBQuery{
 
 	public static void addPollTaker(PollTaker pollTaker) throws SQLException {
 		
-		String insertQuery = "INSERT INTO PollTaker"
-				+ " VALUES('" + pollTaker.getUsername() + "', " + pollTaker.getPollNum() +
-				", " + pollTaker.getPublicAnswers() + ", ";
+		String insertQuery = "INSERT INTO PollTaker VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?);";
+		
+		
+		//+ pollTaker.getPollNum() +		", " + pollTaker.getPublicAnswers() + ", ";
+		PreparedStatement statement = dbc.prepareStatement(insertQuery);
+		statement.setInt(2, pollTaker.getPollNum());
+		statement.setString(1, pollTaker.getUsername());
+		statement.setBoolean(3, pollTaker.getPublicAnswers());
 		
 		int counter = 0;
-		for(int i = 0; i < pollTaker.getUserAnswers().size() -1; i++){
-			insertQuery += pollTaker.getUserAnswers().get(i) + ", ";
+		for(int i = 4; i < pollTaker.getUserAnswers().size() +3; i++){
+			statement.setInt(i, pollTaker.getUserAnswers().get(counter));
 			counter++;
 		}
 		if(counter == 9)
-			insertQuery += pollTaker.getUserAnswers().get(pollTaker.getUserAnswers().size()-1)  + ");";
+			statement.setInt(counter+4, 0);
 		else{
-			insertQuery += pollTaker.getUserAnswers().get(counter) + ", ";
+			statement.setInt(counter+4, 0);
 			counter++;
 			while(counter < 9){
-				insertQuery += "0,";
+				statement.setInt(counter+4, 0);
 				counter++;
 			}
-			insertQuery += "0);";
+			statement.setInt(counter+4, 0);
 		}
 				
-		Statement statement = dbc.createStatement();
-		statement.execute(insertQuery);
+		
+		statement.execute();
 		
 	}
 
@@ -577,16 +583,30 @@ public class DBQuery{
 	
 		if(rs.next()){
 			PollName = rs.getString(4);
+			if(PollName == null){
+				PollName = "";
+			}
 			Question = rs.getString(11);
-			Description = rs.getString(12);		
+			if(Question == null){
+				Question = "";
+			}
+			Description = rs.getString(12);	
+			if(Description == null){
+				Description = "";
+			}
 		}
 		
 		String addReportedQuestion = "INSERT INTO ReportedQuestions" +
-									" VALUES(" + pollNum + ", '" + username + "', '" +
-									Question + "', '" +Description + "', '" + PollName + "');";
+									" VALUES(?, ?, ?, ?, ?);";
 		System.out.println(addReportedQuestion);			
-		Statement statement2 = dbc.createStatement();
-		statement2.execute(addReportedQuestion);
+		PreparedStatement statement2 = dbc.prepareStatement(addReportedQuestion);
+		statement2.setInt(1, pollNum);
+		statement2.setString(2, username);
+		statement2.setString(3, Question);
+		statement2.setString(4, Description);
+		statement2.setString(5, PollName);
+		
+		statement2.execute();
 						
 	}
 	

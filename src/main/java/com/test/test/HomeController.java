@@ -615,14 +615,14 @@ public class HomeController {
 			for (int i = 0; i < Integer.valueOf(rs.getString(10)); i++) {
 				if(i != Integer.valueOf(rs.getString(10))-1)
 				{
-					optionsList = optionsList + "'" + options.get(i) + "', ";
-					valuesList = valuesList + "'" + values[i] + "', ";
+					optionsList = optionsList + "\"" + options.get(i) + "\", ";
+					valuesList = valuesList + "\"" + values[i] + "\", ";
 					
 				}
 				else
 				{
-					optionsList = optionsList + "'" + options.get(i) + "'";
-					valuesList = valuesList + "'" + values[i] + "'";
+					optionsList = optionsList + "\"" + options.get(i) + "\"";
+					valuesList = valuesList + "\"" + values[i] + "\"";
 					
 				}
 				
