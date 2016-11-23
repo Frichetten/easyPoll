@@ -117,16 +117,16 @@
                         </div>
                     </div>
                     <!-- REPORT -->
-                    <div class="col-md-12">
+                    <div class="col-md-12" ${hide}>
                         <div class="panel panel-default">
-                            <div class="panel-heading">
+                            <div class="panel-heading" >
                                 <h3 class="panel-title">Report Offensive Poll</h3>
                             </div>
 							<div class="panel-body">
 							<div class="row">
 								<div class="col-md-3">
 								<form:form method="POST" action="/test/report">
-								<input type="button" name="dumb" id="dumbbutton" hidden="true">
+								<input type="button" name="dumb" id="dumbbutton" hidden='true'>
 								<input type="submit" id="report" name="report" class="btn btn-success" value="Report">
 								</form:form>
 								</div>
@@ -170,8 +170,8 @@
 					<div class="loginmodal-container text-center">
 						<h2>Login to Your Account</h2><br>
 						<form:form method="POST" action="/test/login">
-						<input id="txtEmail" type="email" placeholder="Email"/>
-						<input id="txtPassword" type="password" placeholder="Password" />
+						<form:input id="txtEmail" type="email" name='email' placeholder="Email" path='email'/>
+						<form:input id="txtPassword" type="password" name='password' placeholder="Password" path='password' />
 						<input type="submit" id="btnLogin" class="btn btn-success" value="Login">
 						</form:form>
 						<div class="login-help">

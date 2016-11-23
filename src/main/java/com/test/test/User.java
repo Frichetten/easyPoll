@@ -18,9 +18,6 @@ public class User {
 	   public ArrayList<Poll> polls;
 	   
 	   public User(){
-		   username = "";
-		   password = "";
-		   email = "";
 	   }
 	   
 	   public static User verifyUser(String email, String password) throws SQLException{

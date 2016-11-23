@@ -246,7 +246,7 @@ public class HomeController {
 	}
 
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
-	public ModelAndView addUser(@ModelAttribute("SpringWeb") User user, ModelMap model, HttpServletRequest request)
+	public String addUser(@ModelAttribute("SpringWeb") User user, ModelMap model, HttpServletRequest request)
 			throws SQLException {
 		// Authentication
 		User ruser = new User();
@@ -271,7 +271,8 @@ public class HomeController {
 					model.addAttribute("login", login);
 					model.addAttribute("signup", signup);
 					System.out.println("Failure To Login");
-					return new ModelAndView("index", "command", ruser);
+					String referer = request.getHeader("Referer");
+				    return "redirect:"+ referer;
 				}
 				 else {
 					System.out.println("Logged in as " + a.getUsername());
@@ -283,9 +284,12 @@ public class HomeController {
 				}
 			}
 			else{
-				return home(ruser,model,request);
+				System.out.println("User failed to login");
+				String referer = request.getHeader("Referer");
+			    return "redirect:"+ referer;
 			}
-			return home(ruser, model, request);
+			String referer = request.getHeader("Referer");
+		    return "redirect:"+ referer;
 	}
 
 	@RequestMapping(value = "/register", method = RequestMethod.POST)
@@ -460,6 +464,7 @@ public class HomeController {
 			String signout = "<a href='/test/signout' >Sign Out</a>";
 			model.addAttribute("login", login);
 			model.addAttribute("signup", signout);
+			model.addAttribute("hide","hidden='true'");
 		}
 		else if (a == null) {
 			System.out.println("User not logged in");
@@ -468,6 +473,7 @@ public class HomeController {
 			String signup = "<a href='../navbar-fixed-top/' data-toggle='modal' data-target='#create-account-modal'>Signup</a>";
 			model.addAttribute("login", login);
 			model.addAttribute("signup", signup);
+			model.addAttribute("hide","hidden='true'");
 		} else {
 			System.out.println("Logged in as " + a.getUsername());
 			// model.addAttribute("username", a.getUsername());
@@ -475,6 +481,8 @@ public class HomeController {
 			String signout = "<a href='/test/signout' >Sign Out</a>";
 			model.addAttribute("login", login);
 			model.addAttribute("signup", signout);
+			model.addAttribute("hide", "");
+			
 		}
 		
 		//Need to identify is anonymous user
@@ -538,7 +546,7 @@ public class HomeController {
 			model.addAttribute("pollID", pollId);
 		}
 
-		return new ModelAndView("singlepoll", "command", new Answer());
+		return new ModelAndView("singlepoll", "command", new User());
 	}
 
 	@RequestMapping(value = "/singlepolldata/{pollId}", method = RequestMethod.GET)
@@ -641,7 +649,8 @@ public class HomeController {
 		//Setting token to null so that the user no longer exist
 		request.getSession().setAttribute("token", null);
 		request.getSession().setAttribute("admintoken", null);
-		return "redirect:http://localhost:8080/test/home";
+		String referer = request.getHeader("Referer");
+	    return "redirect:"+ referer;
 	}
 	
 	@RequestMapping(value = "/adminLogin", method = RequestMethod.POST)
@@ -679,7 +688,7 @@ public class HomeController {
 			String signup = "<a href='../navbar-fixed-top/' data-toggle='modal' data-target='#create-account-modal'>Signup</a>";
 			model.addAttribute("login", login);
 			model.addAttribute("signup", signup);
-			model.addAttribute("hide",true);
+			model.addAttribute("hide","hidden='true'");
 		} else {
 			System.out.println("Logged in as " + a.getUsername());
 			String login = "<a href='#'>" + a.getUsername() + "</a>";
@@ -711,7 +720,7 @@ public class HomeController {
 				System.out.println(pollArr.get(i).getPollNum());
 			}
 			model.addAttribute("polls", thyme);
-			model.addAttribute("hide",true);
+			model.addAttribute("hide","");
 		}
 		Boolean newsCheck = (Boolean)request.getSession().getAttribute("newsletter");
 		if (newsCheck != null){

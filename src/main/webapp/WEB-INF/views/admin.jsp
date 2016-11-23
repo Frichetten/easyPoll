@@ -45,16 +45,16 @@
     <!--End Navigation-->
 	
     <div class="container">
-        <div class="page-header">
-            <h1 hidden="${hide}">Reported Polls</h1>
+        <div class="page-header" ${hide}>
+            <h1 >Reported Polls</h1>
         </div>
-        <table id="tableId" class="table table-striped table-hover">
+        <table id="tableId" class="table table-striped table-hover" ${hide}>
             <thead>
                 <tr>
-                    <th hidden="${hide}">Title</th>
-                    <th hidden="${hide}">Description</th>
-                    <th hidden="${hide}">Latest Reporter</th>
-                    <th hidden="${hide}"># of Reports</th>
+                    <th ${hide}>Title</th>
+                    <th ${hide}>Description</th>
+                    <th ${hide}>Latest Reporter</th>
+                    <th ${hide}># of Reports</th>
                 </tr>
             </thead>
             <tbody>
@@ -63,10 +63,10 @@
         </table>
     </div>
     
-    <div class="container">
-    		<form:form method="POST" action="/test/sendnewsletter">
-    			<textarea rows="4" cols="50" name="textarea" hidden="${hide}"></textarea>
-    			<input type="submit" id="btnLogin" hidden="${hide}" class="btn btn-success" value="Send Newsletter" >
+    <div class="container" ${hide}>
+    		<form:form method="POST" action="/test/sendnewsletter" >
+    			<textarea rows="4" cols="50" name="textarea" ></textarea>
+    			<input type="submit" id="btnLogin"  class="btn btn-success" value="Send Newsletter" >
     			<h3>${sentNewsletter}</h3>
     		</form:form>
     </div>
