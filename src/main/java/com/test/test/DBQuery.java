@@ -131,8 +131,7 @@ public class DBQuery{
 							   }
 							   catch(SQLException se){
 								   next = false;
-							   }
-							  
+							   }						  
 							   
 					   }
 					   while(next && !rs.getString(47).equals(PollTag)  

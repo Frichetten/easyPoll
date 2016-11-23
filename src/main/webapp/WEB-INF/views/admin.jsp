@@ -46,15 +46,15 @@
 	
     <div class="container">
         <div class="page-header">
-            <h1>Reported Polls</h1>
+            <h1 hidden="${hide}">Reported Polls</h1>
         </div>
         <table id="tableId" class="table table-striped table-hover">
             <thead>
                 <tr>
-                    <th>Title</th>
-                    <th>Description</th>
-                    <th>Latest Reporter</th>
-                    <th># of Reports</th>
+                    <th hidden="${hide}">Title</th>
+                    <th hidden="${hide}">Description</th>
+                    <th hidden="${hide}">Latest Reporter</th>
+                    <th hidden="${hide}"># of Reports</th>
                 </tr>
             </thead>
             <tbody>
@@ -65,8 +65,8 @@
     
     <div class="container">
     		<form:form method="POST" action="/test/sendnewsletter">
-    			<textarea rows="4" cols="50" name="textarea"></textarea>
-    			<input type="submit" id="btnLogin" class="btn btn-success" value="Send Newsletter">
+    			<textarea rows="4" cols="50" name="textarea" hidden="${hide}"></textarea>
+    			<input type="submit" id="btnLogin" hidden="${hide}" class="btn btn-success" value="Send Newsletter" >
     			<h3>${sentNewsletter}</h3>
     		</form:form>
     </div>

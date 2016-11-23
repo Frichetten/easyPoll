@@ -636,12 +636,12 @@ public class HomeController {
 	}
 
 	@RequestMapping(value = "/signout", method = RequestMethod.GET)
-	public ModelAndView signout(@ModelAttribute("SpringWeb")User user, ModelMap model,
+	public String signout(@ModelAttribute("SpringWeb")User user, ModelMap model,
 			HttpServletRequest request) throws SQLException{
 		//Setting token to null so that the user no longer exist
 		request.getSession().setAttribute("token", null);
 		request.getSession().setAttribute("admintoken", null);
-		return home(user, model, request);
+		return "redirect:http://localhost:8080/test/home";
 	}
 	
 	@RequestMapping(value = "/adminLogin", method = RequestMethod.POST)
@@ -679,6 +679,7 @@ public class HomeController {
 			String signup = "<a href='../navbar-fixed-top/' data-toggle='modal' data-target='#create-account-modal'>Signup</a>";
 			model.addAttribute("login", login);
 			model.addAttribute("signup", signup);
+			model.addAttribute("hide",true);
 		} else {
 			System.out.println("Logged in as " + a.getUsername());
 			String login = "<a href='#'>" + a.getUsername() + "</a>";
@@ -710,6 +711,7 @@ public class HomeController {
 				System.out.println(pollArr.get(i).getPollNum());
 			}
 			model.addAttribute("polls", thyme);
+			model.addAttribute("hide",true);
 		}
 		Boolean newsCheck = (Boolean)request.getSession().getAttribute("newsletter");
 		if (newsCheck != null){
