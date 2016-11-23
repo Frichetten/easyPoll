@@ -132,15 +132,10 @@ public class DBQuery{
 							   catch(SQLException se){
 								   next = false;
 							   }
-							   System.out.println("DEBUG: WHOLETAG: " +rs.getString(47) +rs.getString(48) + rs.getString(49));
-							   System.out.println(pollPoster + "==" + rs.getString(2));
-							   System.out.println(PollTag + "==" + rs.getString(47));
-							   System.out.println(next);
-							   System.out.println(currentPollNum + "==" + Integer.parseInt(rs.getString(1)));
+							  
 							   
 					   }
-					   while(!rs.getString(47).equals(PollTag) 
-							   && next 
+					   while(next && !rs.getString(47).equals(PollTag)  
 							   && rs.getString(2).equals(pollPoster)
 							   && Integer.parseInt(rs.getString(1))==(currentPollNum));
 				   }
@@ -267,15 +262,9 @@ public class DBQuery{
 							   catch(SQLException se){
 								   next = false;
 							   }
-							   System.out.println("DEBUG: WHOLETAG: " +rs.getString(47) +rs.getString(48) + rs.getString(49));
-							   System.out.println(pollPoster + "==" + rs.getString(2));
-							   System.out.println(PollTag + "==" + rs.getString(47));
-							   System.out.println(next);
-							   System.out.println(currentPollNum + "==" + Integer.parseInt(rs.getString(1)));
 							   
 					   }
-					   while(!rs.getString(47).equals(PollTag) 
-							   && next 
+					   while(next &&!rs.getString(47).equals(PollTag) 
 							   && rs.getString(2).equals(pollPoster)
 							   && Integer.parseInt(rs.getString(1))==(currentPollNum));
 				   }
@@ -426,15 +415,8 @@ public class DBQuery{
 							   catch(SQLException se){
 								   next = false;
 							   }
-							   System.out.println("DEBUG: WHOLETAG: " +rs.getString(47) +rs.getString(48) + rs.getString(49));
-							   System.out.println(pollPoster + "==" + rs.getString(2));
-							   System.out.println(PollTag + "==" + rs.getString(47));
-							   System.out.println(next);
-							   System.out.println(currentPollNum + "==" + Integer.parseInt(rs.getString(1)));
-							   
 					   }
-					   while(!rs.getString(47).equals(PollTag) 
-							   && next 
+					   while(next && !rs.getString(47).equals(PollTag) 
 							   && rs.getString(2).equals(pollPoster)
 							   && Integer.parseInt(rs.getString(1))==(currentPollNum));
 				   }
