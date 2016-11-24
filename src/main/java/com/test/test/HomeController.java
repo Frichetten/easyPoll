@@ -374,7 +374,7 @@ public class HomeController {
 			model.addAttribute("signup", signout);
 		}
 		
-		ArrayList<Poll> pollArr = User.getPolls();
+		ArrayList<Poll> pollArr = User.getPublicPolls();
 		
 		
 		String thyme = "";
