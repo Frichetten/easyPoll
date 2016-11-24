@@ -579,7 +579,6 @@ public class HomeController {
 			Poll poll = DBQuery.getPoll(Integer.parseInt(pollId));
 			int ans = Integer.parseInt(answer.getAnswer());
 			
-			
 			//update answer totals
 			poll.getPollData().getAnswer().addAnswerChosen(ans-1, poll.getPollNum());
 			
@@ -594,7 +593,15 @@ public class HomeController {
 				toPut = a.getUsername();
 			}
 			poll.getPollData().addPollTaker(toPut, poll.getPollNum(),false, poll.getPollData().getAnswer().getAnswerChosen());
-			
+			String toSend = "";
+			if (a == null){
+				toSend = "";
+			}
+			else{
+				toSend = a.getEmail();
+			}
+			String info = "Thank you for voting in the poll: " + poll.getPollName() + "! With your support, that poll will become more popular.\n\nThanks!\n\t-easyPoll Team";
+			Email.sendMail(toSend, "Thank you for voting", info);
 			System.out.println("Update complete");
 		}
 
@@ -860,6 +867,7 @@ public class HomeController {
 		if (a == null){
 			System.out.println("User not logged in");
 			 RedirectView redirect = new RedirectView("/test/home/");
+			 return redirect;
 		} else {
 			System.out.println("Logged in as " + a.getUsername());
 			String login = "<a href='#'>" + a.getUsername() + "</a>";
@@ -888,6 +896,7 @@ public class HomeController {
 		if (a == null){
 			System.out.println("User not logged in");
 			 RedirectView redirect = new RedirectView("/test/home/");
+			 return redirect;
 		} else {
 			System.out.println("Logged in as " + a.getUsername());
 			String login = "<a href='#'>" + a.getUsername() + "</a>";

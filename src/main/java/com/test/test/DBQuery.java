@@ -16,6 +16,7 @@ public class DBQuery{
 	
 	public static User Login(String email, String password) throws SQLException{
 		User tempUser = new User();
+		String savedEmail = email;
 		email = "'" + email + "'";
 		password = "'" + password + "'";
 		   
@@ -26,6 +27,7 @@ public class DBQuery{
 		if(rs.next()){
 			System.out.println("User Logged in: " + rs.getString(1));
 			tempUser.setUsername(rs.getString(1));
+			tempUser.setEmail(savedEmail);
 		}
 		else
 			tempUser.setUsername("");
@@ -656,7 +658,6 @@ public class DBQuery{
 		
 		statement = dbc.createStatement();
 		statement.executeUpdate(addAnswerQuery);
-		
 		
 	}
 
