@@ -109,7 +109,7 @@
 							</div>
 							<div class="form-group row">
 								<label for="End at How Many Votes?" class="control-label">End at How Many Votes?</label>
-								<input type="number" class="form-control" id="endTotal" name ="endTotal" placeholder="Total Votes" />
+								<input type="number" class="form-control" id="endTotal" name ="endTotal" placeholder="Total Votes" required/>
 							 </div>
 							<div class="form-group row">
 								<label for="Answers" class="control-label">Answers</label>

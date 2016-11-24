@@ -122,7 +122,7 @@
                                 <h3 class="panel-title">Data</h3>
                             </div>
                             <div class="panel-body">
-                                Data about poll
+                                ${isCurrent}
                             </div>
                         </div>
                     </div>

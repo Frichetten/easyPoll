@@ -419,6 +419,8 @@ public class HomeController {
 		System.out.println(poll.getPollQuestion());
 		System.out.println(poll.getPollDescription());
 		System.out.println(poll.getEndTotal());
+		if (poll.getEndTotal() == 0)
+			poll.setEndTotal(10);
 
 		// Splitting answers by comma delimeters
 		String[] answers = poll.getAnswerParams().split(",");
@@ -495,6 +497,12 @@ public class HomeController {
 				if (poll.getPollData().getPollTakers().get(i).getUsername().equals(toPut)) {
 					return singlePollData(new Answer(), model, request, pollId);
 				}
+			}
+		}
+		if(poll!=null){
+			//If isCurrent is 0 show data
+			if(poll.getIsCurrent().equals("0")){
+				return singlePollData(new Answer(), model, request, pollId);
 			}
 		}
 		// Getting Column names and username
@@ -642,6 +650,12 @@ public class HomeController {
 			model.addAttribute("valuesList", valuesList);
 			model.addAttribute("pollDesc",DBQuery.getPollDescription(pollId));
 			model.addAttribute("pollID", pollId);
+			if(rs.getString(3).equals("1")){
+				model.addAttribute("isCurrent","Poll is Ongoing!");
+			}
+			else{
+				model.addAttribute("isCurrent", "Poll is Closed");
+			}
 			if (a != null && rs.getString(2).equals(a.getUsername())){
 				model.addAttribute("creatorHide","");
 			}
