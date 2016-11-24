@@ -733,6 +733,39 @@ public class DBQuery{
 		}
 	}
 	
+	public static void checkCurrent(int pollNum){
+		try{
+			String checkQuery = "SELECT * FROM Polls WHERE PollNum = ?";
+			PreparedStatement statement1 = dbc.prepareStatement(checkQuery);
+			statement1.setInt(1, pollNum);
+			ResultSet rs1 = statement1.executeQuery();
+			int endTotal = 0;
+			if(rs1.next()){
+				endTotal = rs1.getInt(7);
+				System.out.println("&&&&&&& " + endTotal);
+			}
+			String countQuery = "SELECT * FROM PollTaker WHERE PollNum = ?";
+			PreparedStatement statement2 = dbc.prepareStatement(countQuery);
+			statement2.setInt(1, pollNum);
+			ResultSet rs2 = statement2.executeQuery();
+			int pollTakerCount = 0;
+			while (rs2.next()){
+				pollTakerCount = pollTakerCount+1;
+			}
+			System.out.println("&&&&&&& " + pollTakerCount);
+			
+			if(pollTakerCount >= endTotal){
+				String updateQuery = "UPDATE Polls SET isCurrent = ? WHERE PollNum = ?;";
+				PreparedStatement statement3 = dbc.prepareStatement(updateQuery);
+				statement3.setInt(1, 0);
+				statement3.setInt(2, pollNum);
+				statement3.execute();
+			}
+		} catch (SQLException e){
+			e.printStackTrace();
+		}
+	}
+	
 	public static void forgotPassword(String email){
 		try {
 			String updateQuery = "UPDATE RUser SET Pword = 'Password44' WHERE Email = ?;";

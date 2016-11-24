@@ -479,6 +479,9 @@ public class HomeController {
 			model.addAttribute("hide", "");
 		}
 		
+		//Check the isCurrent status
+		Poll.checkCurrent(Integer.parseInt(pollId));
+		
 		//Need to identify is anonymous user
 		String toPut = "";
 		if (a == null){
@@ -573,7 +576,6 @@ public class HomeController {
 			model.addAttribute("signup", signup);
 		} else {
 			System.out.println("Logged in as " + a.getUsername());
-			// model.addAttribute("username", a.getUsername());
 			String login = "<a href='/test/profile'>" + a.getUsername() + "</a>";
 			String signout = "<a href='/test/signout' >Sign Out</a>";
 			model.addAttribute("login", login);
@@ -581,7 +583,7 @@ public class HomeController {
 			
 		}
 
-		// Getting Column names and username
+		// Getting Column names and user name
 		System.out.println("singlepolldataaaa");
 		// If answer equals null, do nothing
 		// Else put that in the DB;
@@ -589,7 +591,7 @@ public class HomeController {
 			System.out.println("We are coming without giving an answer");
 		} else {
 			System.out.println("We are giving an answer " + answer.getAnswer());
-			String column = "";
+			//String column = "";
 			Poll poll = DBQuery.getPoll(Integer.parseInt(pollId));
 			int ans = Integer.parseInt(answer.getAnswer());
 			
@@ -628,7 +630,7 @@ public class HomeController {
 			model.addAttribute("pollName", rs.getString(4));
 			model.addAttribute("pollQuestion", rs.getString(11));
 			// Creating builder
-			String builder = "";
+			//String builder = "";
 			ArrayList<String> options = new ArrayList<String>();
 			String[] values = new String[10];
 			for (int i = 0; i < Integer.valueOf(rs.getString(10)); i++) {
@@ -789,7 +791,6 @@ public class HomeController {
 		System.out.println(info);
 		Email.sendMail(email.getAddress(), "You've been invited to a poll!", info);
 		
-		String referer = request.getHeader("Referer");
 		RedirectView redirect = new RedirectView("/test/mypolls");
 	    redirect.setExposeModelAttributes(false);
 	    return redirect;
@@ -905,9 +906,6 @@ public class HomeController {
 		RedirectView redirect = null;
 		if (a != null){
 			redirect = new RedirectView("/test/mypolls");
-		}
-		else if (((Administrator)request.getSession().getAttribute("admintoken")) != null){
-			redirect = new RedirectView("/test/admin");
 		}
 	    redirect.setExposeModelAttributes(false);
 	    return redirect;

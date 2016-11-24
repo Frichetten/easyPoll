@@ -89,6 +89,10 @@ public class Poll {
 		
 	}
 	
+	public static void checkCurrent(int pollNum){
+		DBQuery.checkCurrent(pollNum);
+	}
+	
 	public Poll(String pollName, int pollNum, String pollQuestion, String isCurrent, Date closeDate, 
 			String pollDescription, int endTotal, String PollType, PollData pollData, String pollPoster,
 			ArrayList<Tag> tags, int partakers){
