@@ -684,5 +684,24 @@ public class DBQuery{
 				System.out.println("Successful insertion");
 		
 	}
+	
+	public static void deletePoll(int pollNum){
+		try {
+			String deletePollTaker = "DELETE FROM PollTaker WHERE PollNum = ?";
+			PreparedStatement statement1 = dbc.prepareStatement(deletePollTaker);
+			statement1.setInt(1, pollNum);
+			statement1.execute();
+			String deletePollData = "DELETE FROM PollData WHERE PollNum = ?";
+			PreparedStatement statement2 = dbc.prepareStatement(deletePollData);
+			statement2.setInt(1, pollNum);
+			statement2.execute();
+			String deletePolls = "DELETE FROM Polls WHERE PollNum = ?";
+			PreparedStatement statement3 = dbc.prepareStatement(deletePolls);
+			statement3.setInt(1, pollNum);
+			statement3.execute();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
 
 }

@@ -810,7 +810,10 @@ public class HomeController {
 		model.addAttribute("pollQuestion", poll.getPollDescription());
 		model.addAttribute("pollDesc", poll.getPollDescription());
 		System.out.println("******** " + poll.getPollType());
-		if(poll.getPollType().equals("public"))
+		if(poll.getPollType() == null){
+			model.addAttribute("isPublic", "checked='checked'");
+		}
+		else if (poll.getPollType().equals("public"))
 			model.addAttribute("isPublic", "checked='checked'");
 		else
 			model.addAttribute("isPrivate", "checked='checked'");
@@ -837,8 +840,32 @@ public class HomeController {
 		}
 		Poll.updatePoll(Integer.valueOf(pollId), poll.getPollName(), poll.getPollQuestion(), 
 				poll.getPollDescription(), poll.getPollType());
-		System.out.println("HHHHHHHHHHHH " + poll.getPollType() + "  " + poll.getPollQuestion());
+		
 	    RedirectView redirect = new RedirectView("/test/singlepoll/"+pollId);
+	    redirect.setExposeModelAttributes(false);
+	    return redirect;
+	}
+	
+	@RequestMapping(value = "/deletePoll/{pollId}", method = RequestMethod.POST)
+	public View deletePoll(@ModelAttribute("SpringWeb")Poll poll, ModelMap model,
+		HttpServletRequest request, @PathVariable String pollId) throws SQLException{
+		// Confirming Login Status, this person must be the poll creator
+		User a = (User)request.getSession().getAttribute("token");
+		if (a == null){
+			System.out.println("User not logged in");
+			 RedirectView redirect = new RedirectView("/test/home/");
+			 redirect.setExposeModelAttributes(false);
+			 return redirect;
+		} else {
+			System.out.println("Logged in as " + a.getUsername());
+			String login = "<a href='#'>" + a.getUsername() + "</a>";
+			String signout = "<a href='/test/signout' >Sign Out</a>";
+			model.addAttribute("login", login);
+			model.addAttribute("signup", signout);
+		}
+		Poll.deletePoll(Integer.valueOf(pollId));
+		
+	    RedirectView redirect = new RedirectView("/test/mypolls");
 	    redirect.setExposeModelAttributes(false);
 	    return redirect;
 	}

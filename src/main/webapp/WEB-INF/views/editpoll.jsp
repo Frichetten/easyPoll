@@ -81,13 +81,13 @@
 								<label for="pollview" class="control-label">Is this a Public or Private Poll?</label>
 								<div class="radio">
 									<label>
-										<input type="radio" ${isPublic} name="isPublic" id="Public" value="public"/>
+										<input type="radio" ${isPublic} name="pollType" id="Public" value="public"/>
 										Public
 									</label>
 								</div>
 								<div class="radio">
 									<label>
-										<input type="radio" ${isPrivate} name="isPublic" id="Private" value="private"/>
+										<input type="radio" ${isPrivate} name="pollType" id="Private" value="private"/>
 										Private
 									</label>
 								</div>
