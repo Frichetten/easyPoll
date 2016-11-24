@@ -223,10 +223,9 @@
 					<button type="button" class="close" data-dismiss="modal">&times;</button>
 					<div class="forgotmodal-container text-center">
 						<h2>Forgot Password</h2><br>
-						<form:form method="POST" action="/test/register">
-             		 	<form:input id="txtEmail" type="email" placeholder="Email Address" path="email"/>
-              			<form:input id="txtPassword" type="password" placeholder="Password" path="password"/>
-              			<input type="submit" id="forgot-password-button" class="btn btn-success" value="Login">
+						<form:form method="POST" action="/test/forgotpassword">
+             		 	<form:input id="txtEmail" type="email" name="email" placeholder="Email Address" path="email"/>
+              			<input type="submit" id="forgot-password-button" class="btn btn-success" value="Send Password Email">
               			</form:form>
 					</div>
 						<div class="modal-footer"></div>

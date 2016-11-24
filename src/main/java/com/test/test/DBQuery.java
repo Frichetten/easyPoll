@@ -680,9 +680,22 @@ public class DBQuery{
 			statement.setInt(6,  endTotal);
 			System.out.println("HECKIN: " + statement.executeUpdate());
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+	
+	public static void forgotPassword(String email){
+		try {
+			String updateQuery = "UPDATE RUser SET Pword = 'Password44' WHERE Email = ?;";
+			PreparedStatement statement;
+			statement = dbc.prepareStatement(updateQuery);
+			statement.setString(1, email);
+			statement.execute();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		String info = "Hey user,\n\nWe recieved a request for a forgotten password.\n\nWe've changed your password to the following, 'Password44'.\n\nGet in touch if you have any other issues!\n\t-easyPoll Team";
+		Email.sendMail(email, "Forgot Your Password?", info);
 	}
 
 	public static void addPollTaker(PollTaker pollTaker) throws SQLException {
