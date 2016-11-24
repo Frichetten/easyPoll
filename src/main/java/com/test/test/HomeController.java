@@ -595,7 +595,7 @@ public class HomeController {
 			poll.getPollData().addPollTaker(toPut, poll.getPollNum(),false, poll.getPollData().getAnswer().getAnswerChosen());
 			String toSend = "";
 			if (a == null){
-				toSend = "";
+				toSend = "red@nomailhaeinf.com";
 			}
 			else{
 				toSend = a.getEmail();
