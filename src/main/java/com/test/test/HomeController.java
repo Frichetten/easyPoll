@@ -983,4 +983,30 @@ public class HomeController {
 	    redirect.setExposeModelAttributes(false);
 	    return redirect;
 	}
+	
+	@RequestMapping(value = "/updateaccount", method = RequestMethod.POST)
+	public View updateAccount(@ModelAttribute("SpringWeb")User user, ModelMap model,
+		HttpServletRequest request) throws SQLException{
+		// Confirming Login Status, this person must be the poll creator
+		User a = (User)request.getSession().getAttribute("token");
+		if (a == null){
+			System.out.println("User not logged in");
+			 RedirectView redirect = new RedirectView("/test/home/");
+			 return redirect;
+		} else {
+			System.out.println("Logged in as " + a.getUsername());
+			String login = "<a href='#'>" + a.getUsername() + "</a>";
+			String signout = "<a href='/test/signout' >Sign Out</a>";
+			model.addAttribute("login", login);
+			model.addAttribute("signup", signout);
+		}
+		User.updateAccount(a.getUsername(), user.getUsername(), user.getEmail(), user.getPassword());
+		
+		RedirectView redirect = null;
+		if (a != null){
+			redirect = new RedirectView("/test/profile");
+		}
+	    redirect.setExposeModelAttributes(false);
+	    return redirect;
+	}
 }

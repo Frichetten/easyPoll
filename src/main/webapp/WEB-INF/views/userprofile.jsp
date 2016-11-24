@@ -51,15 +51,11 @@
             <form:form method="POST" action="/test/updateaccount">
                 <div class="col-md-4 col-sm-4 col-xs-7">
                     <div class="form-group row">
-                        <label for="username" class="control-label">Username:</label>
-                        <input type="text" class="form-control" id="username" name="username" value=${userName} />
-                    </div>
-                    <div class="form-group row">
                         <label for="email" class="control-label">Email:</label>
                         <input type="text" class="form-control" id="email" name="email" value=${email} />
                     </div>
                     <div class="form-group row">
-                        <label for="email" class="control-label">Email:</label>
+                        <label for="email" class="control-label">Password:</label>
                         <input type="text" class="form-control" id="email" name="password" placeholder="password" />
                     </div>
                     <div class="form-group row">

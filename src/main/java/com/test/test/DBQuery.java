@@ -678,6 +678,32 @@ public class DBQuery{
 		}
 	}
 	
+	public static void updateAccount(String queryName, String username, String email, String password){
+		if (password.equals("")){
+			try {
+				String updateQuery = "UPDATE RUser SET Email = ? WHERE RUser.Username = ?;";
+				PreparedStatement statement = dbc.prepareStatement(updateQuery);
+				statement.setString(1, email);
+				statement.setString(2, queryName);
+				statement.execute();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		else {
+			try {
+				String updateQuery = "UPDATE RUser SET Email = ?, Pword = ? WHERE RUser.Username = ?;";
+				PreparedStatement statement = dbc.prepareStatement(updateQuery);
+				statement.setString(1, email);
+				statement.setString(2, password);
+				statement.setString(3, queryName);
+				statement.execute();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+	
 	public static void cancelPoll(int pollNum){
 		try{
 			String updateQuery = "UPDATE Polls SET isCurrent = 0 WHERE Polls.PollNum = ?;";

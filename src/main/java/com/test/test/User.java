@@ -30,6 +30,9 @@ public class User {
 	   public static void deleteAccount(String email){
 		   DBQuery.deleteAccount(email);
 	   }
+	   public static void updateAccount(String queryName, String username, String email, String password){
+		   DBQuery.updateAccount(queryName, username, email, password);
+	   }
 	   
 	   public static ArrayList<Poll> getPublicPolls() throws SQLException{
 		   return DBQuery.getPublicPolls();
