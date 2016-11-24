@@ -678,6 +678,17 @@ public class DBQuery{
 		}
 	}
 	
+	public static void cancelPoll(int pollNum){
+		try{
+			String updateQuery = "UPDATE Polls SET isCurrent = 0 WHERE Polls.PollNum = ?;";
+			PreparedStatement statement = dbc.prepareStatement(updateQuery);
+			statement.setInt(1, pollNum);
+			statement.execute();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
 	public static void updatePoll(int pollNum, String pollName, String pollQuestion, 
 			String pollDescription, String pollType, int endTotal) {
 		try {

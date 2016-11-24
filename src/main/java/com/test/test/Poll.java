@@ -68,6 +68,10 @@ public class Poll {
 		DBQuery.deletePoll(pollNum);
 	}
 	
+	public static void cancelPoll(int pollNum){
+		DBQuery.cancelPoll(pollNum);
+	}
+	
 	public Poll(int Pollnum) throws SQLException{
 		Poll poll = DBQuery.getPoll(Pollnum);
 		this.pollName = poll.getPollName();

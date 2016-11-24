@@ -183,6 +183,17 @@
        		</form:form>
 		</div>
 	</div>
+	<div class="container" ${creatorHide}>
+		<ul class="nav nav-tabs">
+			<li role="presentation" class="active"><a href="#">Cancel Poll Early</a></li>
+		</ul>
+		<div class="col-md-12">		
+			<form:form method="POST" action="/test/cancelPoll/${pollID}">
+     		 	<input id="email" name="ad" type="email" hidden="true" placeholder="Email Address" />
+       			<input type="submit" id="sendEmail" class="btn btn-success" value="Cancel Poll">
+       		</form:form>
+		</div>
+	</div>
 	<!--Login Modal -->
 	<div id="login-modal" class="modal fade" role="dialog">
 		<div class="modal-dialog">
