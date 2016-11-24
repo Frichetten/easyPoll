@@ -784,7 +784,7 @@ public class HomeController {
 		Email.sendMail(email.getAddress(), "You've been invited to a poll!", info);
 		
 		String referer = request.getHeader("Referer");
-		RedirectView redirect = new RedirectView(referer);
+		RedirectView redirect = new RedirectView("/test/mypolls");
 	    redirect.setExposeModelAttributes(false);
 	    return redirect;
 	}

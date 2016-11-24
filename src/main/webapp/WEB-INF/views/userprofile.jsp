@@ -48,7 +48,7 @@
             <h1>User Account</h1>
         </div>
         <div class="row">
-            <form>
+            <form:form method="POST" action="/test/updateaccount">
                 <div class="col-md-4 col-sm-4 col-xs-7">
                     <div class="form-group row">
                         <label for="username" class="control-label">Username:</label>
@@ -59,10 +59,14 @@
                         <input type="text" class="form-control" id="email" name="email" value=${email} />
                     </div>
                     <div class="form-group row">
+                        <label for="email" class="control-label">Email:</label>
+                        <input type="text" class="form-control" id="email" name="password" placeholder="password" />
+                    </div>
+                    <div class="form-group row">
                         <input type="submit" id="btnUpdateAccount" class="btn btn-default" value="Update Account">
                     </div>
                 </div>
-            </form>
+            </form:form>
             </div>
             <div class="row">
             <div class="col-md-4 col-sm-4 col-xs-7">
