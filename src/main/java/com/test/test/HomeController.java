@@ -30,7 +30,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
-
+import org.springframework.web.servlet.View;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.servlet.view.RedirectView;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -630,6 +632,7 @@ public class HomeController {
 			model.addAttribute("optionsList", optionsList);
 			model.addAttribute("valuesList", valuesList);
 			model.addAttribute("pollDesc",DBQuery.getPollDescription(pollId));
+			model.addAttribute("pollID", pollId);
 			if (a != null && rs.getString(2).equals(a.getUsername())){
 				model.addAttribute("creatorHide","");
 			}
@@ -801,10 +804,43 @@ public class HomeController {
 		}
 		int num = Poll.getTotalPoll();
 		model.addAttribute("numberPolls", String.valueOf(num));
+		model.addAttribute("pollId", pollId);
+		Poll poll = new Poll(Integer.valueOf(pollId));
+		model.addAttribute("pollName", poll.getPollName());
+		model.addAttribute("pollQuestion", poll.getPollDescription());
+		model.addAttribute("pollDesc", poll.getPollDescription());
+		System.out.println("******** " + poll.getPollType());
+		if(poll.getPollType().equals("public"))
+			model.addAttribute("isPublic", "checked='checked'");
+		else
+			model.addAttribute("isPrivate", "checked='checked'");
 		
-		
-	    return new ModelAndView("createpoll", "command", new User());
+	    return new ModelAndView("editpoll", "command", new User());
 	}
 	
+	@RequestMapping(value = "/updatePoll/{pollId}", method = RequestMethod.POST)
+	public View updatePoll(@ModelAttribute("SpringWeb")Poll poll, ModelMap model,
+		HttpServletRequest request, @PathVariable String pollId) throws SQLException{
+		// Confirming Login Status, this person must be the poll creator
+		User a = (User)request.getSession().getAttribute("token");
+		if (a == null){
+			System.out.println("User not logged in");
+			 RedirectView redirect = new RedirectView("/test/home/");
+			 redirect.setExposeModelAttributes(false);
+			 return redirect;
+		} else {
+			System.out.println("Logged in as " + a.getUsername());
+			String login = "<a href='#'>" + a.getUsername() + "</a>";
+			String signout = "<a href='/test/signout' >Sign Out</a>";
+			model.addAttribute("login", login);
+			model.addAttribute("signup", signout);
+		}
+		Poll.updatePoll(Integer.valueOf(pollId), poll.getPollName(), poll.getPollQuestion(), 
+				poll.getPollDescription(), poll.getPollType());
+		System.out.println("HHHHHHHHHHHH " + poll.getPollType() + "  " + poll.getPollQuestion());
+	    RedirectView redirect = new RedirectView("/test/singlepoll/"+pollId);
+	    redirect.setExposeModelAttributes(false);
+	    return redirect;
+	}
 	
 }

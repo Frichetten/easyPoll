@@ -538,6 +538,24 @@ public class DBQuery{
 		statement.executeUpdate(updatePartakersQuery);
 		
 	}
+	
+	public static void updatePoll(int pollNum, String pollName, String pollQuestion, 
+			String pollDescription, String pollType) {
+		try {
+			String updateQuery = "UPDATE Polls JOIN PollData ON Polls.PollNum = PollData.PollNum AND Polls.PollNum = ? " +
+					"SET Polls.PollName = ?, Polls.PollType = ?, PollData.Question = ?, PollData.Description = ?;";
+			PreparedStatement statement = dbc.prepareStatement(updateQuery);
+			statement.setInt(1, pollNum);
+			statement.setString(2, pollName);
+			statement.setString(3, pollType);
+			statement.setString(4, pollQuestion);
+			statement.setString(5, pollDescription);
+			System.out.println("HECKIN: " + statement.executeUpdate());
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 
 	public static void addPollTaker(PollTaker pollTaker) throws SQLException {
 		

@@ -11,10 +11,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
-/**
- * @author kwdalle
- *
- */
+
 public class Poll {
 	private String pollName;
 	private int pollNum;
@@ -23,7 +20,7 @@ public class Poll {
 	private Date closeDate;
 	private String pollDescription;
 	private int endTotal;
-	private String PollType;
+	private String pollType;
 	private int partakers;
 	private PollData pollData;
 	private String pollPoster;
@@ -62,6 +59,11 @@ public class Poll {
 	}
 	
 */
+	public static void updatePoll(int pollNum, String pollName, String pollQuestion, 
+			String pollDescription, String pollType) {
+		DBQuery.updatePoll(pollNum, pollName, pollQuestion, pollDescription, pollType);
+	}
+	
 	public Poll(int Pollnum) throws SQLException{
 		Poll poll = DBQuery.getPoll(Pollnum);
 		this.pollName = poll.getPollName();
@@ -71,7 +73,7 @@ public class Poll {
 		this.closeDate = poll.getCloseDate();
 		this.pollDescription = poll.getPollDescription();
 		this.endTotal = poll.getEndTotal();
-		this.PollType = poll.getPollType();
+		this.pollType = poll.getPollType();
 		this.pollData = poll.getPollData();
 		this.pollPoster = poll.getPollPoster();
 		this.tags = poll.getTags();
@@ -89,7 +91,7 @@ public class Poll {
 		this.closeDate = closeDate;
 		this.pollDescription = pollDescription;
 		this.endTotal = endTotal;
-		this.PollType = PollType;
+		this.pollType = PollType;
 		this.pollData = pollData;
 		this.pollPoster = pollPoster;
 		this.tags = tags;
@@ -130,7 +132,7 @@ public class Poll {
 		this.pollPoster = pollPoster;
 	}
 	public String getPollType() {
-		return this.PollType;
+		return this.pollType;
 	}
 	public void setPub(String pub) {
 
@@ -165,7 +167,7 @@ public class Poll {
 
 
 	public void setPollType(String pollType) {
-		PollType = pollType;
+		this.pollType = pollType;
 	}
 	
 	
