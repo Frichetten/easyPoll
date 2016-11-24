@@ -699,6 +699,10 @@ public class DBQuery{
 			PreparedStatement statement3 = dbc.prepareStatement(deletePolls);
 			statement3.setInt(1, pollNum);
 			statement3.execute();
+			String deleteReportedQuestions = "DELETE FROM ReportedQuestions WHERE PollNum = ?";
+			PreparedStatement statement4 = dbc.prepareStatement(deleteReportedQuestions);
+			statement4.setInt(1, pollNum);
+			statement4.execute();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

@@ -535,6 +535,9 @@ public class HomeController {
 			if (a != null && poll.getPollPoster().equals(a.getUsername())){
 				model.addAttribute("creatorHide","");
 			}
+			else if (((Administrator)request.getSession().getAttribute("admintoken")) != null){
+				model.addAttribute("creatorHide", "");
+			}
 			else{
 				model.addAttribute("creatorHide","hidden='true'");
 			}
@@ -635,6 +638,9 @@ public class HomeController {
 			model.addAttribute("pollID", pollId);
 			if (a != null && rs.getString(2).equals(a.getUsername())){
 				model.addAttribute("creatorHide","");
+			}
+			else if (((Administrator)request.getSession().getAttribute("admintoken")) != null){
+				model.addAttribute("creatorHide", "");
 			}
 			else{
 				model.addAttribute("creatorHide","hidden='true'");
@@ -854,8 +860,6 @@ public class HomeController {
 		if (a == null){
 			System.out.println("User not logged in");
 			 RedirectView redirect = new RedirectView("/test/home/");
-			 redirect.setExposeModelAttributes(false);
-			 return redirect;
 		} else {
 			System.out.println("Logged in as " + a.getUsername());
 			String login = "<a href='#'>" + a.getUsername() + "</a>";
@@ -865,7 +869,13 @@ public class HomeController {
 		}
 		Poll.deletePoll(Integer.valueOf(pollId));
 		
-	    RedirectView redirect = new RedirectView("/test/mypolls");
+		RedirectView redirect = null;
+		if (a != null){
+			redirect = new RedirectView("/test/mypolls");
+		}
+		else if (((Administrator)request.getSession().getAttribute("admintoken")) != null){
+			redirect = new RedirectView("/test/admin");
+		}
 	    redirect.setExposeModelAttributes(false);
 	    return redirect;
 	}
