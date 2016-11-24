@@ -29,6 +29,10 @@ public class User {
 		   return DBQuery.getPolls();
 	   }
 	   
+	   public static void addPoll(Poll poll, String username, ArrayList<String> answerOptions) throws SQLException{
+		   DBQuery.addPoll(poll, username, answerOptions);
+	   }
+	   
 	   public static ArrayList<Poll> getMyPolls(String username) throws SQLException{
 
 		   return DBQuery.getMyPolls(username);

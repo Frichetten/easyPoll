@@ -422,28 +422,15 @@ public class HomeController {
 		String[] answers = poll.getAnswerParams().split(",");
 		ArrayList<String> answersArray = new ArrayList<String>();
 
-		for (int i = 0; i < 10; i++) {
+		for (int i = 0; i < answers.length; i++) {
 			if (i < answers.length)
-				answersArray.add("\""+answers[i]+"\"");
-			else
-				answersArray.add(null);
+				answersArray.add(answers[i]);
 		}
+		
 		System.out.println(">>> " + answersArray.toString());
-		// Insert the user into the database
-		String insertPollsQuery = "INSERT INTO Polls (Username, isCurrent, PollName, Partakers, PollType) "
-				+ "VALUES ('" + a.getUsername() + "',1,'" + poll.getPollName() + "',0,'" + poll.getPollType() + "');";
-		Statement st2 = dbc.createStatement();
-		st2.execute(insertPollsQuery);
-		String insertPollDataQuery = "INSERT INTO PollData(PollNum, Question, Description, Params, isRadio, AnsOne, AnsTwo, AnsThree, "
-				+ "AnsFour, AnsFive, AnsSix, AnsSeven, AnsEight, AnsNine, AnsTen, "
-				+ "TotalOne, TotalTwo, TotalThree, TotalFour, TotalFive, TotalSix, TotalSeven, TotalEight, "
-				+ "TotalNine, TotalTen) VALUES ((SELECT LAST_INSERT_ID()), '" + poll.getPollQuestion() + "', '"
-				+ poll.getPollDescription() + "', " + answersArray.size() + ", true, " + answersArray.get(0) + ", " + ""
-				+ answersArray.get(1) + " , " + answersArray.get(2) + " , " + answersArray.get(3) + " , " + answersArray.get(4)
-				+ " ," + "" + answersArray.get(5) + ", " + answersArray.get(6) + " , " + answersArray.get(7) + " , "
-				+ answersArray.get(8) + " , " + "" + answersArray.get(9) + "" + ", 0, 0, 0,0,0,0,0,0,0,0);";
-		st2.execute(insertPollDataQuery);
-		System.out.println("Successful insertion");
+		
+		User.addPoll(poll, a.getUsername(), answersArray);
+		
 
 		return mypolls(new User(), model, request);
 	}
@@ -628,14 +615,14 @@ public class HomeController {
 			for (int i = 0; i < Integer.valueOf(rs.getString(10)); i++) {
 				if(i != Integer.valueOf(rs.getString(10))-1)
 				{
-					optionsList = optionsList + "'" + options.get(i) + "', ";
-					valuesList = valuesList + "'" + values[i] + "', ";
+					optionsList = optionsList + "\"" + options.get(i) + "\", ";
+					valuesList = valuesList + "\"" + values[i] + "\", ";
 					
 				}
 				else
 				{
-					optionsList = optionsList + "'" + options.get(i) + "'";
-					valuesList = valuesList + "'" + values[i] + "'";
+					optionsList = optionsList + "\"" + options.get(i) + "\"";
+					valuesList = valuesList + "\"" + values[i] + "\"";
 					
 				}
 				
