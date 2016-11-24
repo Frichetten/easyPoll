@@ -16,6 +16,10 @@ public class Answer {
 	private String answerparams;
 
 	
+	public void setAnswerOptions(ArrayList<String> answerOptions){
+		this.answerOptions = answerOptions;
+	}
+	
 	public String getAnswerparams() {
 		return answerparams;
 	}
