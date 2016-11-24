@@ -248,7 +248,7 @@ public class HomeController {
 	}
 
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
-	public String addUser(@ModelAttribute("SpringWeb") User user, ModelMap model, HttpServletRequest request)
+	public RedirectView addUser(@ModelAttribute("SpringWeb") User user, ModelMap model, HttpServletRequest request)
 			throws SQLException {
 		// Authentication
 		User ruser = new User();
@@ -274,7 +274,9 @@ public class HomeController {
 					model.addAttribute("signup", signup);
 					System.out.println("Failure To Login");
 					String referer = request.getHeader("Referer");
-				    return "redirect:"+ referer;
+					RedirectView redirect = new RedirectView(referer);
+				    redirect.setExposeModelAttributes(false);
+				    return redirect;
 				}
 				 else {
 					System.out.println("Logged in as " + a.getUsername());
@@ -288,10 +290,14 @@ public class HomeController {
 			else{
 				System.out.println("User failed to login");
 				String referer = request.getHeader("Referer");
-			    return "redirect:"+ referer;
+				RedirectView redirect = new RedirectView(referer);
+			    redirect.setExposeModelAttributes(false);
+			    return redirect;
 			}
 			String referer = request.getHeader("Referer");
-		    return "redirect:"+ referer;
+			RedirectView redirect = new RedirectView(referer);
+		    redirect.setExposeModelAttributes(false);
+		    return redirect;
 	}
 
 	@RequestMapping(value = "/register", method = RequestMethod.POST)
