@@ -92,6 +92,10 @@
 									</label>
 								</div>
 							</div>
+							<div class="form-group row">
+								<label for="End at How Many Votes?" class="control-label">End at How Many Votes?</label>
+								<input type="number" value="${endTotal}" class="form-control" id="endTotal" name ="endTotal" placeholder="Total Votes" />
+							 </div>
 						<div style="padding-top:5px; padding-bottom:20px;">
 							<div class="bottom-page">
 							</div>

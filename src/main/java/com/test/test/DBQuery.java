@@ -667,16 +667,17 @@ public class DBQuery{
 	}
 	
 	public static void updatePoll(int pollNum, String pollName, String pollQuestion, 
-			String pollDescription, String pollType) {
+			String pollDescription, String pollType, int endTotal) {
 		try {
 			String updateQuery = "UPDATE Polls JOIN PollData ON Polls.PollNum = PollData.PollNum AND Polls.PollNum = ? " +
-					"SET Polls.PollName = ?, Polls.PollType = ?, PollData.Question = ?, PollData.Description = ?;";
+					"SET Polls.PollName = ?, Polls.PollType = ?, PollData.Question = ?, PollData.Description = ?, Polls.EndTotal = ?;";
 			PreparedStatement statement = dbc.prepareStatement(updateQuery);
 			statement.setInt(1, pollNum);
 			statement.setString(2, pollName);
 			statement.setString(3, pollType);
 			statement.setString(4, pollQuestion);
 			statement.setString(5, pollDescription);
+			statement.setInt(6,  endTotal);
 			System.out.println("HECKIN: " + statement.executeUpdate());
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -777,21 +778,22 @@ public class DBQuery{
 
 	public static void addPoll(Poll poll, String username, ArrayList<String> answerOptions) throws SQLException {
 		// Insert the user into the database
-				String insertPollsQuery = "INSERT INTO Polls (Username, isCurrent, PollName, Partakers, PollType) "
-						+ "VALUES (?,?,?,?,?);";
+				String insertPollsQuery = "INSERT INTO Polls (Username, isCurrent, PollName, Partakers, PollType, EndTotal) "
+						+ "VALUES (?,?,?,?,?,?);";
 				PreparedStatement statement = dbc.prepareStatement(insertPollsQuery);
 				statement.setString(1, username);
 				statement.setBoolean(2, true);
 				statement.setString(3, poll.getPollName());
 				statement.setInt(4, 0);
 				statement.setString(5, poll.getPollType());
+				statement.setInt(6, poll.getEndTotal());
 				statement.execute();
 				
 				
 				String insertPollDataQuery = "INSERT INTO PollData(PollNum, Question, Description, Params, isRadio, AnsOne, AnsTwo, AnsThree, "
 						+ "AnsFour, AnsFive, AnsSix, AnsSeven, AnsEight, AnsNine, AnsTen, "
 						+ "TotalOne, TotalTwo, TotalThree, TotalFour, TotalFive, TotalSix, TotalSeven, TotalEight, "
-						+ "TotalNine, TotalTen) VALUES ((SELECT LAST_INSERT_ID()),?,?, ?, true,?,?,?,?,?,?,?,?,?,?, 0, 0, 0,0,0,0,0,0,0,0);";
+						+ "TotalNine, TotalTen ) VALUES ((SELECT LAST_INSERT_ID()),?,?, ?, true,?,?,?,?,?,?,?,?,?,?, 0, 0, 0,0,0,0,0,0,0,0);";
 				PreparedStatement statement2 = dbc.prepareStatement(insertPollDataQuery);
 				statement2.setString(1, poll.getPollQuestion());
 				statement2.setString(2, poll.getPollDescription());
@@ -809,7 +811,6 @@ public class DBQuery{
 
 				statement2.execute();
 				System.out.println("Successful insertion");
-		
 	}
 	
 	public static void deletePoll(int pollNum){

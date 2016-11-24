@@ -418,7 +418,7 @@ public class HomeController {
 		System.out.println(poll.getPollName());
 		System.out.println(poll.getPollQuestion());
 		System.out.println(poll.getPollDescription());
-
+		System.out.println(poll.getEndTotal());
 
 		// Splitting answers by comma delimeters
 		String[] answers = poll.getAnswerParams().split(",");
@@ -433,7 +433,6 @@ public class HomeController {
 		
 		User.addPoll(poll, a.getUsername(), answersArray);
 		
-
 		return mypolls(new User(), model, request);
 	}
 
@@ -815,7 +814,7 @@ public class HomeController {
 		model.addAttribute("pollName", poll.getPollName());
 		model.addAttribute("pollQuestion", poll.getPollDescription());
 		model.addAttribute("pollDesc", poll.getPollDescription());
-		System.out.println("******** " + poll.getPollType());
+		model.addAttribute("endTotal", poll.getEndTotal());
 		if(poll.getPollType() == null){
 			model.addAttribute("isPublic", "checked='checked'");
 		}
@@ -844,8 +843,9 @@ public class HomeController {
 			model.addAttribute("login", login);
 			model.addAttribute("signup", signout);
 		}
+		
 		Poll.updatePoll(Integer.valueOf(pollId), poll.getPollName(), poll.getPollQuestion(), 
-				poll.getPollDescription(), poll.getPollType());
+				poll.getPollDescription(), poll.getPollType(), poll.getEndTotal());
 		
 	    RedirectView redirect = new RedirectView("/test/singlepoll/"+pollId);
 	    redirect.setExposeModelAttributes(false);

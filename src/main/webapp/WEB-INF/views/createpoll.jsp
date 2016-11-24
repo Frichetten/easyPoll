@@ -108,6 +108,10 @@
 								</div>
 							</div>
 							<div class="form-group row">
+								<label for="End at How Many Votes?" class="control-label">End at How Many Votes?</label>
+								<input type="number" class="form-control" id="endTotal" name ="endTotal" placeholder="Total Votes" />
+							 </div>
+							<div class="form-group row">
 								<label for="Answers" class="control-label">Answers</label>
 								<input type="text" class="form-control" id="answerParams" name ="answerParams" placeholder="Answer 1" />
 							 </div>

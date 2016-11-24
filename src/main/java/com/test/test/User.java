@@ -24,7 +24,6 @@ public class User {
 		   return DBQuery.Login(email, password);
 	   }
 	   
-	   
 	   public static ArrayList<Poll> getPublicPolls() throws SQLException{
 		   return DBQuery.getPublicPolls();
 	   }

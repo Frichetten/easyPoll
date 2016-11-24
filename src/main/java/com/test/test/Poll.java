@@ -60,8 +60,8 @@ public class Poll {
 	
 */
 	public static void updatePoll(int pollNum, String pollName, String pollQuestion, 
-			String pollDescription, String pollType) {
-		DBQuery.updatePoll(pollNum, pollName, pollQuestion, pollDescription, pollType);
+			String pollDescription, String pollType, int endTotal) {
+		DBQuery.updatePoll(pollNum, pollName, pollQuestion, pollDescription, pollType, endTotal);
 	}
 	
 	public static void deletePoll(int pollNum){
@@ -124,7 +124,9 @@ public class Poll {
 	public int getEndTotal(){
 		return this.endTotal;
 	}
-	
+	public void setEndTotal(int endTotal){
+		this.endTotal = endTotal;
+	}
 	public static int getTotalPoll() throws SQLException{
 		return DBQuery.getTotalPolls();
 	}
@@ -168,8 +170,6 @@ public class Poll {
 	public void setPollDescription(String pollDescription) {
 		this.pollDescription = pollDescription;
 	}
-
-
 	public void setPollType(String pollType) {
 		this.pollType = pollType;
 	}
