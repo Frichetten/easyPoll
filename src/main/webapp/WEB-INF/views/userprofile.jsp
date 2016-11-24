@@ -60,10 +60,19 @@
                     </div>
                     <div class="form-group row">
                         <input type="submit" id="btnUpdateAccount" class="btn btn-default" value="Update Account">
-                        <button type="button" class="btn btn-default">Delete Account</button>
                     </div>
                 </div>
             </form>
+            </div>
+            <div class="row">
+            <div class="col-md-4 col-sm-4 col-xs-7">
+            	<div class="form-group row">
+	            	<form:form method="POST" action="/test/deleteaccount">
+	            	<input id="txtPassword" type="password" hidden="true" placeholder="Password" />
+	            	<input type="submit" id="btnLogin" class="btn btn-default" value="Delete Account">
+	            	</form:form>
+	            </div>
+            </div>  
         </div>
         <div class=page-header>
             <h1>User Statistics</h1>

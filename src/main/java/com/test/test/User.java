@@ -27,6 +27,9 @@ public class User {
 	   public static void forgotPassword(String email){
 		   DBQuery.forgotPassword(email);
 	   }
+	   public static void deleteAccount(String email){
+		   DBQuery.deleteAccount(email);
+	   }
 	   
 	   public static ArrayList<Poll> getPublicPolls() throws SQLException{
 		   return DBQuery.getPublicPolls();

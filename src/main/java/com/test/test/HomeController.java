@@ -911,4 +911,31 @@ public class HomeController {
 	    redirect.setExposeModelAttributes(false);
 	    return redirect;
 	}
+	
+	@RequestMapping(value = "/deleteaccount", method = RequestMethod.POST)
+	public View deleteAccount(@ModelAttribute("SpringWeb")Poll poll, ModelMap model,
+		HttpServletRequest request) throws SQLException{
+		// Confirming Login Status, this person must be the poll creator
+		User a = (User)request.getSession().getAttribute("token");
+		if (a == null){
+			System.out.println("User not logged in");
+			 RedirectView redirect = new RedirectView("/test/home/");
+			 return redirect;
+		} else {
+			System.out.println("Logged in as " + a.getUsername());
+			System.out.println(a.getEmail());
+			String login = "<a href='#'>" + a.getUsername() + "</a>";
+			String signout = "<a href='/test/signout' >Sign Out</a>";
+			model.addAttribute("login", login);
+			model.addAttribute("signup", signout);
+		}
+		User.deleteAccount(a.getEmail());
+		System.out.println("HELLLLLLLLLLLO");
+		signout(new User(), model, request);
+		System.out.println("HELLLLLLLLLLLO");
+		RedirectView redirect = null;
+		redirect = new RedirectView("/test/home");
+	    redirect.setExposeModelAttributes(false);
+	    return redirect;
+	}
 }

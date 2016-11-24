@@ -664,7 +664,18 @@ public class DBQuery{
 	public static void addPartaker(int pollNum) throws SQLException {
 		String updatePartakersQuery = "Update Polls Set Partakers=Partakers+1 WHERE PollNum = " + pollNum + " ;";
 		statement.executeUpdate(updatePartakersQuery);
-		
+	}
+	
+	public static void deleteAccount(String email) {
+		try {
+			String deleteQuery = "DELETE FROM RUser WHERE Email = ?;";
+			PreparedStatement statement;
+			statement = dbc.prepareStatement(deleteQuery);
+			statement.setString(1, email);
+			statement.execute();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	public static void updatePoll(int pollNum, String pollName, String pollQuestion, 
