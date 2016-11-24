@@ -196,7 +196,7 @@ public class HomeController {
 			model.addAttribute("signup", signout);
 		}
 
-		String numPollsQuery = "Select * FROM Polls WHERE Username = " + "'" + a.getUsername() + "'";
+		String numPollsQuery = "Select * FROM Polls WHERE Username = " + "'" + a.getUsername() + "';";
 		Statement statement = dbc.createStatement();
 		ResultSet rs = statement.executeQuery(numPollsQuery);
 
@@ -462,6 +462,7 @@ public class HomeController {
 			model.addAttribute("login", login);
 			model.addAttribute("signup", signout);
 			model.addAttribute("hide","hidden='true'");
+			model.addAttribute("creatorHide","hidden='true'");
 		}
 		else if (a == null) {
 			System.out.println("User not logged in");
@@ -471,6 +472,7 @@ public class HomeController {
 			model.addAttribute("login", login);
 			model.addAttribute("signup", signup);
 			model.addAttribute("hide","hidden='true'");
+			model.addAttribute("creatorHide","hidden='true'");
 		} else {
 			System.out.println("Logged in as " + a.getUsername());
 			// model.addAttribute("username", a.getUsername());
@@ -479,7 +481,6 @@ public class HomeController {
 			model.addAttribute("login", login);
 			model.addAttribute("signup", signout);
 			model.addAttribute("hide", "");
-			
 		}
 		
 		//Need to identify is anonymous user
@@ -541,6 +542,13 @@ public class HomeController {
 			model.addAttribute("valuesList", valuesList);
 			model.addAttribute("builder", builder);
 			model.addAttribute("pollID", pollId);
+			//This will display the edit button if they are the creator
+			if (a != null && poll.getPollPoster().equals(a.getUsername())){
+				model.addAttribute("creatorHide","");
+			}
+			else{
+				model.addAttribute("creatorHide","hidden='true'");
+			}
 		}
 
 		return new ModelAndView("singlepoll", "command", new User());
@@ -635,6 +643,12 @@ public class HomeController {
 			model.addAttribute("optionsList", optionsList);
 			model.addAttribute("valuesList", valuesList);
 			model.addAttribute("pollDesc",DBQuery.getPollDescription(pollId));
+			if (a != null && rs.getString(2).equals(a.getUsername())){
+				model.addAttribute("creatorHide","");
+			}
+			else{
+				model.addAttribute("creatorHide","hidden='true'");
+			}
 		}
 
 		return new ModelAndView("singlepolldata");
@@ -781,6 +795,28 @@ public class HomeController {
 		System.out.println(a.getUsername());
 		
 	    return "redirect:"+referer;
+	}
+	
+	@RequestMapping(value = "/editPoll/{pollId}", method = RequestMethod.POST)
+	public ModelAndView editpoll(@ModelAttribute("SpringWeb")User user, ModelMap model,
+		HttpServletRequest request, @PathVariable String pollId) throws SQLException{
+		// Confirming Login Status, this person must be the poll creator
+		User a = (User)request.getSession().getAttribute("token");
+		if (a == null){
+			System.out.println("User not logged in");
+		    return new ModelAndView("redirect:http://localhost:8080/test/home");
+		} else {
+			System.out.println("Logged in as " + a.getUsername());
+			String login = "<a href='#'>" + a.getUsername() + "</a>";
+			String signout = "<a href='/test/signout' >Sign Out</a>";
+			model.addAttribute("login", login);
+			model.addAttribute("signup", signout);
+		}
+		int num = Poll.getTotalPoll();
+		model.addAttribute("numberPolls", String.valueOf(num));
+		
+		
+	    return new ModelAndView("createpoll", "command", new User());
 	}
 	
 	
