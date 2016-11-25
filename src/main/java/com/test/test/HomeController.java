@@ -436,6 +436,7 @@ public class HomeController {
 		}
 		
 		//Check the isCurrent status
+		Poll poll = DBQuery.getPoll(Integer.parseInt(pollId));
 		Poll.checkCurrent(Integer.parseInt(pollId));
 		
 		//Need to identify is anonymous user
@@ -447,7 +448,8 @@ public class HomeController {
 			toPut = a.getUsername();
 		}
 		
-		Poll poll = DBQuery.getPoll(Integer.parseInt(pollId));
+		
+		
 		
 		// Before doing anything, we need to confirm that they havent voted yet
 		//String check = "SELECT * FROM PollTaker WHERE Username = '" + toPut + "' and PollNum = " + pollId
@@ -564,7 +566,17 @@ public class HomeController {
 			else{
 				toPut = a.getUsername();
 			}
-			poll.getPollData().addPollTaker(toPut, poll.getPollNum(),false, poll.getPollData().getAnswer().getAnswerChosen());
+			
+			ArrayList<Integer> userAnswer = new ArrayList<Integer>();
+			for(int i = 1; i < poll.getPollData().getAnswer().getAnswerChosen().size()+1; i++){
+				if(i == ans){
+					userAnswer.add(1);
+				}
+				else
+					userAnswer.add(0);
+			}
+			
+			poll.getPollData().addPollTaker(toPut, poll.getPollNum(),false, userAnswer);
 			String toSend = "";
 			if (a == null){
 				toSend = "red@nomailhaeinf.com";
