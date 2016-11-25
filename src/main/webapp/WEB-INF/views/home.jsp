@@ -224,7 +224,7 @@
 					<div class="forgotmodal-container text-center">
 						<h2>Forgot Password</h2><br>
 						<form:form method="POST" action="/test/forgotpassword">
-             		 	<form:input id="txtEmail" type="email" name="email" placeholder="Email Address" path="email"/>
+             		 	<input id="txtEmail" type="email" name="email" placeholder="Email Address" />
               			<input type="submit" id="forgot-password-button" class="btn btn-success" value="Send Password Email">
               			</form:form>
 					</div>

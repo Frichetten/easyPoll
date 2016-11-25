@@ -942,19 +942,7 @@ public class HomeController {
 	@RequestMapping(value = "/forgotpassword", method = RequestMethod.POST)
 	public View forgotPassword(@RequestParam("email")String email, ModelMap model,
 		HttpServletRequest request) throws SQLException{
-		// Confirming Login Status, this person must be the poll creator
-		User a = (User)request.getSession().getAttribute("token");
-		if (a == null){
-			System.out.println("User not logged in");
-			 RedirectView redirect = new RedirectView("/test/home/");
-			 return redirect;
-		} else {
-			System.out.println("Logged in as " + a.getUsername());
-			String login = "<a href='#'>" + a.getUsername() + "</a>";
-			String signout = "<a href='/test/signout' >Sign Out</a>";
-			model.addAttribute("login", login);
-			model.addAttribute("signup", signout);
-		}
+		
 		User.forgotPassword(email);
 		
 		RedirectView redirect = null;

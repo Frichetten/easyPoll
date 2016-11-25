@@ -7,6 +7,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Random;
 
 public class DBQuery{
 
@@ -767,16 +768,20 @@ public class DBQuery{
 	}
 	
 	public static void forgotPassword(String email){
+		String password = "";
 		try {
-			String updateQuery = "UPDATE RUser SET Pword = 'Password44' WHERE Email = ?;";
-			PreparedStatement statement;
-			statement = dbc.prepareStatement(updateQuery);
-			statement.setString(1, email);
-			statement.execute();
+			Random rand = new Random();
+			int randomNumber = rand.nextInt(100000);
+			password = "Password" + String.valueOf(randomNumber);
+			String updateQuery = "UPDATE RUser SET Pword = ? WHERE Email = ?;";
+			PreparedStatement statement = dbc.prepareStatement(updateQuery);
+			statement.setString(1, password);
+			statement.setString(2, email);
+			statement.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		String info = "Hey user,\n\nWe recieved a request for a forgotten password.\n\nWe've changed your password to the following, 'Password44'.\n\nGet in touch if you have any other issues!\n\t-easyPoll Team";
+		String info = "Hey user,\n\nWe recieved a request for a forgotten password.\n\nWe've changed your password to the following, '"+password+"'.\n\nGet in touch if you have any other issues!\n\t-easyPoll Team";
 		Email.sendMail(email, "Forgot Your Password?", info);
 	}
 
