@@ -48,10 +48,11 @@
             <div id="navbar" class="navbar-collapse collapse">
                 <ul class="nav navbar-nav navbar-left">
                     <li><a href="/test/home">Home</a>
-                    <li><a href="/test/communitypolls">Community</a></li>
-                    <li><a href="/test/mypolls">My Polls</a></li>
-                    <li><a href="/test/about">About</a></li>
-                    <li><a href="/test/contact">Contact</a></li>
+					<li><a href="/test/communitypolls">Community</a></li>
+					<li><a href="/test/mypolls">My Polls</a></li>
+					<li><a href="/test/groupmanager">My Groups</a></li>
+					<li><a href="/test/about">About</a></li>
+					<li><a href="/test/contact">Contact</a></li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right" id="logged-out">
                     <li>${login}</li>
@@ -68,7 +69,11 @@
         <div class="page-header">
             <h1>My Groups</h1>
         </div>
-        <button type="button" class="btn btn-default" id="createGroup">Create Group</button>
+        <form:form method="POST" action="/test/creategroup">
+        <input type="text" id="groupName" name="nameString" placeholder="New Group Name"/>
+        <input type="text" id="groupName" name="pollString" placeholder="Poll Number"/>
+        <input type="submit" id="btnLogin" class="btn btn-success" value="Create Group">
+        </form:form>
         <table id="groups" class="table table-striped table-hover">
             <thead>
                 <tr>
@@ -77,14 +82,7 @@
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td>
-                        Group123
-                    </td>
-                    <td>
-                        <button type="button" class="btn btn-default" id="deleteGroup">Delete</button>
-                    </td>
-                </tr>
+                ${polls}
             </tbody>
         </table>
     </div>
@@ -111,7 +109,7 @@
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                     <div class="loginmodal-container text-center">
                         <h2>Login to Your Account</h2><br>
-                        <form:form method="POST" action="/test/addUser">
+                        <form:form method="POST" action="/test/login">
                             <form:input id="txtEmail" type="text" placeholder="Email" path="username" />
                             <form:input id="txtPassword" type="password" placeholder="Password" path="password" />
                             <input type="submit" id="btnLogin" class="btn btn-success" value="Login">

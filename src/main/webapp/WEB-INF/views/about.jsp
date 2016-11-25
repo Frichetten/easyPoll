@@ -33,6 +33,7 @@
 					<li><a href="/test/home">Home</a>
 					<li><a href="/test/communitypolls">Community</a></li>
 					<li><a href="/test/mypolls">My Polls</a></li>
+					<li><a href="/test/groupmanager">My Groups</a></li>
 					<li><a href="/test/about">About</a></li>
 					<li><a href="/test/contact">Contact</a></li>
 				</ul>

@@ -46,10 +46,11 @@
 				<div id="navbar" class="navbar-collapse collapse">
 					<ul class="nav navbar-nav navbar-left">
 						<li><a href="/test/home">Home</a>
-						<li><a href="/test/communitypolls">Community</a></li>
-						<li><a href="/test/mypolls">My Polls</a></li>
-						<li><a href="/test/about">About</a></li>
-						<li><a href="/test/contact">Contact</a></li>
+					<li><a href="/test/communitypolls">Community</a></li>
+					<li><a href="/test/mypolls">My Polls</a></li>
+					<li><a href="/test/groupmanager">My Groups</a></li>
+					<li><a href="/test/about">About</a></li>
+					<li><a href="/test/contact">Contact</a></li>
 					</ul>
 					<ul class="nav navbar-nav navbar-right">
 						<li>${login}</li>

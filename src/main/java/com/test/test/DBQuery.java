@@ -443,7 +443,6 @@ public class DBQuery{
 			
 			return Integer.parseInt(rs.getString(1));
 		}
-		
 		return 0;
 	}
 	
@@ -947,6 +946,56 @@ public class DBQuery{
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+	}
+	
+	public static void createGroup(String groupName, int pollNum, String username){
+		try{
+			String insertQuery = "INSERT INTO PollGroup (PollNum, GroupName, AdminUsername) VALUES (?,?,?);";
+			PreparedStatement statement = dbc.prepareStatement(insertQuery);
+			statement.setInt(1, pollNum);
+			statement.setString(2, groupName);
+			statement.setString(3, username);
+			statement.execute();
+		} catch (SQLException e){
+			e.printStackTrace();
+		}
+	}
+	
+	public static Group getPollGroup(int groupNum){
+		try{
+			Group toReturn = new Group();
+			String searchQuery = "SELECT * FROM PollGroup WHERE GroupNum = ?;";
+			PreparedStatement statement = dbc.prepareStatement(searchQuery);
+			statement.setInt(1, groupNum);
+			ResultSet rs = statement.executeQuery();
+			if (rs.next()){
+				toReturn.setGroupName(rs.getString(3));
+				toReturn.setGroupID(rs.getInt(1));
+				toReturn.setGroupPoll(new Poll(rs.getInt(2)));
+				toReturn.setAdmin(rs.getString(4));
+			}
+			return toReturn;
+		} catch (SQLException e){
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	public static ArrayList<Group> getYourPollGroups(String username){
+		ArrayList<Group> toReturn = new ArrayList<Group>();
+		try{
+			String searchQuery = "SELECT GroupNum, PollNum, GroupName, AdminUsername FROM PollGroup WHERE AdminUsername = ?;";
+			PreparedStatement statement = dbc.prepareStatement(searchQuery);
+			statement.setString(1, username);
+			ResultSet rs = statement.executeQuery();
+			while(rs.next()){
+				toReturn.add(new Group(rs.getInt(1), rs.getString(4), new Poll(rs.getInt(2)), rs.getString(3)));
+			}
+		} catch(SQLException e){
+			e.printStackTrace();
+		}
+		
+		return toReturn;
 	}
 
 }

@@ -86,7 +86,6 @@ public class Poll {
 		this.pollPoster = poll.getPollPoster();
 		this.tags = poll.getTags();
 		this.partakers = poll.getPartakers();
-		
 	}
 	
 	public static void checkCurrent(int pollNum){

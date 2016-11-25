@@ -86,52 +86,6 @@ public class HomeController {
 		
 		return new ModelAndView("home", "command", new User());
 	}
-	
-	//Code for the group page of the site
-	@RequestMapping(value = "/group", method = RequestMethod.GET)
-	public ModelAndView group(@ModelAttribute("SpringWeb") User user, ModelMap model, HttpServletRequest request) {
-		User a = (User) request.getSession().getAttribute("token");
-		if (a == null) {
-			System.out.println("User not logged in");
-			// Login Modifier
-			String login = "<a href='../navbar-static-top/' data-toggle='modal' data-target='#login-modal'>Login</a>";
-			String signup = "<a href='../navbar-fixed-top/' data-toggle='modal' data-target='#create-account-modal'>Signup</a>";
-			model.addAttribute("login", login);
-			model.addAttribute("signup", signup);
-		} else {
-			System.out.println("Logged in as " + a.getUsername());
-			// model.addAttribute("username", a.getUsername());
-			String login = "<a href='/test/profile'>" + a.getUsername() + "</a>";
-			String signout = "<a href='/test/signout' >Sign Out</a>";
-			model.addAttribute("login", login);
-			model.addAttribute("signup", signout);
-		}
-		
-		return new ModelAndView("group", "command", new User());
-	}
-
-	//Code for the groupmanager pager
-	@RequestMapping(value = "/groupmanager", method = RequestMethod.GET)
-	public ModelAndView groupmanager(@ModelAttribute("SpringWeb") User user, ModelMap model, HttpServletRequest request) {
-		User a = (User) request.getSession().getAttribute("token");
-		if (a == null) {
-			System.out.println("User not logged in");
-			// Login Modifier
-			String login = "<a href='../navbar-static-top/' data-toggle='modal' data-target='#login-modal'>Login</a>";
-			String signup = "<a href='../navbar-fixed-top/' data-toggle='modal' data-target='#create-account-modal'>Signup</a>";
-			model.addAttribute("login", login);
-			model.addAttribute("signup", signup);
-		} else {
-			System.out.println("Logged in as " + a.getUsername());
-			// model.addAttribute("username", a.getUsername());
-			String login = "<a href='/test/profile'>" + a.getUsername() + "</a>";
-			String signout = "<a href='/test/signout' >Sign Out</a>";
-			model.addAttribute("login", login);
-			model.addAttribute("signup", signout);
-		}
-
-		return new ModelAndView("groupmanager", "command", new User());
-	}
 
 	@RequestMapping(value = "/about", method = RequestMethod.GET)
 	public ModelAndView about(@ModelAttribute("SpringWeb") User user, ModelMap model, HttpServletRequest request) {
@@ -1070,5 +1024,73 @@ public class HomeController {
 		}
 	    redirect.setExposeModelAttributes(false);
 	    return redirect;
+	}
+	
+	//Code for the groupmanager page
+	@RequestMapping(value = "/groupmanager", method = RequestMethod.GET)
+	public ModelAndView groupmanager(@ModelAttribute("SpringWeb") User user, ModelMap model, 
+			HttpServletRequest request) throws SQLException {
+		User a = (User) request.getSession().getAttribute("token");
+		if (a == null) {
+			return home(new User(), model, request);
+		} else {
+			System.out.println("Logged in as " + a.getUsername());
+			// model.addAttribute("username", a.getUsername());
+			String login = "<a href='/test/profile'>" + a.getUsername() + "</a>";
+			String signout = "<a href='/test/signout' >Sign Out</a>";
+			model.addAttribute("login", login);
+			model.addAttribute("signup", signout);
+		}
+		
+		ArrayList<Group> pollArr = Group.getYourPollGroups(a.getUsername());
+		System.out.println("######## " + pollArr.size());
+		String thyme = "";
+		for (int i =(pollArr.size()-1); i >= 0; i--){
+			thyme = thyme + "<tr><td>"+pollArr.get(i).getGroupName()+"</td><td hidden='true'>"+pollArr.get(i).getGroupID()+"</td><td><form:form method='POST' action='/test/deletegroup'><input type='submit' id='btnLogin' class='btn btn-success' value='Delete Group'></form:form></td></tr>";
+		}
+		model.addAttribute("polls", thyme);
+		
+		return new ModelAndView("groupmanager", "command", new User());
+	}
+
+	@RequestMapping(value = "/creategroup", method = RequestMethod.POST)
+	public View createGroup(@RequestParam("nameString")String groupName, @RequestParam("pollString")String pollNum,
+			ModelMap model, HttpServletRequest request) throws SQLException{
+		User a = (User) request.getSession().getAttribute("token");
+		
+		Group.createGroup(groupName, Integer.valueOf(pollNum), a.getUsername());
+		
+		RedirectView redirect = null;
+		redirect = new RedirectView("/test/groupmanager");
+	    redirect.setExposeModelAttributes(false);
+	    return redirect;
+	}
+	
+	//Code for the group page of the site
+	@RequestMapping(value = "/group/{groupNum}", method = RequestMethod.GET)
+	public ModelAndView group(@ModelAttribute("SpringWeb") User user, ModelMap model, 
+			HttpServletRequest request, @PathVariable String groupNum) {
+		User a = (User) request.getSession().getAttribute("token");
+		if (a == null) {
+			System.out.println("User not logged in");
+			// Login Modifier
+			String login = "<a href='../navbar-static-top/' data-toggle='modal' data-target='#login-modal'>Login</a>";
+			String signup = "<a href='../navbar-fixed-top/' data-toggle='modal' data-target='#create-account-modal'>Signup</a>";
+			model.addAttribute("login", login);
+			model.addAttribute("signup", signup);
+		} else {
+			System.out.println("Logged in as " + a.getUsername());
+			// model.addAttribute("username", a.getUsername());
+			String login = "<a href='/test/profile'>" + a.getUsername() + "</a>";
+			String signout = "<a href='/test/signout' >Sign Out</a>";
+			model.addAttribute("login", login);
+			model.addAttribute("signup", signout);
+		}
+		Group pollGroup = Group.getGroup(Integer.valueOf(groupNum));
+		System.out.println(pollGroup.getGroupName());
+		System.out.println(pollGroup.getGroupPoll().getPollName());
+	
+		
+		return new ModelAndView("group", "command", new User());
 	}
 }

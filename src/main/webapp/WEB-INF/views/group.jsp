@@ -48,10 +48,11 @@
             <div id="navbar" class="navbar-collapse collapse">
                 <ul class="nav navbar-nav navbar-left">
                     <li><a href="/test/home">Home</a>
-                    <li><a href="/test/communitypolls">Community</a></li>
-                    <li><a href="/test/mypolls">My Polls</a></li>
-                    <li><a href="/test/about">About</a></li>
-                    <li><a href="/test/contact">Contact</a></li>
+					<li><a href="/test/communitypolls">Community</a></li>
+					<li><a href="/test/mypolls">My Polls</a></li>
+					<li><a href="/test/groupmanager">My Groups</a></li>
+					<li><a href="/test/about">About</a></li>
+					<li><a href="/test/contact">Contact</a></li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right" id="logged-out">
                     <li>${login}</li>
@@ -66,7 +67,7 @@
 
     <div class="container">
         <div class="page-header">
-            <h1>Group Name</h1>
+            <h1>${groupName}</h1>
         </div>
         <button type="button" class="btn btn-default" id="addUser">Add User</button>
         <table id="groupUsers" class="table table-striped table-hover">
