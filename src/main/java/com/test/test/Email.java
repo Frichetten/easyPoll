@@ -13,9 +13,12 @@ import javax.mail.internet.MimeMessage;
 
 public class Email {
 	
+	
+	private static final Void Void = null;
 	private String address;
 
-	public static void sendMail(String recipient, String subject, String info){
+
+	public static Void sendMail(String recipient, String subject, String info){
 		final String username = "easypollsystem@gmail.com";
 		final String password = "Team3IT326";
 
@@ -44,9 +47,11 @@ public class Email {
 		} catch (MessagingException e) {
 			throw new RuntimeException(e);
 		}
+		
+		return Void;
 	}
 	
-	public static void sendMassMail(String info){
+	public static Void sendMassMail(String info){
 		final String username = "easypollsystem@gmail.com";
 		final String password = "Team3IT326";
 		final String subject = "easyPoll Newsletter";
@@ -83,20 +88,23 @@ public class Email {
 		} catch (MessagingException e) {
 			throw new RuntimeException(e);
 		}
+		return Void;
 	}
 	
-	public Email(String email){
-		this.address = email;
+	public String getAddress(){
+		return this.address;
+	}
+	
+	public String setAddress(String address){
+		return this.address = address;
+	}
+	
+	public Email(String address){
+		this.address = address;
 	}
 	
 	public Email(){
 		
 	}
-	
-	public String getAddress() {
-		return address;
-	}
-	public void setAddress(String address) {
-		this.address = address;
-	}
+
 }

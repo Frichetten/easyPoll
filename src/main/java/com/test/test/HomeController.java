@@ -10,6 +10,10 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Properties;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.FutureTask;
 
 import javax.annotation.Resource;
 import javax.mail.Message;
@@ -585,7 +589,11 @@ public class HomeController {
 				toSend = a.getEmail();
 			}
 			String info = "Thank you for voting in the poll: " + poll.getPollName() + "! With your support, that poll will become more popular.\n\nThanks!\n\t-easyPoll Team";
-			Email.sendMail(toSend, "Thank you for voting", info);
+			ExecutorService executor = Executors.newFixedThreadPool(2);
+			
+			//Email.sendMail(toSend, "Thank you for voting", info);
+			FutureTask futureTask_1 = new FutureTask((Callable) new CallableSendMail(toSend, "Thank you for voting", info));
+			executor.execute(futureTask_1);
 			System.out.println("Update complete");
 		}
 
@@ -777,17 +785,22 @@ public class HomeController {
 			model.addAttribute("login", login);
 			model.addAttribute("signup", signout);
 		}
-		System.out.println(email.getAddress());
+		//System.out.println(email.getAddress());
 		String info = "To whom it may concern,\n\nA friend of yours is interested in getting you opinion on "
 				+ "a poll! Follow the link to learn more...\n\n" + request.getHeader("Referer") + "\n\nGot "
 				+ "a question you'd like to ask a vibrant community of polltakers? Visit us at easyPoll.com\n\n "
 				+ "All the best!\n\t-easyPoll Team";
 		System.out.println(info);
-		Email.sendMail(email.getAddress(), "You've been invited to a poll!", info);
-		
-		RedirectView redirect = new RedirectView("/test/mypolls");
+		//Email.sendMail(email.getAddress(), "You've been invited to a poll!", info);
+		ExecutorService executor = Executors.newFixedThreadPool(2);
+		@SuppressWarnings({ "rawtypes", "unchecked" })
+		FutureTask futureTask_1 = new FutureTask((Callable) new CallableSendMail(email.getAddress(), "You've been invited to a poll!", info));
+		executor.execute(futureTask_1);
+		String referer = request.getHeader("Referer");
+		RedirectView redirect = new RedirectView(referer);
 	    redirect.setExposeModelAttributes(false);
 	    return redirect;
+
 	}
 	
 	@RequestMapping(value = "/sendnewsletter", method = RequestMethod.POST)
@@ -797,7 +810,9 @@ public class HomeController {
 		System.out.println("Sending news letter");
 		System.out.println(textarea);
 		request.getSession().setAttribute("newsletter", true);
-		Email.sendMassMail(textarea);
+		ExecutorService executor = Executors.newFixedThreadPool(2);
+		FutureTask futureTask_1 = new FutureTask((Callable) new CallableSendMassMail(textarea));
+		executor.execute(futureTask_1);
 		
 		String referer = request.getHeader("Referer");
 	    return "redirect:"+ referer;

@@ -421,7 +421,7 @@ public class DBQuery{
 		   
 	public static ArrayList<String> getAllEmails(){
 		ArrayList<String> toReturn = new ArrayList<String>();
-		String emailQuery = "SELECT Email FROM RUser WHERE Username = 'Nick';";
+		String emailQuery = "SELECT Email FROM RUser WHERE Username = 'mattFletcher';";
 		try {
 			statement = dbc.createStatement();
 			ResultSet rs = statement.executeQuery(emailQuery);
@@ -821,10 +821,10 @@ public class DBQuery{
 		
 	}
 
-	public static void addReportedQuestion(String username, int pollNum) throws SQLException {
+	public static void addReportedQuestion(String username, int pollNum) {
 		String getPollQuery = "select * from Polls join PollData ON PollData.PollNum = Polls.PollNum" +
 							" where Polls.pollNum = " + pollNum + ";";
-		
+		try{
 		Statement statement = dbc.createStatement();
 		rs = statement.executeQuery(getPollQuery);
 		
@@ -857,6 +857,10 @@ public class DBQuery{
 		statement2.setString(4, Description);
 		statement2.setString(5, PollName);
 		statement2.execute();
+		}
+		catch(SQLException se){
+			System.out.println(se);
+		}
 	}
 	
 	public static void createAdmin(String username, String password) {
@@ -894,39 +898,45 @@ public class DBQuery{
 
 	public static void addPoll(Poll poll, String username, ArrayList<String> answerOptions) throws SQLException {
 		// Insert the user into the database
-				String insertPollsQuery = "INSERT INTO Polls (Username, isCurrent, PollName, Partakers, PollType, EndTotal) "
-						+ "VALUES (?,?,?,?,?,?);";
-				PreparedStatement statement = dbc.prepareStatement(insertPollsQuery);
-				statement.setString(1, username);
-				statement.setBoolean(2, true);
-				statement.setString(3, poll.getPollName());
-				statement.setInt(4, 0);
-				statement.setString(5, poll.getPollType());
-				statement.setInt(6, poll.getEndTotal());
-				statement.execute();
-				
-				
-				String insertPollDataQuery = "INSERT INTO PollData(PollNum, Question, Description, Params, isRadio, AnsOne, AnsTwo, AnsThree, "
-						+ "AnsFour, AnsFive, AnsSix, AnsSeven, AnsEight, AnsNine, AnsTen, "
-						+ "TotalOne, TotalTwo, TotalThree, TotalFour, TotalFive, TotalSix, TotalSeven, TotalEight, "
-						+ "TotalNine, TotalTen ) VALUES ((SELECT LAST_INSERT_ID()),?,?, ?, true,?,?,?,?,?,?,?,?,?,?, 0, 0, 0,0,0,0,0,0,0,0);";
-				PreparedStatement statement2 = dbc.prepareStatement(insertPollDataQuery);
-				statement2.setString(1, poll.getPollQuestion());
-				statement2.setString(2, poll.getPollDescription());
-				statement2.setInt(3, answerOptions.size());
-
-				int counter = 0;
-			    for(int i = 4; i < answerOptions.size() +4; i++){
-			    	statement2.setString(i, answerOptions.get(counter));
-			    	counter++;
-			    }
-			    while(counter < 10){
-			    	statement2.setNull(counter+4, java.sql.Types.VARCHAR);
-			    	counter++;
-			    }
-
-				statement2.execute();
-				System.out.println("Successful insertion");
+		
+				try{
+					String insertPollsQuery = "INSERT INTO Polls (Username, isCurrent, PollName, Partakers, PollType, EndTotal) "
+							+ "VALUES (?,?,?,?,?,?);";
+					PreparedStatement statement = dbc.prepareStatement(insertPollsQuery);
+					statement.setString(1, username);
+					statement.setBoolean(2, true);
+					statement.setString(3, poll.getPollName());
+					statement.setInt(4, 0);
+					statement.setString(5, poll.getPollType());
+					statement.setInt(6, poll.getEndTotal());
+					statement.execute();
+					
+					
+					String insertPollDataQuery = "INSERT INTO PollData(PollNum, Question, Description, Params, isRadio, AnsOne, AnsTwo, AnsThree, "
+							+ "AnsFour, AnsFive, AnsSix, AnsSeven, AnsEight, AnsNine, AnsTen, "
+							+ "TotalOne, TotalTwo, TotalThree, TotalFour, TotalFive, TotalSix, TotalSeven, TotalEight, "
+							+ "TotalNine, TotalTen ) VALUES ((SELECT LAST_INSERT_ID()),?,?, ?, true,?,?,?,?,?,?,?,?,?,?, 0, 0, 0,0,0,0,0,0,0,0);";
+					PreparedStatement statement2 = dbc.prepareStatement(insertPollDataQuery);
+					statement2.setString(1, poll.getPollQuestion());
+					statement2.setString(2, poll.getPollDescription());
+					statement2.setInt(3, answerOptions.size());
+	
+					int counter = 0;
+				    for(int i = 4; i < answerOptions.size() +4; i++){
+				    	statement2.setString(i, answerOptions.get(counter));
+				    	counter++;
+				    }
+				    while(counter < 10){
+				    	statement2.setNull(counter+4, java.sql.Types.VARCHAR);
+				    	counter++;
+				    }
+	
+					statement2.execute();
+					System.out.println("Successful insertion");
+				}
+				catch(SQLException se){
+					System.out.println(se);
+				}
 	}
 	
 	public static void deletePoll(int pollNum){
