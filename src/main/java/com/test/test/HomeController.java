@@ -1,5 +1,6 @@
 package com.test.test;
 
+import java.io.IOException;
 import java.sql.Connection;
 
 import java.sql.DriverManager;
@@ -19,6 +20,7 @@ import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.xml.ws.WebServiceContext;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -1009,6 +1011,48 @@ public class HomeController {
 		RedirectView redirect = null;
 		if (a != null){
 			redirect = new RedirectView("/test/profile");
+		}
+	    redirect.setExposeModelAttributes(false);
+	    return redirect;
+	}
+	
+	@RequestMapping(value = "/downloadPoll/{pollId}", method = RequestMethod.POST)
+	public View downloadpoll(@ModelAttribute("SpringWeb")User user, ModelMap model,
+		HttpServletRequest request, @PathVariable String pollId, HttpServletResponse response) throws SQLException, IOException{
+		// Confirming Login Status, this person must be the poll creator
+		User a = (User)request.getSession().getAttribute("token");
+		if (a == null){
+			System.out.println("User not logged in");
+			 RedirectView redirect = new RedirectView("/test/home/");
+			 return redirect;
+		} else {
+			System.out.println("Logged in as " + a.getUsername());
+			String login = "<a href='#'>" + a.getUsername() + "</a>";
+			String signout = "<a href='/test/signout' >Sign Out</a>";
+			model.addAttribute("login", login);
+			model.addAttribute("signup", signout);
+		}
+		Poll poll = new Poll(Integer.valueOf(pollId));
+		
+		response.setContentType("text/csv");
+		String reportName = "CSV_Report_Name.csv";
+		response.setHeader("Content-disposition", "attachment;filename="+reportName);
+		
+		String outputString = "";
+		for(int i = 0; i < poll.getPollData().getAnswer().getAnswerOptions().size(); i++){
+			outputString = outputString + poll.getPollData().getAnswer().getAnswerOptions().get(i) + ",";
+		}
+		outputString = outputString + "\n";
+		for(int i = 0; i < poll.getPollData().getAnswer().getAnswerOptions().size(); i++){
+			outputString = outputString + poll.getPollData().getAnswer().getAnswerChosen().get(i) + ",";
+		}
+		response.getOutputStream().print(outputString);
+ 
+		response.getOutputStream().flush();
+		
+		RedirectView redirect = null;
+		if (a != null){
+			redirect = new RedirectView("/test/singlepolldata/"+pollId);
 		}
 	    redirect.setExposeModelAttributes(false);
 	    return redirect;
