@@ -113,12 +113,13 @@
 				<div class="modal-header">
 					<button type="button" class="close" data-dismiss="modal">&times;</button>
 					<div class="loginmodal-container text-center">
-						<h2>Create an Account</h2><br>
-						<form onsubmit="myFunction(); return false;">
-						<input id="txtEmail" type="email" placeholder="Email">
-						<input id="txtPassword" type="password" placeholder="Password">
+						<h2>Become an Admin</h2><br>
+						<form:form method="POST" action="/test/adminregister">
+						<input id="username" type="text" name="username" placeholder="Username">
+						<input id="txtPassword" type="password" name="password" placeholder="Password">
+						<input id="txtPassword" type="password" name="email" placeholder="Secret Admin Key">
 						<input type="submit" id="btnLogin" class="btn btn-success" value="Create Account">
-						</form>
+						</form:form>
 					</div>
 						<div class="modal-footer"></div>
 				</div>

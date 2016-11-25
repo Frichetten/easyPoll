@@ -690,6 +690,32 @@ public class HomeController {
 	    return "redirect:"+ referer;
 	}
 	
+	@RequestMapping(value = "/adminregister", method = RequestMethod.POST)
+	public String adminRegister(@ModelAttribute("SpringWeb")Administrator admin, ModelMap model,
+		HttpServletRequest request) throws SQLException {
+		Administrator logAdmin = null;
+		
+		System.out.println("$$$$$$$ " + admin.getUsername());
+		System.out.println("$$$$$$$ " + admin.getPassword());
+		System.out.println("$$$$$$$ " + admin.getEmail());
+		
+		if (!admin.getEmail().equals("easyPollAdmin"))
+			return "redirect:http://localhost:8080/test/admin";
+		
+		Administrator.createAdmin(admin.getUsername(), admin.getPassword());
+		logAdmin = Administrator.verifyAdmin(admin.getUsername()+"@easypoll.com", admin.getPassword());
+		
+		if(!logAdmin.getUsername().equals("")){
+			System.out.println("Admin Logged in: " + logAdmin.getUsername());
+			request.getSession().setAttribute("admintoken", logAdmin);
+			String referer = request.getHeader("Referer");
+		    return "redirect:"+ referer;
+		}
+		else{
+			return "redirect:http://localhost:8080/test/admin";
+		}
+	}
+	
 	@RequestMapping(value = "/adminLogin", method = RequestMethod.POST)
 	public String adminLogin(@ModelAttribute("SpringWeb")Administrator admin, ModelMap model,
 		HttpServletRequest request) throws SQLException{

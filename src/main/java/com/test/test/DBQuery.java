@@ -848,9 +848,22 @@ public class DBQuery{
 		statement2.setString(3, Question);
 		statement2.setString(4, Description);
 		statement2.setString(5, PollName);
-		
 		statement2.execute();
-						
+	}
+	
+	public static void createAdmin(String username, String password) {
+		try{
+			String newUsername = username + "(Admin)";
+			String email = username+"@easypoll.com";
+			String insertQuery = "INSERT INTO AdminUser (Username, Email, Pword) VALUES (?,?,?);";
+			PreparedStatement statement = dbc.prepareStatement(insertQuery);
+			statement.setString(1, newUsername);
+			statement.setString(2, email);
+			statement.setString(3, password);
+			statement.execute();
+		} catch (SQLException e){
+			e.printStackTrace();
+		}
 	}
 	
 	public static Administrator adminLogin(String email, String password) throws SQLException{

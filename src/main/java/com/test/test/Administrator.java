@@ -24,8 +24,9 @@ public class Administrator {
 	public Administrator(){
 		
 	}
-	
-	
+	public static void createAdmin(String username, String password){
+		DBQuery.createAdmin(username, password);
+	}
 	public Administrator(String username) throws SQLException {
 		Administrator ad = DBQuery.getAdmin(username);
 		this.username = ad.getUsername();
