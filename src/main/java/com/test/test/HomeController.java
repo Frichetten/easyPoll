@@ -1166,12 +1166,28 @@ public class HomeController {
 		
 		ArrayList<User> groupMembers = User.getGroupMembers(groupNum);
 		String thyme = "";
-		for (int i =(groupMembers.size()-1); i >= 0; i--){
-			thyme = thyme + "<tr><td>"+groupMembers.get(i).getUsername()+"</td><td><form:form method='POST' action='/test/deleteuserfromgroup'><input type='text' id='groupNum' name='groupNUM' value='"+groupNum+"' hidden='true'/><input type='text' id='username' name='usernameString' value='"+groupMembers.get(i).getUsername()+"' hidden='true'/><input type='submit' id='deleteUser' class='btn btn-success' value='Delete User'></form:form></td></tr>";
-		}
-		model.addAttribute("groupMembers", thyme);
+		
 		model.addAttribute("groupNum",groupNum);
 		model.addAttribute("pollNum", pollGroup.getGroupPoll().getPollNum());
+		if (a != null){
+			if(a.getUsername().equals(pollGroup.getAdmin())){
+				model.addAttribute("access","accep");
+				for (int i =(groupMembers.size()-1); i >= 0; i--){
+					thyme = thyme + "<tr><td>"+groupMembers.get(i).getUsername()+"</td><td><form:form method='POST' action='/test/deleteuserfromgroup'><input type='text' id='groupNum' name='groupNUM' value='"+groupNum+"' hidden='true'/><input type='text' id='username' name='usernameString' value='"+groupMembers.get(i).getUsername()+"' hidden='true'/><input type='submit' id='deleteUser' class='btn btn-success' value='Delete User'></form:form></td></tr>";
+				}
+				model.addAttribute("tableHeader", "Delete User");
+			}
+			else{
+				model.addAttribute("access","s");
+				for (int i =(groupMembers.size()-1); i >= 0; i--){
+					thyme = thyme + "<tr><td>"+groupMembers.get(i).getUsername()+"</td></tr>";
+				}
+				model.addAttribute("tableHeader", "Delete User");
+			}
+		}
+		else
+			model.addAttribute("access","s");
+		model.addAttribute("groupMembers", thyme);
 		
 		return new ModelAndView("group", "command", new User());
 	}
