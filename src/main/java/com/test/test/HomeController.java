@@ -442,6 +442,7 @@ public class HomeController {
 		//Check the isCurrent status
 		Poll poll = DBQuery.getPoll(Integer.parseInt(pollId));
 		Poll.checkCurrent(Integer.parseInt(pollId));
+		poll = DBQuery.getPoll(Integer.parseInt(pollId));
 		
 		//Need to identify is anonymous user
 		String toPut = "";
@@ -451,9 +452,6 @@ public class HomeController {
 		else {
 			toPut = a.getUsername();
 		}
-		
-		
-		
 		
 		// Before doing anything, we need to confirm that they havent voted yet
 		//String check = "SELECT * FROM PollTaker WHERE Username = '" + toPut + "' and PollNum = " + pollId
