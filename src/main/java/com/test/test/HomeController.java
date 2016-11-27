@@ -981,7 +981,7 @@ public class HomeController {
 			model.addAttribute("login", login);
 			model.addAttribute("signup", signout);
 		}
-		User.deleteAccount(a.getEmail());
+		User.deleteAccount(a.getUsername());
 		System.out.println("HELLLLLLLLLLLO");
 		signout(new User(), model, request);
 		System.out.println("HELLLLLLLLLLLO");

@@ -267,7 +267,7 @@ public class DBQuery{
 							   }
 							   
 					   }
-					   while(next &&!rs.getString(47).equals(PollTag) 
+					   while(next && !rs.getString(47).equals(PollTag) 
 							   && rs.getString(2).equals(pollPoster)
 							   && Integer.parseInt(rs.getString(1))==(currentPollNum));
 				   }
@@ -718,12 +718,43 @@ public class DBQuery{
 		statement.executeUpdate(updatePartakersQuery);
 	}
 	
-	public static void deleteAccount(String email) {
+	public static void deleteAccount(String username) {
 		try {
-			String deleteQuery = "DELETE FROM RUser WHERE Email = ?;";
+			//Need to delete all of this users polls
+			//First get all of the pollNums for them.
+			String searchQuery = "SELECT PollNum FROM Polls WHERE Username = ?;";
+			PreparedStatement searchStatement = dbc.prepareStatement(searchQuery);
+			searchStatement.setString(1, username);
+			ResultSet rs = searchStatement.executeQuery();
+			ArrayList<String> pollNums = new ArrayList<String>();
+			while (rs.next()){
+				pollNums.add(rs.getString(1));
+			}
+			//Delete all pollTakers 
+			for(int i = 0; i < pollNums.size(); i++){
+				String dq1 = "DELETE FROM PollTaker WHERE PollNum = ?;";
+				PreparedStatement ds1 = dbc.prepareStatement(dq1);
+				ds1.setInt(1,Integer.parseInt(pollNums.get(i)));
+				ds1.execute();
+			}
+			//Delete all PollData
+			for(int i=0; i < pollNums.size(); i++){
+				String dq1 = "DELETE FROM PollData WHERE PollNum = ?;";
+				PreparedStatement ds1 = dbc.prepareStatement(dq1);
+				ds1.setInt(1,Integer.parseInt(pollNums.get(i)));
+				ds1.execute();
+			}
+			//Delete From Polls
+			for(int i=0; i < pollNums.size(); i++){
+				String dq1 = "DELETE FROM Polls WHERE PollNum = ?;";
+				PreparedStatement ds1 = dbc.prepareStatement(dq1);
+				ds1.setInt(1,Integer.parseInt(pollNums.get(i)));
+				ds1.execute();
+			}
+			String deleteQuery = "DELETE FROM RUser WHERE Username = ?;";
 			PreparedStatement statement;
 			statement = dbc.prepareStatement(deleteQuery);
-			statement.setString(1, email);
+			statement.setString(1, username);
 			statement.execute();
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -1001,7 +1032,7 @@ public class DBQuery{
 			PreparedStatement statement5 = dbc.prepareStatement(getGroupNum);
 			statement5.setInt(1, pollNum);
 			ResultSet rs = statement5.executeQuery();
-			String num = "";
+			String num = "15000";
 			if(rs.next()){
 				num = rs.getString(1);
 			}
