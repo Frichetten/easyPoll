@@ -207,7 +207,7 @@ public class DBQuery{
 			   String Description = rs.getString(12);
 			   System.out.println(Description);
 			   boolean isRadio = Boolean.parseBoolean(rs.getString(13));
-			   boolean gotTags = false;
+			   boolean gotTags = true;
 			   ArrayList<String> answers = new ArrayList<String>();
 			   int i = 14;
 			   while (i < 24 && rs.getString(i)!=null){
@@ -334,7 +334,7 @@ public class DBQuery{
 			   String Description = rs.getString(12);
 			   System.out.println(Description);
 			   boolean isRadio = Boolean.parseBoolean(rs.getString(13));
-			   boolean gotTags = false;
+			   boolean gotTags = true;
 			   ArrayList<String> answers = new ArrayList<String>();
 			   int i = 14;
 			   while (i < 24 && rs.getString(i)!=null){
@@ -1020,6 +1020,10 @@ public class DBQuery{
 	
 	public static void deletePoll(int pollNum){
 		try {
+			String dd = "DELETE FROM PollTags WHERE PollNum = ?;";
+			PreparedStatement ss = dbc.prepareStatement(dd);
+			ss.setInt(1, pollNum);
+			ss.execute();
 			String deletePollTaker = "DELETE FROM PollTaker WHERE PollNum = ?;";
 			PreparedStatement statement1 = dbc.prepareStatement(deletePollTaker);
 			statement1.setInt(1, pollNum);

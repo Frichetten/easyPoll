@@ -186,7 +186,7 @@
 	</div>
 	<div class="container" ${creatorHide}>
 		<ul class="nav nav-tabs">
-			<li role="presentation" class="active"><a href="#">Cancel Poll Early</a></li>
+			<li role="presentation" class="active"><a href="#">Download Poll Data</a></li>
 		</ul>
 		<div class="col-md-12">		
 			<form:form method="POST" action="/test/downloadPoll/${pollID}">
