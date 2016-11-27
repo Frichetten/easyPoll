@@ -620,13 +620,11 @@ public class HomeController {
 				{
 					optionsList = optionsList + "\"" + options.get(i) + "\", ";
 					valuesList = valuesList + "\"" + values[i] + "\", ";
-					
 				}
 				else
 				{
 					optionsList = optionsList + "\"" + options.get(i) + "\"";
 					valuesList = valuesList + "\"" + values[i] + "\"";
-					
 				}
 				
 			}
@@ -1116,8 +1114,40 @@ public class HomeController {
 		Group pollGroup = Group.getGroup(Integer.valueOf(groupNum));
 		System.out.println(pollGroup.getGroupName());
 		System.out.println(pollGroup.getGroupPoll().getPollName());
-	
+		model.addAttribute("groupNameAndPollName", pollGroup.getGroupName() + " Voting on: " + pollGroup.getGroupPoll().getPollName());
+		
+		ArrayList<User> groupMembers = User.getGroupMembers(groupNum);
+		String thyme = "";
+		for (int i =(groupMembers.size()-1); i >= 0; i--){
+			thyme = thyme + "<tr><td>"+groupMembers.get(i).getUsername()+"</td><td><form:form method='POST' action='/test/deleteuserfromgroup'><input type='text' id='groupNum' name='groupNUM' value='"+groupNum+"' hidden='true'/><input type='text' id='username' name='usernameString' value='"+groupMembers.get(i).getUsername()+"' hidden='true'/><input type='submit' id='deleteUser' class='btn btn-success' value='Delete User'></form:form></td></tr>";
+		}
+		model.addAttribute("groupMembers", thyme);
+		model.addAttribute("groupNum",groupNum);
 		
 		return new ModelAndView("group", "command", new User());
+	}
+	
+	@RequestMapping(value = "/addusertogroup", method = RequestMethod.POST)
+	public View addUserToGroup(@RequestParam("usernameString")String username, @RequestParam("groupNUM")String groupNum,
+			ModelMap model, HttpServletRequest request) {
+		
+		Group.addUserToGroup(username, groupNum);
+		
+		RedirectView redirect = null;
+		redirect = new RedirectView("/test/group/"+groupNum);
+	    redirect.setExposeModelAttributes(false);
+	    return redirect;
+	}
+	
+	@RequestMapping(value = "/deleteuserfromgroup/{groupNum}/{username}", method = RequestMethod.GET)
+	public View deleteUserFromGroup(@PathVariable String groupNum,@PathVariable String username,
+			ModelMap model, HttpServletRequest request) throws SQLException{
+		
+		Group.deleteUserFromGroup(username, groupNum);
+		
+		RedirectView redirect = null;
+		redirect = new RedirectView("/test/group/"+groupNum);
+	    redirect.setExposeModelAttributes(false);
+	    return redirect;
 	}
 }

@@ -421,7 +421,7 @@ public class DBQuery{
 		   
 	public static ArrayList<String> getAllEmails(){
 		ArrayList<String> toReturn = new ArrayList<String>();
-		String emailQuery = "SELECT Email FROM RUser WHERE Username = 'mattFletcher';";
+		String emailQuery = "SELECT Email FROM RUser WHERE Username = 'Nick';";
 		try {
 			statement = dbc.createStatement();
 			ResultSet rs = statement.executeQuery(emailQuery);
@@ -993,6 +993,49 @@ public class DBQuery{
 			e.printStackTrace();
 		}
 		return null;
+	}
+	
+	public static void addUserToGroup(String username, String groupNum){
+		try{
+			String insertQuery = "INSERT INTO UserGroup (Username, GroupNum) VALUES (?,?);";
+			PreparedStatement statement = dbc.prepareStatement(insertQuery);
+			statement.setString(1, username);
+			statement.setInt(2, Integer.valueOf(groupNum));
+			statement.execute();
+		} catch (SQLException e){
+			e.printStackTrace();
+		}
+	}
+	
+	public static void deleteUserFromGroup(String username, String groupNum){
+		try{
+			String deleteQuery = "DELETE FROM UserGroup WHERE Username = ? and GroupNum = ?;";
+			PreparedStatement statement = dbc.prepareStatement(deleteQuery);
+			statement.setString(1, username);
+			statement.setInt(2, Integer.valueOf(groupNum));
+			statement.execute();
+		} catch (SQLException e){
+			e.printStackTrace();
+		}
+	}
+	
+	public static ArrayList<User> getGroupMembers(String groupNum){
+		try{
+			ArrayList<User> toReturn = new ArrayList<User>();
+			String searchQuery = "SELECT Username FROM UserGroup WHERE GroupNum = ?";
+			PreparedStatement statement = dbc.prepareStatement(searchQuery);
+			statement.setInt(1, Integer.valueOf(groupNum));
+			ResultSet rs = statement.executeQuery();
+			while (rs.next()){
+				User toAdd = new User();
+				toAdd.setUsername(rs.getString(1));
+				toReturn.add(toAdd);
+			}
+			return toReturn;
+		} catch (SQLException e){
+			e.printStackTrace();
+			return null;
+		}
 	}
 	
 	public static ArrayList<Group> getYourPollGroups(String username){

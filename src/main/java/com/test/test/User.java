@@ -34,6 +34,10 @@ public class User {
 		   DBQuery.updateAccount(queryName, username, email, password);
 	   }
 	   
+	   public static ArrayList<User> getGroupMembers(String groupNum){
+		   return DBQuery.getGroupMembers(groupNum);
+	   }
+	   
 	   public static ArrayList<Poll> getPublicPolls() throws SQLException{
 		   return DBQuery.getPublicPolls();
 	   }
@@ -47,7 +51,6 @@ public class User {
 	   }
 	   
 	   public static ArrayList<Poll> getMyPolls(String username) throws SQLException{
-
 		   return DBQuery.getMyPolls(username);
 	   }
 	   

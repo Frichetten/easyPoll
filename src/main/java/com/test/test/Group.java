@@ -36,6 +36,14 @@ public class Group {
 		
 	}
 	
+	public static void addUserToGroup(String username, String groupNum){
+		DBQuery.addUserToGroup(username, groupNum);
+	}
+	
+	public static void deleteUserFromGroup(String username, String groupNum){
+		DBQuery.deleteUserFromGroup(username, groupNum);
+	}
+	
 	public static Group getGroup(int groupNum){
 		return DBQuery.getPollGroup(groupNum);
 	}

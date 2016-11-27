@@ -67,9 +67,13 @@
 
     <div class="container">
         <div class="page-header">
-            <h1>${groupName}</h1>
+            <h1>${groupNameAndPollName}</h1>
         </div>
-        <button type="button" class="btn btn-default" id="addUser">Add User</button>
+        <form:form method="POST" action="/test/addusertogroup">
+        <input type="text" id="groupNum" name="groupNUM" value="${groupNum}" hidden="true"/>
+        <input type="text" id="userName" name="usernameString" placeholder="Username to Add"/>
+        <input type="submit" id="btnLogin" class="btn btn-success" value="Add User">
+        </form:form>
         <table id="groupUsers" class="table table-striped table-hover">
             <thead>
                 <tr>
@@ -78,14 +82,7 @@
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td>
-                        User1234
-                    </td>
-                    <td>
-                        <button type="button" class="btn btn-default" id="deleteUser">Delete</button>
-                    </td>
-                </tr>
+                ${groupMembers}
             </tbody>
         </table>
     </div>
@@ -166,5 +163,27 @@
         </div>
     </div>
 </body>
+<script>
+function addRowHandlers() {
+            var table = document.getElementById("groupUsers");
+            var rows = table.getElementsByTagName("tr");
+            for (i = 0; i < rows.length; i++) {
+                var currentRow = table.rows[i];
+                var createClickHandler =
+                    function (row) {
+                        return function () {
+                        	var cell = row.getElementsByTagName("input")[0];
+                            var id = cell.value;
+                            cell = row.getElementsByTagName("input")[1];
+                            var name = cell.value;
+                            document.location = "/test/deleteuserfromgroup/"+id+"/"+name;
+                        };
+                    };
+
+                currentRow.onclick = createClickHandler(currentRow);
+            }
+        }
+        window.onload = addRowHandlers();
+</script>
 </html>
 	
