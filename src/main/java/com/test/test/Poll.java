@@ -117,6 +117,10 @@ public class Poll {
 		this.partakers = partakers;
 	}
 	
+	public static ArrayList<Poll> getYourPrivatePolls(String username){
+		return DBQuery.getYourPrivatePolls(username);
+	}
+	
 	public PollData getPollData(){
 		
 		return this.pollData;

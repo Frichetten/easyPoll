@@ -1116,11 +1116,18 @@ public class HomeController {
 		}
 		model.addAttribute("invitedPolls", invitedThyme);
 		
+		ArrayList<Poll> yourPolls = Poll.getYourPrivatePolls(a.getUsername());
+		String privatePolls = "";
+		for (int i=(yourPolls.size()-1); i>= 0; i--){
+			privatePolls = privatePolls + "<tr><td align='left'>"+yourPolls.get(i).getPollName()+"</td><td hidden='true'>"+yourPolls.get(i).getPollNum()+"</td><td align='left'>"+yourPolls.get(i).getPollDescription()+"</td></tr>";
+		}
+		model.addAttribute("yourPolls", privatePolls);
+		
 		return new ModelAndView("groupmanager", "command", new User());
 	}
 
-	@RequestMapping(value = "/creategroup", method = RequestMethod.POST)
-	public View createGroup(@RequestParam("nameString")String groupName, @RequestParam("pollString")String pollNum,
+	@RequestMapping(value = "/creategroup/{pollNum}/{groupName}", method = RequestMethod.GET)
+	public View createGroup(@PathVariable String groupName, @PathVariable String pollNum,
 			ModelMap model, HttpServletRequest request) throws SQLException{
 		User a = (User) request.getSession().getAttribute("token");
 		

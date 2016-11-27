@@ -69,11 +69,12 @@
         <div class="page-header">
             <h1>My Groups</h1>
         </div>
-        <form:form method="POST" action="/test/creategroup">
+         <!-- <form:form method="POST" action="/test/creategroup">
         <input type="text" id="groupName" name="nameString" placeholder="New Group Name"/>
         <input type="text" id="groupName" name="pollString" placeholder="Poll Number"/>
         <input type="submit" id="btnLogin" class="btn btn-success" value="Create Group">
-        </form:form>
+        </form:form> -->
+        <button id='modalButton' class="btn btn-success" data-toggle='modal' data-target='#select-poll-modal'>Create Group</button>
         <table id="groups" class="table table-striped table-hover">
             <thead>
                 <tr>
@@ -177,6 +178,34 @@
             </div>
         </div>
     </div>
+     <!-- Select Poll Modal -->
+    <div id="select-poll-modal" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <div class="forgotmodal-container text-center">
+                        <h2>Select Poll</h2><br>
+                        
+                        <input type="text" id="groupNameText" placeholder="Group Name" required>
+                        
+                        <table id="yourPrivatePolls" class="table table-striped table-hover">
+                        	<thead>
+				                <tr>
+				                    <th>Poll Name</th>
+				                    <th>Poll Description</th>
+				                </tr>
+				            </thead>
+				            <tbody>
+				                ${yourPolls}
+				            </tbody>
+                        </table>
+                    </div>
+                    <div class="modal-footer"></div>
+                </div>
+            </div>
+        </div>
+    </div>
     
     <!--Adds a click event to each table row-->
     <script type="text/javascript">
@@ -216,6 +245,25 @@
             }
         }
         window.onload = addRowHandlers2();
+        function addRowHandlers3() {
+            var table = document.getElementById("yourPrivatePolls");
+            var rows = table.getElementsByTagName("tr");
+            for (i = 0; i < rows.length; i++) {
+                var currentRow = table.rows[i];
+                var createClickHandler =
+                    function (row) {
+                        return function () {
+                            var cell = row.getElementsByTagName("td")[1];
+                            var id = cell.innerHTML;
+                            cella = document.getElementById("groupNameText").value
+                            document.location = "/test/creategroup/"+id+"/"+cella;
+                        };
+                    };
+
+                currentRow.onclick = createClickHandler(currentRow);
+            }
+        }
+        window.onload = addRowHandlers3();
     </script>
 </body>
 </html>

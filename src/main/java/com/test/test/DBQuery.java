@@ -730,6 +730,28 @@ public class DBQuery{
 			while (rs.next()){
 				pollNums.add(rs.getString(1));
 			}
+			//Delete all associated Usergroups first by getting the groupNums from poll group
+			String pollGroupHunt = "SELECT GroupNum FROM PollGroup WHERE AdminUsername = ?;";
+			PreparedStatement sss = dbc.prepareStatement(pollGroupHunt);
+			sss.setString(1, username);
+			ArrayList<String> groupNums = new ArrayList<String>();
+			ResultSet rsa = sss.executeQuery();
+			while (rsa.next()){
+				groupNums.add(rsa.getString(1));
+			}
+			for(int i=0; i< groupNums.size(); i++){
+				String deleteUserGroup = "DELETE FROM UserGroup WHERE GroupNum = ?;";
+				PreparedStatement skl = dbc.prepareStatement(deleteUserGroup);
+				skl.setInt(1, Integer.parseInt(groupNums.get(i)));
+				skl.execute();
+			}
+			//Delete PollGroups
+			for(int i=0; i< groupNums.size(); i++){
+				String deleteUserGroup = "DELETE FROM PollGroup WHERE GroupNum = ?;";
+				PreparedStatement skl = dbc.prepareStatement(deleteUserGroup);
+				skl.setInt(1, Integer.parseInt(groupNums.get(i)));
+				skl.execute();
+			}
 			//Delete all pollTakers 
 			for(int i = 0; i < pollNums.size(); i++){
 				String dq1 = "DELETE FROM PollTaker WHERE PollNum = ?;";
@@ -1159,6 +1181,23 @@ public class DBQuery{
 				toReturn.add(new Group(rs.getInt(1), rs.getString(4), new Poll(rs.getInt(2)), rs.getString(3)));
 			}
 		} catch(SQLException e){
+			e.printStackTrace();
+		}
+		return toReturn;
+	}
+	
+	public static ArrayList<Poll> getYourPrivatePolls(String username){
+		ArrayList<Poll> toReturn = new ArrayList<Poll>();
+		try {
+			String searchQuery = "SELECT PollNum FROM Polls WHERE Username = ?;";
+			PreparedStatement statement = dbc.prepareStatement(searchQuery);
+			statement.setString(1, username);
+			ResultSet rs = statement.executeQuery();
+			while (rs.next()){
+				Poll poll = new Poll(Integer.parseInt(rs.getString(1)));
+				toReturn.add(poll);
+			}
+		} catch (SQLException e){
 			e.printStackTrace();
 		}
 		return toReturn;
