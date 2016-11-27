@@ -989,19 +989,35 @@ public class DBQuery{
 	
 	public static void deletePoll(int pollNum){
 		try {
-			String deletePollTaker = "DELETE FROM PollTaker WHERE PollNum = ?";
+			String deletePollTaker = "DELETE FROM PollTaker WHERE PollNum = ?;";
 			PreparedStatement statement1 = dbc.prepareStatement(deletePollTaker);
 			statement1.setInt(1, pollNum);
 			statement1.execute();
-			String deletePollData = "DELETE FROM PollData WHERE PollNum = ?";
+			String deletePollData = "DELETE FROM PollData WHERE PollNum = ?;";
 			PreparedStatement statement2 = dbc.prepareStatement(deletePollData);
 			statement2.setInt(1, pollNum);
 			statement2.execute();
-			String deletePolls = "DELETE FROM Polls WHERE PollNum = ?";
+			String getGroupNum = "SELECT GroupNum FROM PollGroup WHERE PollNum = ?;";
+			PreparedStatement statement5 = dbc.prepareStatement(getGroupNum);
+			statement5.setInt(1, pollNum);
+			ResultSet rs = statement5.executeQuery();
+			String num = "";
+			if(rs.next()){
+				num = rs.getString(1);
+			}
+			String deleteUserGroup = "DELETE FROM UserGroup WHERE GroupNum = ?;";
+			PreparedStatement statement6 = dbc.prepareStatement(deleteUserGroup);
+			statement6.setInt(1, Integer.parseInt(num));
+			statement6.execute();
+			String deletePollGroup = "DELETE FROM PollGroup WHERE GroupNum = ?;";
+			PreparedStatement statement7 = dbc.prepareStatement(deletePollGroup);
+			statement7.setInt(1,Integer.parseInt(num));
+			statement7.execute();
+			String deletePolls = "DELETE FROM Polls WHERE PollNum = ?;";
 			PreparedStatement statement3 = dbc.prepareStatement(deletePolls);
 			statement3.setInt(1, pollNum);
 			statement3.execute();
-			String deleteReportedQuestions = "DELETE FROM ReportedQuestions WHERE PollNum = ?";
+			String deleteReportedQuestions = "DELETE FROM ReportedQuestions WHERE PollNum = ?;";
 			PreparedStatement statement4 = dbc.prepareStatement(deleteReportedQuestions);
 			statement4.setInt(1, pollNum);
 			statement4.execute();

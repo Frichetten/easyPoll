@@ -918,8 +918,17 @@ public class HomeController {
 	public View deletePoll(@ModelAttribute("SpringWeb")Poll poll, ModelMap model,
 		HttpServletRequest request, @PathVariable String pollId) throws SQLException{
 		// Confirming Login Status, this person must be the poll creator
+		Administrator ad = (Administrator) request.getSession().getAttribute("admintoken");
 		User a = (User)request.getSession().getAttribute("token");
-		if (a == null){
+		if (ad != null){
+			//Admin is here
+			System.out.println("Logged in as " + ad.getUsername());
+			String login = "<a href='#'>" + ad.getUsername() + "</a>";
+			String signout = "<a href='/test/signout' >Sign Out</a>";
+			model.addAttribute("login", login);
+			model.addAttribute("signup", signout);
+		}
+		else if (a == null){
 			System.out.println("User not logged in");
 			 RedirectView redirect = new RedirectView("/test/home/");
 			 return redirect;
@@ -933,7 +942,10 @@ public class HomeController {
 		Poll.deletePoll(Integer.valueOf(pollId));
 		
 		RedirectView redirect = null;
-		if (a != null){
+		if (ad != null){
+			redirect = new RedirectView("/test/admin");
+		}
+		else if (a != null){
 			redirect = new RedirectView("/test/mypolls");
 		}
 	    redirect.setExposeModelAttributes(false);
