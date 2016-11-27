@@ -68,15 +68,15 @@
 						<div class="col-md-9">
 							<div class="form-group row">
 								<label for="PollName" class="control-label">Poll Name</label>
-								<input type="text" class="form-control" id="PollName" name="PollName" placeholder="Name" />
+								<input type="text" class="form-control" id="PollName" name="PollName" placeholder="Name" required />
 							</div>
 					  		<div class="form-group row">
 								<label for="PollQuestion" class="control-label">Question</label>
-								<input type="text" class="form-control" id="PollQuestion" name="PollQuestion" placeholder="Question"/>
+								<input type="text" class="form-control" id="PollQuestion" name="PollQuestion" placeholder="Question" required/>
 							</div>
 							<div class="form-group row">
 								<label for="PollDescription" class="control-label">Description</label>
-								<input type="text" class="form-control" id="PollDescription" name="PollDescription" placeholder="Description"/>
+								<input type="text" class="form-control" id="PollDescription" name="PollDescription" placeholder="Description" required/>
 							</div>
 							<div class="form-group row">
 								<label for="AnswerType" class="control-label">Answer Type</label>
@@ -114,7 +114,7 @@
 							 </div>
 							<div class="form-group row">
 								<label for="Answers" class="control-label">Answers</label>
-								<input type="text" class="form-control" id="answerParams" name ="answerParams" placeholder="Answer 1" />
+								<input type="text" class="form-control" id="answerParams" name ="answerParams" placeholder="Answer 1" required/>
 							 </div>
 							 <div class="form-group row">
 								<button type="button" id="add-answer" class="btn btn-default"><i class="fa fa-plus" aria-hidden="true"></i> 										Add Answer

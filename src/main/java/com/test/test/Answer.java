@@ -14,7 +14,6 @@ public class Answer {
 	private ArrayList<String> answerOptions = null;
 	private ArrayList<Integer> answersChosen = null;
 	private String answerparams;
-
 	
 	public void setAnswerOptions(ArrayList<String> answerOptions){
 		this.answerOptions = answerOptions;

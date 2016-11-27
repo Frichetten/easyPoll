@@ -510,6 +510,12 @@ public class HomeController {
 			int pollTakerCount = Poll.pollTakerCount(Integer.parseInt(pollId));
 			int endTotalCount = Poll.endTotalCount(Integer.parseInt(pollId));
 			model.addAttribute("counts", String.valueOf(pollTakerCount)+"/"+String.valueOf(endTotalCount)+" Votes Cast");
+			if (pollTakerCount >= endTotalCount){
+				model.addAttribute("isCurrent", "Poll is Closed");
+			}
+			else{
+				model.addAttribute("isCurrent", "Poll is Ongoing");
+			}
 			//This will display the edit button if they are the creator
 			if (a != null && poll.getPollPoster().equals(a.getUsername())){
 				model.addAttribute("creatorHide","");
@@ -636,11 +642,11 @@ public class HomeController {
 			int pollTakerCount = Poll.pollTakerCount(Integer.parseInt(pollId));
 			int endTotalCount = Poll.endTotalCount(Integer.parseInt(pollId));
 			model.addAttribute("counts", String.valueOf(pollTakerCount)+"/"+String.valueOf(endTotalCount)+" Votes Cast");
-			if(rs.getString(3).equals("1")){
-				model.addAttribute("isCurrent","Poll is Ongoing!");
+			if (pollTakerCount >= endTotalCount){
+				model.addAttribute("isCurrent", "Poll is Closed");
 			}
 			else{
-				model.addAttribute("isCurrent", "Poll is Closed");
+				model.addAttribute("isCurrent", "Poll is Ongoing");
 			}
 			if (a != null && rs.getString(2).equals(a.getUsername())){
 				model.addAttribute("creatorHide","");
@@ -856,7 +862,7 @@ public class HomeController {
 		model.addAttribute("pollId", pollId);
 		Poll poll = new Poll(Integer.valueOf(pollId));
 		model.addAttribute("pollName", poll.getPollName());
-		model.addAttribute("pollQuestion", poll.getPollDescription());
+		model.addAttribute("pollQuestion", poll.getPollQuestion());
 		model.addAttribute("pollDesc", poll.getPollDescription());
 		model.addAttribute("endTotal", poll.getEndTotal());
 		if(poll.getPollType() == null){
