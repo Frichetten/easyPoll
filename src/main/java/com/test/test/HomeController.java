@@ -181,28 +181,30 @@ public class HomeController {
 		}
 
 		model.addAttribute("numVoted", counter);
-
-		rs = statement.executeQuery(numPollsQuery);
-		if (rs.next()) {
-			int best = Integer.parseInt(rs.getString("Partakers"));
-			String name = rs.getString("PollName");
+		Statement statement2 = dbc.createStatement();
+		ResultSet rs2 = statement2.executeQuery(numPollsQuery);
+		rs2 = statement2.executeQuery(numPollsQuery);
+		if (rs2.next()) {
+			int best = Integer.parseInt(rs2.getString("Partakers"));
+			String name = rs2.getString("PollName");
 			while (rs.next()) {
-				int voters = Integer.parseInt(rs.getString("Partakers"));
+				int voters = Integer.parseInt(rs2.getString("Partakers"));
 				if (voters > best) {
-					name = rs.getString("PollName");
+					name = rs2.getString("PollName");
 				}
 			}
 
 			model.addAttribute("fave", name);
 
 			model.addAttribute("userName", a.getUsername());
+			
+		}
+		Statement emailStatement = dbc.createStatement();
+		String emailQuery = "SELECT * FROM RUser WHERE Username = " + "'" + a.getUsername() + "'";
+		ResultSet rsEmail = emailStatement.executeQuery(emailQuery);
 
-			String emailQuery = "SELECT * FROM RUser WHERE Username = " + "'" + a.getUsername() + "'";
-			rs = statement.executeQuery(emailQuery);
-
-			if (rs.next()) {
-				model.addAttribute("email",rs.getString("Email"));
-			}
+		if (rsEmail.next()) {
+			model.addAttribute("email",rsEmail.getString(3));
 		}
 		return new ModelAndView("userprofile", "command", new User());
 	}
@@ -261,7 +263,7 @@ public class HomeController {
 	}
 
 	@RequestMapping(value = "/register", method = RequestMethod.POST)
-	public ModelAndView register(@ModelAttribute("SpringWeb") User user, ModelMap model, HttpServletRequest request)
+	public RedirectView register(@ModelAttribute("SpringWeb") User user, ModelMap model, HttpServletRequest request)
 			throws SQLException {
 		// Check if user exists in database
 		String username = "'" + user.getUsername() + "'";
@@ -280,7 +282,11 @@ public class HomeController {
 			Statement st2 = dbc.createStatement();
 			st2.execute(insertUserQuery);
 		}
-		return new ModelAndView("home", "command", new User());
+		User toAdd = new User();
+		toAdd.setUsername(user.getUsername());
+		toAdd.setEmail(user.getEmail());
+		toAdd.setPassword(user.getPassword());
+		return addUser(toAdd, model, request);
 	}
 
 	@RequestMapping(value = "/mypolls", method = RequestMethod.GET)
@@ -1140,6 +1146,7 @@ public class HomeController {
 		}
 		model.addAttribute("groupMembers", thyme);
 		model.addAttribute("groupNum",groupNum);
+		model.addAttribute("pollNum", pollGroup.getGroupPoll().getPollNum());
 		
 		return new ModelAndView("group", "command", new User());
 	}

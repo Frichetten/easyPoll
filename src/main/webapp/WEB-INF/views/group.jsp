@@ -74,6 +74,9 @@
         <input type="text" id="userName" name="usernameString" placeholder="Username to Add"/>
         <input type="submit" id="btnLogin" class="btn btn-success" value="Add User">
         </form:form>
+        <form:form method="GET" action="/test/singlepoll/${pollNum}">
+        <input type="submit" id="btnFind" class="btn btn-success" value="Go To Poll">
+        </form:form>
         <table id="groupUsers" class="table table-striped table-hover">
             <thead>
                 <tr>
