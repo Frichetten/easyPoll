@@ -72,6 +72,14 @@ public class Poll {
 		DBQuery.cancelPoll(pollNum);
 	}
 	
+	public static int pollTakerCount(int pollNum){
+		return DBQuery.pollTakerCount(pollNum);
+	}
+	
+	public static int endTotalCount(int pollNum){
+		return DBQuery.endTotalCount(pollNum);
+	}
+	
 	public Poll(int Pollnum) throws SQLException{
 		Poll poll = DBQuery.getPoll(Pollnum);
 		this.pollName = poll.getPollName();

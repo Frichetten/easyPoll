@@ -113,7 +113,7 @@
                                 <h3 class="panel-title">Data</h3>
                             </div>
                             <div class="panel-body">
-                                Data about poll
+                                ${counts}, ${isCurrent}
                             </div>
                         </div>
                     </div>

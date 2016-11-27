@@ -418,7 +418,40 @@ public class DBQuery{
 			   }
 		   return publicPolls;
 	}
-		   
+	
+	public static int pollTakerCount(int pollNum){
+		int toReturn = 0;
+		try {
+			String searchQuery = "SELECT * FROM PollTaker WHERE PollNum = ?;";
+			PreparedStatement statement = dbc.prepareStatement(searchQuery);
+			statement.setInt(1, pollNum);
+			ResultSet rs = statement.executeQuery();
+			while (rs.next()){
+				toReturn = toReturn + 1;
+			}
+		} catch (SQLException e){
+			e.printStackTrace();
+		}
+		
+		return toReturn;
+	}
+	
+	public static int endTotalCount(int pollNum){
+		int toReturn = 0;
+		try {
+			String searchQuery = "SELECT EndTotal FROM Polls WHERE PollNum = ?;";
+			PreparedStatement statement = dbc.prepareStatement(searchQuery);
+			statement.setInt(1, pollNum);
+			ResultSet rs = statement.executeQuery();
+			if(rs.next()){
+				toReturn = rs.getInt(1);
+			}
+		} catch (SQLException e){
+			e.printStackTrace();
+		}
+		return toReturn;
+	}
+	
 	public static ArrayList<String> getAllEmails(){
 		ArrayList<String> toReturn = new ArrayList<String>();
 		String emailQuery = "SELECT Email FROM RUser WHERE Username = 'Nick';";
@@ -760,7 +793,6 @@ public class DBQuery{
 				while (rs2.next()){
 					pollTakerCount = pollTakerCount+1;
 				}
-				System.out.println("&&&&&&& " + pollTakerCount);
 				
 				if(pollTakerCount == endTotal || pollTakerCount >= endTotal){
 					String updateQuery = "UPDATE Polls SET isCurrent = ? WHERE PollNum = ?;";
@@ -769,7 +801,6 @@ public class DBQuery{
 					statement3.setInt(2, pollNum);
 					statement3.execute();
 				}
-				System.out.println("pollTakerCount: " + pollTakerCount + " endTotal: " + endTotal);
 			}
 		} catch (SQLException e){
 			e.printStackTrace();
