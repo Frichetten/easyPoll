@@ -639,6 +639,25 @@ public class DBQuery{
 		return new Administrator(username, email, rq);
 	}
 	
+	public static Boolean isCurrent(int pollNum){
+		try{
+			String searchQuery = "SELECT isCurrent FROM Polls WHERE PollNum = ?;";
+			PreparedStatement statement = dbc.prepareStatement(searchQuery);
+			statement.setInt(1, pollNum);
+			ResultSet rs = statement.executeQuery();
+			if (rs.next()){
+				String check = rs.getString(1);
+				if (check.equals("1"))
+					return true;
+				else
+					return false;
+			}
+		} catch (SQLException e){
+			e.printStackTrace();
+		}
+		return false;
+	}
+	
 	public static String getPollDescription(String pollId) throws SQLException{
 		String toReturn = "";
 		String searchQuery = "SELECT Description FROM PollData WHERE PollNum= '"+pollId+"';";

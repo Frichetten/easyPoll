@@ -215,7 +215,7 @@
 				</div>
 			</div>
 		</div>
-		</div>
+	</div>
 			<!--Forgot Password Modal -->
 	<div id="forgot-password-modal" class="modal fade" role="dialog">
 		<div class="modal-dialog">

@@ -132,6 +132,10 @@ public class Poll {
 		return this.isCurrent;
 	}
 	
+	public static Boolean isCurrent(int pollNum){
+		return DBQuery.isCurrent(pollNum);
+	}
+	
 	public Date getCloseDate(){
 		return this.closeDate;
 	}

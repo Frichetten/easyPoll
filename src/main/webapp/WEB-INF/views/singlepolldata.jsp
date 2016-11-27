@@ -60,7 +60,7 @@
 
 	<div class="poll-header">
 		<div class="container">
-			<h1>${pollName}</h1>
+			<h1>${pollName}: ${pollQuestion}</h1>
 		</div>
 	</div>
 	<div class="container">

@@ -257,9 +257,16 @@ public class HomeController {
 			    return redirect;
 			}
 			String referer = request.getHeader("Referer");
-			RedirectView redirect = new RedirectView(referer);
-		    redirect.setExposeModelAttributes(false);
-		    return redirect;
+			if (referer.equals("http://localhost:8080/test/")){
+				RedirectView redirect = new RedirectView("http://localhost:8080/test/home");
+				redirect.setExposeModelAttributes(false);
+				return redirect;
+			}
+			else {
+				RedirectView redirect = new RedirectView(referer);
+				redirect.setExposeModelAttributes(false);
+				return redirect;
+			}
 	}
 
 	@RequestMapping(value = "/register", method = RequestMethod.POST)
@@ -557,8 +564,7 @@ public class HomeController {
 			model.addAttribute("signup", signout);
 			
 		}
-
-		// Getting Column names and user name
+		
 		System.out.println("singlepolldataaaa");
 		// If answer equals null, do nothing
 		// Else put that in the DB;
@@ -648,11 +654,11 @@ public class HomeController {
 			int pollTakerCount = Poll.pollTakerCount(Integer.parseInt(pollId));
 			int endTotalCount = Poll.endTotalCount(Integer.parseInt(pollId));
 			model.addAttribute("counts", String.valueOf(pollTakerCount)+"/"+String.valueOf(endTotalCount)+" Votes Cast");
-			if (pollTakerCount >= endTotalCount){
-				model.addAttribute("isCurrent", "Poll is Closed");
+			if (Poll.isCurrent(Integer.parseInt(pollId))){
+				model.addAttribute("isCurrent", "Poll is Ongoing");
 			}
 			else{
-				model.addAttribute("isCurrent", "Poll is Ongoing");
+				model.addAttribute("isCurrent", "Poll is Closed");
 			}
 			if (a != null && rs.getString(2).equals(a.getUsername())){
 				model.addAttribute("creatorHide","");
