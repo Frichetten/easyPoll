@@ -52,8 +52,16 @@ public class Group {
 		DBQuery.createGroup(groupName, pollNum, username);
 	}
 	
+	public static void deleteGroup(String groupNum){
+		DBQuery.deleteGroup(groupNum);
+	}
+	
 	public static ArrayList<Group> getYourPollGroups(String username){
 		return DBQuery.getYourPollGroups(username);
+	}
+	
+	public static ArrayList<Group> getYourInvitedGroups(String username){
+		return DBQuery.getYourInvitedGroups(username);
 	}
 	
 	public ArrayList<String> getRegisteredUsers(){

@@ -975,6 +975,17 @@ public class DBQuery{
 		}
 	}
 	
+	public static void deleteGroup(String groupNum){
+		try{
+			String deleteQuery = "DELETE FROM PollGroup WHERE PollGroup.GroupNum = ?;";
+			PreparedStatement statement = dbc.prepareStatement(deleteQuery);
+			statement.setInt(1, Integer.valueOf(groupNum));
+			statement.execute();
+		} catch (SQLException e){
+			e.printStackTrace();
+		}
+	}
+	
 	public static Group getPollGroup(int groupNum){
 		try{
 			Group toReturn = new Group();
@@ -1051,7 +1062,26 @@ public class DBQuery{
 		} catch(SQLException e){
 			e.printStackTrace();
 		}
-		
+		return toReturn;
+	}
+	
+	public static ArrayList<Group> getYourInvitedGroups(String username){
+		ArrayList<Group> toReturn = new ArrayList<Group>();
+		try{
+			String searchQuery = "SELECT GroupNum FROM UserGroup WHERE Username = ?;";
+			PreparedStatement statement = dbc.prepareStatement(searchQuery);
+			statement.setString(1, username);
+			ResultSet rs = statement.executeQuery();
+			ArrayList<String> groupNums = new ArrayList<String>();
+			while (rs.next()){
+				groupNums.add(rs.getString(1));
+			}
+			for(int i=0; i< groupNums.size(); i++){
+				toReturn.add(Group.getGroup(Integer.valueOf(groupNums.get(i))));
+			}
+		} catch (SQLException e){
+			e.printStackTrace();
+		}
 		return toReturn;
 	}
 

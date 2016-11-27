@@ -78,11 +78,26 @@
             <thead>
                 <tr>
                     <th>Group Name</th>
-                    <th>Delete Group</th>
                 </tr>
             </thead>
             <tbody>
                 ${polls}
+            </tbody>
+        </table>
+    </div>
+    
+    <div class="container">
+        <div class="page-header">
+            <h1>Poll Groups I've Been Invited To</h1>
+        </div>
+        <table id="invitedGroups" class="table table-striped table-hover">
+            <thead>
+                <tr>
+                    <th>Group Name</th>
+                </tr>
+            </thead>
+            <tbody>
+                ${invitedPolls}
             </tbody>
         </table>
     </div>
@@ -183,6 +198,24 @@
             }
         }
         window.onload = addRowHandlers();
+        function addRowHandlers2() {
+            var table = document.getElementById("invitedGroups");
+            var rows = table.getElementsByTagName("tr");
+            for (i = 0; i < rows.length; i++) {
+                var currentRow = table.rows[i];
+                var createClickHandler =
+                    function (row) {
+                        return function () {
+                            var cell = row.getElementsByTagName("td")[1];
+                            var id = cell.innerHTML;
+                            document.location = "/test/group/"+id;
+                        };
+                    };
+
+                currentRow.onclick = createClickHandler(currentRow);
+            }
+        }
+        window.onload = addRowHandlers2();
     </script>
 </body>
 </html>

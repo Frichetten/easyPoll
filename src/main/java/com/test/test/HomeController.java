@@ -1071,9 +1071,16 @@ public class HomeController {
 		System.out.println("######## " + pollArr.size());
 		String thyme = "";
 		for (int i =(pollArr.size()-1); i >= 0; i--){
-			thyme = thyme + "<tr><td>"+pollArr.get(i).getGroupName()+"</td><td hidden='true'>"+pollArr.get(i).getGroupID()+"</td><td><form:form method='POST' action='/test/deletegroup'><input type='submit' id='btnLogin' class='btn btn-success' value='Delete Group'></form:form></td></tr>";
+			thyme = thyme + "<tr><td>"+pollArr.get(i).getGroupName()+"</td><td hidden='true'>"+pollArr.get(i).getGroupID()+"</td></tr>";
 		}
 		model.addAttribute("polls", thyme);
+		
+		ArrayList<Group> invitedGroups = Group.getYourInvitedGroups(a.getUsername());
+		String invitedThyme = "";
+		for (int i =(invitedGroups.size()-1); i >= 0; i--){
+			invitedThyme = invitedThyme + "<tr><td>"+invitedGroups.get(i).getGroupName()+"</td><td hidden='true'>"+invitedGroups.get(i).getGroupID()+"</td></tr>";
+		}
+		model.addAttribute("invitedPolls", invitedThyme);
 		
 		return new ModelAndView("groupmanager", "command", new User());
 	}
@@ -1147,6 +1154,19 @@ public class HomeController {
 		
 		RedirectView redirect = null;
 		redirect = new RedirectView("/test/group/"+groupNum);
+	    redirect.setExposeModelAttributes(false);
+	    return redirect;
+	}
+	
+	@RequestMapping(value = "/deletegroup/{groupNum}", method = RequestMethod.POST)
+	public View deleteGroup(@PathVariable String groupNum,
+			ModelMap model, HttpServletRequest request) throws SQLException{
+		
+		System.out.println("Group to be deleted: " + groupNum);
+		Group.deleteGroup(groupNum);
+		
+		RedirectView redirect = null;
+		redirect = new RedirectView("/test/groupmanager");
 	    redirect.setExposeModelAttributes(false);
 	    return redirect;
 	}
