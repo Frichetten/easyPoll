@@ -87,6 +87,24 @@
             </tbody>
         </table>
     </div>
+    
+    <div class="container">
+        <div class="page-header" ${hide}>
+            <h1 >Support Tickets</h1>
+        </div>
+        <table id="supportTable" class="table table-striped table-hover" ${hide}>
+            <thead>
+                <tr>
+                    <th ${hide}>Ticket Id</th>
+                    <th ${hide}>Username</th>
+                    <th ${hide}>Ticket Message</th>
+                </tr>
+            </thead>
+            <tbody>
+                ${supportTicket}
+            </tbody>
+        </table>
+    </div>
 
 
     <footer id="footer" class="">
@@ -108,7 +126,7 @@
 				<div class="modal-header">
 					<button type="button" class="close" data-dismiss="modal">&times;</button>
 					<div class="loginmodal-container text-center">
-						<h2>Login to Your Account</h2><br>
+						<h2>Admin Login</h2><br>
 						<form:form method="POST" action="/test/adminLogin">
 						<form:input id="txtEmail" type="email" placeholder="Email" path="email"/>
 						<form:input id="txtPassword" type="password" placeholder="Password" path="password"/>

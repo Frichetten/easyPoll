@@ -781,6 +781,15 @@ public class HomeController {
 			for (int i=0; i< messages.size(); i++){
 				feedback = feedback + "<tr><td>"+messages.get(i)+"</td></tr>";
 			}
+			
+			String supportTicket = "";
+			ArrayList<Administrator> tickets = Administrator.getSupportTickets();
+			System.out.println("This is the size of support ticket: " + tickets.size());
+			for (int i=0; i < tickets.size(); i++){
+				supportTicket = supportTicket + "<tr><td>"+tickets.get(i).getPassword()+"</td><td>"+tickets.get(i).getUsername()+"</td><td>"+tickets.get(i).getEmail()+"</td></tr>";
+			}
+			
+			model.addAttribute("supportTicket", supportTicket);
 			model.addAttribute("feedback", feedback);
 			model.addAttribute("polls", thyme);
 			model.addAttribute("hide","");
@@ -1243,6 +1252,18 @@ public class HomeController {
 		
 		RedirectView redirect = null;
 		redirect = new RedirectView("/test/home");
+	    redirect.setExposeModelAttributes(false);
+	    return redirect;
+	}
+	
+	@RequestMapping(value = "/sendsupportticket", method = RequestMethod.POST)
+	public View sendSupportTicket(@RequestParam("supportText")String textarea,
+			ModelMap model, HttpServletRequest request) throws SQLException{
+		User a = (User) request.getSession().getAttribute("token");
+		Administrator.sendSupportTicket(textarea,a.getUsername());
+		
+		RedirectView redirect = null;
+		redirect = new RedirectView("/test/profile");
 	    redirect.setExposeModelAttributes(false);
 	    return redirect;
 	}

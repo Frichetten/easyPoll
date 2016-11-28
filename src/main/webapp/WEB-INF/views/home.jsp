@@ -234,7 +234,7 @@
 			</div>
 		</div>
 	</div>
-	 <!-- Send Feedback -->
+	<!-- Send Feedback -->
     <div id="give-feedback-modal" class="modal fade" role="dialog">
         <div class="modal-dialog">
             <div class="modal-content">

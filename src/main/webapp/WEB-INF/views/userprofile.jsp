@@ -64,7 +64,7 @@
                     </div>
                 </div>
             </form:form>
-            </div>
+        </div>
             <div class="row">
             <div class="col-md-4 col-sm-4 col-xs-7">
             	<div class="form-group row">
@@ -73,8 +73,11 @@
 	            	<input type="submit" id="btnLogin" class="btn btn-default" value="Delete Account">
 	            	</form:form>
 	            </div>
-            </div>  
-        </div>
+	        </div>  
+   			</div>
+   		<div class="row">
+   			<button type="button" class="btn btn-info" data-toggle="modal" data-target="#send-ticket-modal">Send Support Ticket</button>
+   		</div>
         <div class=page-header>
             <h1>User Statistics</h1>
         </div>
@@ -127,6 +130,23 @@
         </div>
 
     </div>
-
+<!-- Send Support Ticket -->
+    <div id="send-ticket-modal" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <div class="forgotmodal-container text-center">
+                        <h2>Send Support Ticket</h2><br>
+                        <form:form method="POST" action="/test/sendsupportticket">
+                        <textarea id="groupNameText" name="supportText" style="width: 500px; height: 300px;" placeholder="Type Your Feedback Here" required></textarea>
+                        <input type="submit" id="for" class="btn btn-success" value="Send Support Ticket">
+                        </form:form>                 
+                    </div>
+                    <div class="modal-footer"></div>
+                </div>
+            </div>
+        </div>
+    </div>
 </body>
 </html>

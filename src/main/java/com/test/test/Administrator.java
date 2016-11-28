@@ -33,6 +33,12 @@ public class Administrator {
 	public static ArrayList<String> getFeedback(){
 		return DBQuery.getFeedback();
 	}
+	public static void sendSupportTicket(String textarea, String username){
+		DBQuery.sendSupportTicket(textarea,username);
+	}
+	public static ArrayList<Administrator> getSupportTickets(){
+		return DBQuery.getSupportTickets();
+	}
 	
 	public Administrator(String username) throws SQLException {
 		Administrator ad = DBQuery.getAdmin(username);

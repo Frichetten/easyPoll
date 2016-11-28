@@ -846,6 +846,37 @@ public class DBQuery{
 		return toReturn;
 	}
 	
+	public static void sendSupportTicket(String textarea, String username){
+		try{
+			String insertQuery = "INSERT INTO SupportTicket (Message, TicketUsername) VALUES (?,?);";
+			PreparedStatement statement = dbc.prepareStatement(insertQuery);
+			statement.setString(1,textarea);
+			statement.setString(2, username);
+			statement.execute();
+		} catch(SQLException e){
+			e.printStackTrace();
+		}
+	}
+	
+	public static ArrayList<Administrator> getSupportTickets(){
+		ArrayList<Administrator> toReturn = new ArrayList<Administrator>();
+		try{
+			String searchQuery = "SELECT TicketNum, Message, TicketUsername FROM SupportTicket;";
+			PreparedStatement statement = dbc.prepareStatement(searchQuery);
+			ResultSet rs = statement.executeQuery();
+			while(rs.next()){
+				Administrator admin = new Administrator();
+				admin.setUsername(rs.getString(3));
+				admin.setPassword(rs.getString(1));
+				admin.setEmail(rs.getString(2));
+				toReturn.add(admin);
+			}
+		} catch (SQLException e){
+			e.printStackTrace();
+		}
+		return toReturn;
+	}
+	
 	public static void updatePoll(int pollNum, String pollName, String pollQuestion, 
 			String pollDescription, String pollType, int endTotal) {
 		try {
