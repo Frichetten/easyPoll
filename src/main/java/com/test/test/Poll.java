@@ -72,6 +72,10 @@ public class Poll {
 		DBQuery.cancelPoll(pollNum);
 	}
 	
+	public static Poll getPollOfTheDay(){
+		return DBQuery.getPollOfTheDay();
+	}
+	
 	public static int pollTakerCount(int pollNum){
 		return DBQuery.pollTakerCount(pollNum);
 	}

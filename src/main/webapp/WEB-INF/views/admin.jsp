@@ -65,6 +65,9 @@
     </div>
     
     <div class="container" ${hide}>
+    	<div class="page-header" ${hide}>
+    		<h1>Newsletter</h1>
+    	</div>
     		<form:form method="POST" action="/test/sendnewsletter" >
     			<textarea rows="4" cols="50" name="textarea" ></textarea>
     			<input type="submit" id="btnLogin"  class="btn btn-success" value="Send Newsletter" >

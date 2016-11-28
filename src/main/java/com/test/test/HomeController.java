@@ -362,6 +362,11 @@ public class HomeController {
 		}
 		model.addAttribute("polls", thyme);
 		
+		String pollOfTheDay = "";
+		Poll potd = Poll.getPollOfTheDay();
+		pollOfTheDay = "<tr><td>"+potd.getPollName()+"</td><td hidden='true'>"+potd.getPollNum()+"</td><td>"+potd.getPollDescription()+"</td><td>"+potd.getPollPoster()+"</td></tr>";
+		model.addAttribute("pollOfTheDay", pollOfTheDay);
+		
 		return new ModelAndView("communitypolls", "command", new User());
 	}
 

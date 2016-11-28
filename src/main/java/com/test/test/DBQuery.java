@@ -895,6 +895,21 @@ public class DBQuery{
 		}
 	}
 	
+	public static Poll getPollOfTheDay(){
+		Poll toReturn = null;
+		try{
+			String searchQuery = "SELECT * FROM Polls WHERE PollType='public' ORDER BY Partakers desc;";
+			PreparedStatement statement = dbc.prepareStatement(searchQuery);
+			ResultSet rs = statement.executeQuery();
+			if (rs.next()){
+				toReturn = new Poll(rs.getInt(1));
+			}
+		} catch (SQLException e){
+			e.printStackTrace();
+		}
+		return toReturn;
+	}
+	
 	public static void checkCurrent(int pollNum){
 		try{
 			

@@ -91,6 +91,25 @@
             </tbody>
         </table>
     </div>
+    
+    <div class="container">
+            <div class="page-header">
+                <h1>Poll of the Day!</h1>
+            </div>
+        <p>This is the public poll with the most votes!</p>
+        <table id="potdId" class="table table-striped table-hover">
+            <thead>
+                <tr>
+                    <th>Title</th>
+                    <th>Description</th>
+                    <th>Poster Name</th>
+                </tr>
+            </thead>
+            <tbody>
+                ${pollOfTheDay}
+            </tbody>
+        </table>
+    </div>
 	
 	
 	<footer id="footer" class="">
@@ -188,6 +207,25 @@
             }
         }
         window.onload = addRowHandlers();
+        
+        function addRowHandlers1() {
+            var table = document.getElementById("potdId");
+            var rows = table.getElementsByTagName("tr");
+            for (i = 0; i < rows.length; i++) {
+                var currentRow = table.rows[i];
+                var createClickHandler =
+                    function (row) {
+                        return function () {
+                        	var cell = row.getElementsByTagName("td")[1];
+                            var id = cell.innerHTML;
+                            document.location = "/test/singlepoll/"+id;
+                        };
+                    };
+
+                currentRow.onclick = createClickHandler(currentRow);
+            }
+        }
+        window.onload = addRowHandlers1();
     </script>
 	</body>
 </html>

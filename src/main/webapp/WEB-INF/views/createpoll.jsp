@@ -79,21 +79,6 @@
 								<input type="text" class="form-control" id="PollDescription" name="PollDescription" placeholder="Description" required/>
 							</div>
 							<div class="form-group row">
-								<label for="AnswerType" class="control-label">Answer Type</label>
-								<div class="radio">
-									<label>
-										<input type="radio" name="AnswerType" id="oneAnswer" value="One"/>
-										One Answer
-									</label>
-								</div>
-								<div class="radio">
-									<label>
-										<input type="radio" name="AnswerType" id="multiple-answers" value="multiple"/>
-										Multiple Answers
-									</label>
-								</div>
-							</div>
-							<div class="form-group row">
 								<label for="pollview" class="control-label">Is this a Public or Private Poll?</label>
 								<div class="radio">
 									<label>
