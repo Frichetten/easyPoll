@@ -910,6 +910,21 @@ public class DBQuery{
 		return toReturn;
 	}
 	
+	public static ArrayList<Integer> getActivePublicPolls(){
+		ArrayList<Integer> toReturn = new ArrayList<Integer>();
+		try {
+			String searchQuery = "SELECT PollNum FROM Polls WHERE PollType='public' and isCurrent = 1;";
+			PreparedStatement statement = dbc.prepareStatement(searchQuery);
+			ResultSet rs = statement.executeQuery();
+			while(rs.next()){
+				toReturn.add(rs.getInt(1));
+			}
+		} catch (SQLException e){
+			e.printStackTrace();
+		}
+		return toReturn;
+	}
+	
 	public static void checkCurrent(int pollNum){
 		try{
 			

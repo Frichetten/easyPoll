@@ -157,6 +157,9 @@ public class Poll {
 	public static int getTotalPoll() throws SQLException{
 		return DBQuery.getTotalPolls();
 	}
+	public static ArrayList<Integer> getActivePublicPolls(){
+		return DBQuery.getActivePublicPolls();
+	}
 	
 	public String getPollPoster() {
 		return pollPoster;

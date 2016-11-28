@@ -10,6 +10,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Properties;
+import java.util.Random;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -1238,7 +1239,7 @@ public class HomeController {
 	
 	@RequestMapping(value = "/deletegroup/{groupNum}", method = RequestMethod.POST)
 	public View deleteGroup(@PathVariable String groupNum,
-			ModelMap model, HttpServletRequest request) throws SQLException{
+			ModelMap model, HttpServletRequest request) {
 		
 		System.out.println("Group to be deleted: " + groupNum);
 		Group.deleteGroup(groupNum);
@@ -1251,7 +1252,7 @@ public class HomeController {
 	
 	@RequestMapping(value = "/sendfeedback", method = RequestMethod.POST)
 	public View sendFeedback(@RequestParam("feedbackText")String textarea,
-			ModelMap model, HttpServletRequest request) throws SQLException{
+			ModelMap model, HttpServletRequest request) {
 	
 		Administrator.sendFeedback(textarea);
 		
@@ -1263,12 +1264,25 @@ public class HomeController {
 	
 	@RequestMapping(value = "/sendsupportticket", method = RequestMethod.POST)
 	public View sendSupportTicket(@RequestParam("supportText")String textarea,
-			ModelMap model, HttpServletRequest request) throws SQLException{
+			ModelMap model, HttpServletRequest request) {
 		User a = (User) request.getSession().getAttribute("token");
 		Administrator.sendSupportTicket(textarea,a.getUsername());
 		
 		RedirectView redirect = null;
 		redirect = new RedirectView("/test/profile");
+	    redirect.setExposeModelAttributes(false);
+	    return redirect;
+	}
+	
+	@RequestMapping(value = "/random", method = RequestMethod.GET)
+	public View randomPoll(ModelMap model, HttpServletRequest request) {
+		Random rand = new Random();
+		ArrayList<Integer> pollNums = Poll.getActivePublicPolls();
+		int selector = rand.nextInt(pollNums.size()-1);
+		int randomInt = pollNums.get(selector);
+		
+		RedirectView redirect = null;
+		redirect = new RedirectView("/test/singlepoll/"+randomInt);
 	    redirect.setExposeModelAttributes(false);
 	    return redirect;
 	}
