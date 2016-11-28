@@ -158,7 +158,7 @@
 	<div class="call-to-action colored-cta">
 		<h1>What do you think?</h1>
 		<h2>Let us know!</h2>
-		<button type="button" class="btn btn-info" data-toggle="modal" data-target="#login-modal">Give Feedback</button>		
+		<button type="button" class="btn btn-info" data-toggle="modal" data-target="#give-feedback-modal">Give Feedback</button>		
 	</div>
 	
 	<footer id="footer" class="home-page">
@@ -233,6 +233,24 @@
 				</div>
 			</div>
 		</div>
-		</div>
+	</div>
+	 <!-- Send Feedback -->
+    <div id="give-feedback-modal" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <div class="forgotmodal-container text-center">
+                        <h2>Feedback</h2><br>
+                        <form:form method="POST" action="/test/sendfeedback">
+                        <textarea id="groupNameText" name="feedbackText" style="width: 500px; height: 300px;" placeholder="Type Your Feedback Here" required></textarea>
+                        <input type="submit" id="for" class="btn btn-success" value="Send Feedback">
+                        </form:form>                 
+                    </div>
+                    <div class="modal-footer"></div>
+                </div>
+            </div>
+        </div>
+    </div>
 	</body>
 </html>

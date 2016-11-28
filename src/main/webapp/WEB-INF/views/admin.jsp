@@ -71,6 +71,22 @@
     			<h3>${sentNewsletter}</h3>
     		</form:form>
     </div>
+    
+    <div class="container">
+        <div class="page-header" ${hide}>
+            <h1 >Feedback Messages</h1>
+        </div>
+        <table id="feedbackTable" class="table table-striped table-hover" ${hide}>
+            <thead>
+                <tr>
+                    <th ${hide}>Message</th>
+                </tr>
+            </thead>
+            <tbody>
+                ${feedback}
+            </tbody>
+        </table>
+    </div>
 
 
     <footer id="footer" class="">

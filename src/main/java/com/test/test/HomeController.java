@@ -770,12 +770,18 @@ public class HomeController {
 					poller.add(rp.getPollNum());
 				}
 			}
-			System.out.println("---- " + polls.size());
+			
 			String thyme = "";
 			for (int i =(polls.size()-1); i >= 0; i--){
 				thyme = thyme + "<tr><td>"+polls.get(i).getPollName()+"</td><td hidden='true'>"+polls.get(i).getPollNum()+"</td><td>"+polls.get(i).getPollDescription()+"</td><td>"+polls.get(i).getUsername()+"</td><td>"+map.get(polls.get(i).getPollNum())+"</td></tr>";
-				System.out.println(pollArr.get(i).getPollNum());
 			}
+			
+			String feedback = "";
+			ArrayList<String> messages = Administrator.getFeedback();
+			for (int i=0; i< messages.size(); i++){
+				feedback = feedback + "<tr><td>"+messages.get(i)+"</td></tr>";
+			}
+			model.addAttribute("feedback", feedback);
 			model.addAttribute("polls", thyme);
 			model.addAttribute("hide","");
 		}
@@ -1225,6 +1231,18 @@ public class HomeController {
 		
 		RedirectView redirect = null;
 		redirect = new RedirectView("/test/groupmanager");
+	    redirect.setExposeModelAttributes(false);
+	    return redirect;
+	}
+	
+	@RequestMapping(value = "/sendfeedback", method = RequestMethod.POST)
+	public View sendFeedback(@RequestParam("feedbackText")String textarea,
+			ModelMap model, HttpServletRequest request) throws SQLException{
+	
+		Administrator.sendFeedback(textarea);
+		
+		RedirectView redirect = null;
+		redirect = new RedirectView("/test/home");
 	    redirect.setExposeModelAttributes(false);
 	    return redirect;
 	}

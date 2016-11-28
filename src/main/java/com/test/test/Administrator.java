@@ -27,6 +27,13 @@ public class Administrator {
 	public static void createAdmin(String username, String password){
 		DBQuery.createAdmin(username, password);
 	}
+	public static void sendFeedback(String textarea){
+		DBQuery.sendFeedback(textarea);
+	}
+	public static ArrayList<String> getFeedback(){
+		return DBQuery.getFeedback();
+	}
+	
 	public Administrator(String username) throws SQLException {
 		Administrator ad = DBQuery.getAdmin(username);
 		this.username = ad.getUsername();

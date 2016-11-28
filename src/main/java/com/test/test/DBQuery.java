@@ -820,6 +820,32 @@ public class DBQuery{
 		}
 	}
 	
+	public static void sendFeedback(String textarea){
+		try{
+			String insertQuery = "INSERT INTO Feedback (Message) VALUES (?);";
+			PreparedStatement statement = dbc.prepareStatement(insertQuery);
+			statement.setString(1, textarea);
+			statement.execute();
+		} catch (SQLException e){
+			e.printStackTrace();
+		}
+	}
+	
+	public static ArrayList<String> getFeedback(){
+		ArrayList<String> toReturn = new ArrayList<String>();
+		try{
+			String searchQuery = "SELECT Message FROM Feedback;";
+			PreparedStatement statement = dbc.prepareStatement(searchQuery);
+			ResultSet rs = statement.executeQuery();
+			while (rs.next()){
+				toReturn.add(rs.getString(1));
+			}
+		} catch (SQLException e){
+			e.printStackTrace();;
+		}
+		return toReturn;
+	}
+	
 	public static void updatePoll(int pollNum, String pollName, String pollQuestion, 
 			String pollDescription, String pollType, int endTotal) {
 		try {
