@@ -550,7 +550,7 @@ public class HomeController {
 		return new ModelAndView("singlepoll", "command", new User());
 	}
 
-	@RequestMapping(value = "/singlepolldata/{pollId}", method = RequestMethod.GET)
+	@RequestMapping(value = "/singlepolldata/{pollId}", method = RequestMethod.POST)
 	public ModelAndView singlePollData(@ModelAttribute("SpringWeb") Answer answer, ModelMap model,
 			HttpServletRequest request, @PathVariable String pollId) throws SQLException {
 		// Confirming Login Status
@@ -1278,7 +1278,7 @@ public class HomeController {
 	public View randomPoll(ModelMap model, HttpServletRequest request) {
 		Random rand = new Random();
 		ArrayList<Integer> pollNums = Poll.getActivePublicPolls();
-		int selector = rand.nextInt(pollNums.size()-1);
+		int selector = rand.nextInt(pollNums.size());
 		int randomInt = pollNums.get(selector);
 		
 		RedirectView redirect = null;
