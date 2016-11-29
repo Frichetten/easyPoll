@@ -686,7 +686,7 @@ public class HomeController {
 		//Setting token to null so that the user no longer exist
 		request.getSession().setAttribute("token", null);
 		request.getSession().setAttribute("admintoken", null);
-		String referer = request.getHeader("Referer");
+		String referer = "http://localhost:8080/test/home";
 	    return "redirect:"+ referer;
 	}
 	
@@ -1188,6 +1188,12 @@ public class HomeController {
 		ArrayList<User> groupMembers = User.getGroupMembers(groupNum);
 		String thyme = "";
 		
+		if (a.getUsername().equals(pollGroup.getAdmin())){
+			model.addAttribute("creatorHide", "");
+		}
+		else
+			model.addAttribute("creatorHide", "hidden='true'");
+		
 		model.addAttribute("groupNum",groupNum);
 		model.addAttribute("pollNum", pollGroup.getGroupPoll().getPollNum());
 		if (a != null){
@@ -1203,7 +1209,7 @@ public class HomeController {
 				for (int i =(groupMembers.size()-1); i >= 0; i--){
 					thyme = thyme + "<tr><td>"+groupMembers.get(i).getUsername()+"</td></tr>";
 				}
-				model.addAttribute("tableHeader", "Delete User");
+				model.addAttribute("tableHeader", "");
 			}
 		}
 		else

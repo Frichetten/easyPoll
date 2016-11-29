@@ -88,10 +88,12 @@
                 ${groupMembers}
             </tbody>
         </table>
-        <form:form method="POST" action="/test/deletegroup/${groupNum}">
-        <input type="text" id="groupNum" name="groupNUM" value="${groupNum}" hidden="true"/>
-        <input type="submit" id="bt" class="btn btn-success" value="DELETE POLL GROUP">
-        </form:form>
+        <div class='container' ${creatorHide}>
+	        <form:form method="POST" action="/test/deletegroup/${groupNum}">
+	        <input type="text" id="groupNum" name="groupNUM" value="${groupNum}" hidden="true"/>
+	        <input type='submit' id='bt' class='btn btn-success' value='DELETE POLL GROUP'>
+	        </form:form>
+	    </div>
     </div>
 
 
