@@ -24,6 +24,10 @@ public class User {
 		   return DBQuery.Login(email, password);
 	   }
 	   
+	   public static boolean checkUser(String username) throws SQLException{
+		   return DBQuery.checkUser(username);
+	   }
+	   
 	   public static void forgotPassword(String email){
 		   DBQuery.forgotPassword(email);
 	   }

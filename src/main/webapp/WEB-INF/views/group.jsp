@@ -71,7 +71,7 @@
         </div>
         <form:form method="POST" action="/test/addusertogroup">
         <input type="text" id="groupNum" name="groupNUM" value="${groupNum}" hidden="true"/>
-        <input type="text" id="userName" name="usernameString" placeholder="Username to Add"/>
+        <input type="text" id="userName" name="usernameString" placeholder="Username to Add" required/>
         <input type="submit" id="btnLogin" class="btn btn-success" value="Add User">
         </form:form>
         <form:form method="GET" action="/test/singlepoll/${pollNum}">

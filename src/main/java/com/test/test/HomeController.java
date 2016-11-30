@@ -278,10 +278,7 @@ public class HomeController {
 		String password = "'" + user.getPassword() + "'";
 		String email = "'" + user.getEmail() + "'";
 
-		String loginQuery = "SELECT Username FROM RUser WHERE Username = " + username;
-		Statement statement = dbc.createStatement();
-		ResultSet rs = statement.executeQuery(loginQuery);
-		if (rs.next()) {
+		if(User.checkUser(username)){
 			System.out.println("User already exists");
 		} else {
 			// Insert the user into the database	

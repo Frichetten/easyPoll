@@ -244,7 +244,7 @@
                     <div class="forgotmodal-container text-center">
                         <h2>Feedback</h2><br>
                         <form:form method="POST" action="/test/sendfeedback">
-                        <textarea id="groupNameText" name="feedbackText" style="width: 500px; height: 300px;" placeholder="Type Your Feedback Here" required></textarea>
+                        <textarea id="groupNameText" name="feedbackText" maxlength="9999" style="width: 500px; height: 300px;" placeholder="Type Your Feedback Here" required></textarea>
                         <input type="submit" id="for" class="btn btn-success" value="Send Feedback">
                         </form:form>                 
                     </div>

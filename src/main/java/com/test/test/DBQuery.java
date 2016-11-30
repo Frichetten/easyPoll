@@ -35,6 +35,19 @@ public class DBQuery{
 		return tempUser;
 	}
 	
+	public static boolean checkUser(String username) throws SQLException{
+		
+		String loginQuery = "SELECT Username FROM RUser WHERE Username = " + username;
+		Statement statement = dbc.createStatement();
+		ResultSet rs = statement.executeQuery(loginQuery);
+		if(rs.next()){
+			return true;
+		}
+		else
+			return false;
+		
+	}
+	
 	public static Poll getPoll(int pollNumber) throws SQLException{
 		
 			String pollID = "'" + pollNumber + "'";
