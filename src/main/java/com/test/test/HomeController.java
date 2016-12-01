@@ -823,7 +823,9 @@ public class HomeController {
 	}
 	
 	/**
-	 * 
+	 * This is the admin portal. Here they can do several different functions such as 
+	 * view support tickets or view feedback, send a newsletter or view reported 
+	 * questions from the community.
 	 */
 	@RequestMapping(value = "/admin", method = RequestMethod.GET)
 	public ModelAndView admin(@ModelAttribute("SpringWeb")Administrator admin, ModelMap model,
@@ -833,20 +835,25 @@ public class HomeController {
 		
 		Administrator ad;
 		if (a == null){
+			//If anonymous
 			System.out.println("RUser not logged in");
-			// Login Modifier
 			String login = "<a href='../navbar-static-top/' data-toggle='modal' data-target='#login-modal'>Login</a>";
 			String signup = "<a href='../navbar-fixed-top/' data-toggle='modal' data-target='#create-account-modal'>Signup</a>";
 			model.addAttribute("login", login);
 			model.addAttribute("signup", signup);
 			model.addAttribute("hide","hidden='true'");
 		} else {
+			//If logged in normally.
 			System.out.println("Logged in as " + a.getUsername());
 			String login = "<a href='#'>" + a.getUsername() + "</a>";
 			String signout = "<a href='/test/signout' >Sign Out</a>";
 			model.addAttribute("login", login);
 			model.addAttribute("signup", signout);
 			ad = new Administrator(a.getUsername());
+			
+			//First we need to make sure that multiple reported questions are 
+			//consolidated on the front end. To do this we will use a HashMap
+			//And treat the pollNum as the primary key.
 			ArrayList<ReportedQuestion> pollArr = ad.getReportedQuestions();
 			HashMap<Integer,Integer> map = new HashMap<Integer,Integer>();
 			for(ReportedQuestion rp : pollArr){
@@ -856,6 +863,8 @@ public class HomeController {
 				else 
 					map.put(rp.getPollNum(),i+1);
 			}
+			
+			//Now we can actually create the reported polls to go to the front end
 			ArrayList<ReportedQuestion> polls = new ArrayList<ReportedQuestion>();
 			ArrayList<Integer> poller = new ArrayList<Integer>();
 			for(ReportedQuestion rp : pollArr){
@@ -865,17 +874,20 @@ public class HomeController {
 				}
 			}
 			
+			//Building the polls to push to the front
 			String thyme = "";
 			for (int i =(polls.size()-1); i >= 0; i--){
 				thyme = thyme + "<tr><td>"+polls.get(i).getPollName()+"</td><td hidden='true'>"+polls.get(i).getPollNum()+"</td><td>"+polls.get(i).getPollDescription()+"</td><td>"+polls.get(i).getUsername()+"</td><td>"+map.get(polls.get(i).getPollNum())+"</td></tr>";
 			}
 			
+			//Building the feedback to push to the front
 			String feedback = "";
 			ArrayList<String> messages = Administrator.getFeedback();
 			for (int i=0; i< messages.size(); i++){
 				feedback = feedback + "<tr><td>"+messages.get(i)+"</td></tr>";
 			}
 			
+			//Building the support tickets to push to the front.
 			String supportTicket = "";
 			ArrayList<Administrator> tickets = Administrator.getSupportTickets();
 			System.out.println("This is the size of support ticket: " + tickets.size());
@@ -883,109 +895,160 @@ public class HomeController {
 				supportTicket = supportTicket + "<tr><td>"+tickets.get(i).getPassword()+"</td><td>"+tickets.get(i).getUsername()+"</td><td>"+tickets.get(i).getEmail()+"</td></tr>";
 			}
 			
+			//Pushing support tickets to push to the front
 			model.addAttribute("supportTicket", supportTicket);
+			
+			//Pushing feedback to push to the front
 			model.addAttribute("feedback", feedback);
+			
+			//Pushing the polls to the front
 			model.addAttribute("polls", thyme);
+			
+			//Pushing the hiden attribute to the front. If they are admins they should
+			//be able to see the functions after they have logged in.
 			model.addAttribute("hide","");
 		}
+		
+		//This is to see if they just send a newsletter
 		Boolean newsCheck = (Boolean)request.getSession().getAttribute("newsletter");
 		if (newsCheck != null){
 			model.addAttribute("sentNewsletter", "Newsletter Sent!");
 			request.getSession().setAttribute("newsletter", null);
 		}
+		
 		return new ModelAndView("admin", "command", new RUser());
 	}
 	
+	/**
+	 * Recommend function will send an email to a user to recommend the poll to them. 
+	 */
 	@RequestMapping(value = "/recommend", method = RequestMethod.POST)
 	public RedirectView recommendPoll(@ModelAttribute("SpringWeb")Email email, ModelMap model,
 		HttpServletRequest request) {
 		// Confirming Login Status
 		RUser a = (RUser)request.getSession().getAttribute("token");
 		if (a == null){
-			System.out.println("RUser not logged in");
+			//If not logged in
 			String referer = request.getHeader("Referer");
 			RedirectView redirect = new RedirectView(referer);
 		    redirect.setExposeModelAttributes(false);
 		    return redirect;
 		} else {
-			System.out.println("Logged in as " + a.getUsername());
+			//Confirming login
 			String login = "<a href='#'>" + a.getUsername() + "</a>";
 			String signout = "<a href='/test/signout' >Sign Out</a>";
 			model.addAttribute("login", login);
 			model.addAttribute("signup", signout);
 		}
-		//System.out.println(email.getAddress());
+		
+		//Here we are actually bulding the email that we will send to the user 
 		String info = "To whom it may concern,\n\nA friend of yours is interested in getting you opinion on "
 				+ "a poll! Follow the link to learn more...\n\n" + request.getHeader("Referer") + "\n\nGot "
 				+ "a question you'd like to ask a vibrant community of polltakers? Visit us at easyPoll.com\n\n "
 				+ "All the best!\n\t-easyPoll Team";
-		System.out.println(info);
-		//Email.sendMail(email.getAddress(), "You've been invited to a poll!", info);
+		
+		//Here we open a thread to send the email
 		ExecutorService executor = Executors.newFixedThreadPool(2);
 		@SuppressWarnings({ "rawtypes", "unchecked" })
 		FutureTask futureTask_1 = new FutureTask((Callable) new CallableSendMail(email.getAddress(), "You've been invited to a poll!", info));
 		executor.execute(futureTask_1);
+		
+		//Returning to the previous page
 		String referer = request.getHeader("Referer");
 		RedirectView redirect = new RedirectView(referer);
 	    redirect.setExposeModelAttributes(false);
 	    return redirect;
-
 	}
 	
+	/**
+	 * Sending the newsletter to the relevant parties (everybody)
+	 */
 	@RequestMapping(value = "/sendnewsletter", method = RequestMethod.POST)
 	public String sendnewsletter(@RequestParam("textarea")String textarea, ModelMap model,
 		HttpServletRequest request) {
-		// Confirming Login Status
-		System.out.println("Sending news letter");
-		System.out.println(textarea);
+		//The text area is the info recieved in the text area object
 		request.getSession().setAttribute("newsletter", true);
+		
+		//Spinning up the thread to send the email to everyone
 		ExecutorService executor = Executors.newFixedThreadPool(2);
 		FutureTask futureTask_1 = new FutureTask((Callable) new CallableSendMassMail(textarea));
 		executor.execute(futureTask_1);
 		
+		//Return to the previous page
 		String referer = request.getHeader("Referer");
 	    return "redirect:"+ referer;
 	}
 	
+	/**
+	 * This is the function that will be called when we report a question to the admins
+	 */
 	@RequestMapping(value = "/report", method = RequestMethod.POST)
 	public String report(@ModelAttribute("SpringWeb")RUser user, ModelMap model,
 		HttpServletRequest request) {
-		// Confirming Login Status
+		//The user has to be logged in so we are fetching that info.
 		RUser a = (RUser) request.getSession().getAttribute("token");
 		
-		System.out.println("$%$%$@%$%$%$%$%$%$%$%$%$%$%$%$%$%$%$%$%$");
+		//We need to get the pollNum of the previous page so that we can report it
 		String referer = request.getHeader("Referer");
-		int index= referer.lastIndexOf("/");
+		int index = referer.lastIndexOf("/");
 		int pollNum = Integer.valueOf(referer.substring(index+1));
-		ReportedQuestion.addReportedQuestion(a.getUsername(), pollNum);
-		System.out.println(a.getUsername());
 		
+		//Using that pollnum we will report the question 
+		ReportedQuestion.addReportedQuestion(a.getUsername(), pollNum);
+		
+		//Return to the previous page
 	    return "redirect:"+referer;
 	}
 	
+	/**
+	 * This is the function that will let you edit the poll. To be clear it will not do the work 
+	 * of actually modifying the poll. It will only show the page needed to perform the operation.
+	 */
 	@RequestMapping(value = "/editPoll/{pollId}", method = RequestMethod.POST)
 	public ModelAndView editpoll(@ModelAttribute("SpringWeb")RUser user, ModelMap model,
 		HttpServletRequest request, @PathVariable String pollId) {
 		// Confirming Login Status, this person must be the poll creator
 		RUser a = (RUser)request.getSession().getAttribute("token");
 		if (a == null){
+			//If not logged in
 			System.out.println("RUser not logged in");
 		    return new ModelAndView("redirect:http://localhost:8080/test/home");
 		} else {
+			//Confirmed login
 			System.out.println("Logged in as " + a.getUsername());
 			String login = "<a href='#'>" + a.getUsername() + "</a>";
 			String signout = "<a href='/test/signout' >Sign Out</a>";
 			model.addAttribute("login", login);
 			model.addAttribute("signup", signout);
 		}
+		
+		//Get the total number of polls (similar to the create poll page)
 		int num = Poll.getTotalPoll();
+		
+		//Push the number of polls to the front
 		model.addAttribute("numberPolls", String.valueOf(num));
+		
+		//Push the pollnum to the front
 		model.addAttribute("pollId", pollId);
+		
+		//Based on the poll Id get the poll object
 		Poll poll = new Poll(Integer.valueOf(pollId));
+		
+		//Push the pollName to the front
 		model.addAttribute("pollName", poll.getPollName());
+		
+		//Push the question to the front
 		model.addAttribute("pollQuestion", poll.getPollQuestion());
+		
+		//Push the description to the front
 		model.addAttribute("pollDesc", poll.getPollDescription());
+		
+		//Push the end total to the front
 		model.addAttribute("endTotal", poll.getEndTotal());
+		
+		//This may not be necessary (its not, keeping it for safety)
+		//But if the poll type is not specified it will default to public
+		//If it is specified set it properly
 		if(poll.getPollType() == null){
 			model.addAttribute("isPublic", "checked='checked'");
 		}
@@ -994,6 +1057,7 @@ public class HomeController {
 		else
 			model.addAttribute("isPrivate", "checked='checked'");
 		
+		//Return the view for editpoll
 	    return new ModelAndView("editpoll", "command", new RUser());
 	}
 	
