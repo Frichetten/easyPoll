@@ -15,8 +15,8 @@ public class DBQuery{
 	static Statement statement;
 	static ResultSet rs;
 	
-	public static User Login(String email, String password) throws SQLException{
-		User tempUser = new User();
+	public static RUser Login(String email, String password) throws SQLException{
+		RUser tempUser = new RUser();
 		String savedEmail = email;
 		email = "'" + email + "'";
 		password = "'" + password + "'";
@@ -1251,15 +1251,15 @@ public class DBQuery{
 		}
 	}
 	
-	public static ArrayList<User> getGroupMembers(String groupNum){
+	public static ArrayList<RUser> getGroupMembers(String groupNum){
 		try{
-			ArrayList<User> toReturn = new ArrayList<User>();
+			ArrayList<RUser> toReturn = new ArrayList<RUser>();
 			String searchQuery = "SELECT Username FROM UserGroup WHERE GroupNum = ?";
 			PreparedStatement statement = dbc.prepareStatement(searchQuery);
 			statement.setInt(1, Integer.valueOf(groupNum));
 			ResultSet rs = statement.executeQuery();
 			while (rs.next()){
-				User toAdd = new User();
+				RUser toAdd = new RUser();
 				toAdd.setUsername(rs.getString(1));
 				toReturn.add(toAdd);
 			}
@@ -1315,7 +1315,7 @@ public class DBQuery{
 				groupNums.add(rs.getString(1));
 			}
 			for(int i=0; i< groupNums.size(); i++){
-				toReturn.add(User.getGroup(Integer.valueOf(groupNums.get(i))));
+				toReturn.add(RUser.getGroup(Integer.valueOf(groupNums.get(i))));
 			}
 		} catch (SQLException e){
 			e.printStackTrace();

@@ -10,7 +10,7 @@ import java.util.ArrayList;
  * @author dalle
  *
  */
-public class Administrator {
+public class Administrator extends User {
 	
 	private String username;
 	private String password;
