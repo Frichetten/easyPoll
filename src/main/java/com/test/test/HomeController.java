@@ -46,12 +46,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 @Controller
 public class HomeController {
-
-	// Create DBConnection
-	Connection dbc = DBConnection.getConnection();
 	
-	@Resource
-	WebServiceContext context;
+	//DELETE IF NOT NEEDED
+//	@Resource
+//	WebServiceContext context;
 
 	// Root mapping
 	@RequestMapping(value = "/", method = RequestMethod.GET)
@@ -158,55 +156,20 @@ public class HomeController {
 			model.addAttribute("login", login);
 			model.addAttribute("signup", signout);
 		}
-
-		String numPollsQuery = "Select * FROM Polls WHERE Username = " + "'" + a.getUsername() + "';";
-		Statement statement = dbc.createStatement();
-		ResultSet rs = statement.executeQuery(numPollsQuery);
-
-		int counter = 0;
-
-		while (rs.next()) {
-			counter++;
-		}
-
+		
+		int counter = RUser.getMyPollsCount(a.getUsername());
 		model.addAttribute("numPolls", counter);
 
-		String votedQuery = "SELECT * FROM PollTaker WHERE Username = " + "'" + a.getUsername() + "'";
+		int votedCounter = RUser.getMyPollsVoted(a.getUsername());
+		model.addAttribute("numVoted", votedCounter);
 
-		rs = statement.executeQuery(votedQuery);
+		String mostVoted = RUser.getMyPollsMostVoted(a.getUsername());
+		model.addAttribute("fave", mostVoted);
 
-		counter = 0;
-
-		while (rs.next()) {
-			counter++;
-		}
-
-		model.addAttribute("numVoted", counter);
-		Statement statement2 = dbc.createStatement();
-		ResultSet rs2 = statement2.executeQuery(numPollsQuery);
-		rs2 = statement2.executeQuery(numPollsQuery);
-		if (rs2.next()) {
-			int best = Integer.parseInt(rs2.getString("Partakers"));
-			String name = rs2.getString("PollName");
-			while (rs.next()) {
-				int voters = Integer.parseInt(rs2.getString("Partakers"));
-				if (voters > best) {
-					name = rs2.getString("PollName");
-				}
-			}
-
-			model.addAttribute("fave", name);
-
-			model.addAttribute("userName", a.getUsername());
-			
-		}
-		Statement emailStatement = dbc.createStatement();
-		String emailQuery = "SELECT * FROM RUser WHERE Username = " + "'" + a.getUsername() + "'";
-		ResultSet rsEmail = emailStatement.executeQuery(emailQuery);
-
-		if (rsEmail.next()) {
-			model.addAttribute("email",rsEmail.getString(3));
-		}
+		model.addAttribute("userName", a.getUsername());
+		
+		model.addAttribute("email",a.getEmail());
+		
 		return new ModelAndView("userprofile", "command", new RUser());
 	}
 
@@ -273,18 +236,15 @@ public class HomeController {
 	public RedirectView register(@ModelAttribute("SpringWeb") RUser user, ModelMap model, HttpServletRequest request)
 			throws SQLException {
 		// Check if user exists in database
-		String username = "'" + user.getUsername() + "'";
-		String password = "'" + user.getPassword() + "'";
-		String email = "'" + user.getEmail() + "'";
+		String username = user.getUsername();
+		String password = user.getPassword();
+		String email = user.getEmail();
 
 		if(RUser.checkUser(username)){
 			System.out.println("RUser already exists");
 		} else {
 			// Insert the user into the database	
-			String insertRUserQuery = "insert into RUser (Username, Pword, Email) Values (" + username + "," + password
-					+ "," + email + ")";
-			Statement st2 = dbc.createStatement();
-			st2.execute(insertRUserQuery);
+			RUser.createRUser(username,password,email);
 		}
 		RUser toAdd = new RUser();
 		toAdd.setUsername(user.getUsername());
@@ -618,10 +578,7 @@ public class HomeController {
 			System.out.println("Update complete");
 		}
 
-		String searchQuery = "SELECT * FROM Polls p JOIN PollData on PollData.PollNum = p.PollNum "
-				+ "WHERE p.PollNum = " + pollId + ";";
-		Statement statement = dbc.createStatement();
-		ResultSet rs = statement.executeQuery(searchQuery);
+		ResultSet rs = Poll.resultSetPoll(pollId);
 		if (rs.next()) {
 			model.addAttribute("posterUsername", rs.getString(2));
 			model.addAttribute("pollName", rs.getString(4));

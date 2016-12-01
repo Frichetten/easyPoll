@@ -46,20 +46,7 @@ public class Poll {
 	
 	public Poll(){
 	}
-/*	
-	public static int getTotalPoll() throws SQLException{
-		String publicPollsQuery= "SELECT * FROM Polls;";
-		//Statement st = dbc.createStatement();
-		//ResultSet rs = st.executeQuery(publicPollsQuery);
-		/*
-		int toReturn = 0;
-		while (rs.next()) {
-			toReturn++;
-		}
-		return toReturn;
-	}
 	
-*/
 	public static void updatePoll(int pollNum, String pollName, String pollQuestion, 
 			String pollDescription, String pollType, int endTotal) {
 		DBQuery.updatePoll(pollNum, pollName, pollQuestion, pollDescription, pollType, endTotal);
@@ -139,6 +126,10 @@ public class Poll {
 	}
 	public String getIsCurrent(){
 		return this.isCurrent;
+	}
+	
+	public static ResultSet resultSetPoll(String pollNum){
+		return DBQuery.resultSetPoll(pollNum);
 	}
 	
 	public static Boolean isCurrent(int pollNum){

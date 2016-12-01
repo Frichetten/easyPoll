@@ -51,6 +51,22 @@ public class RUser extends User{
 		   return DBQuery.getPublicPolls();
 	   }
 	   
+	   public static int getMyPollsCount(String username){
+		   return DBQuery.getMyPollsCount(username);
+	   }
+	   
+	   public static int getMyPollsVoted(String username){
+		   return DBQuery.getMyPollsVoted(username);
+	   }
+	   
+	   public static void createRUser(String username, String password, String email){
+		   DBQuery.createRUser(username, password, email);
+	   }
+	   
+	   public static String getMyPollsMostVoted(String username){
+		   return DBQuery.getMyPollsMostVoted(username);
+	   }
+	   
 	   public static ArrayList<Poll> getPolls() throws SQLException{
 		   return DBQuery.getPolls();
 	   }

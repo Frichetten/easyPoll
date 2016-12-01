@@ -36,8 +36,7 @@ public class DBQuery{
 	}
 	
 	public static boolean checkUser(String username) throws SQLException{
-		
-		String loginQuery = "SELECT Username FROM RUser WHERE Username = " + username;
+		String loginQuery = "SELECT Username FROM RUser WHERE Username = '" + username + "';";
 		Statement statement = dbc.createStatement();
 		ResultSet rs = statement.executeQuery(loginQuery);
 		if(rs.next()){
@@ -46,6 +45,19 @@ public class DBQuery{
 		else
 			return false;
 		
+	}
+	
+	public static void createRUser(String username, String password, String email){
+		try{
+			String insertQuery = "INSERT INTO RUser (Username, Pword, Email) Values (?,?,?);";
+			PreparedStatement statement = dbc.prepareStatement(insertQuery);
+			statement.setString(1, username);
+			statement.setString(2, password);
+			statement.setString(3, email);
+			statement.execute();
+		} catch (SQLException e){
+			e.printStackTrace();
+		}
 	}
 	
 	public static Poll getPoll(int pollNumber) throws SQLException{
@@ -616,6 +628,68 @@ public class DBQuery{
 						 tag, Partakers));
 			   }
 		   return myPolls;
+	}
+	
+	public static int getMyPollsCount(String username){
+		int toReturn = 0;
+		try{
+			String searchQuery = "SELECT COUNT(*) FROM Polls WHERE Username = ?;";
+			PreparedStatement statement = dbc.prepareStatement(searchQuery);
+			statement.setString(1, username);
+			ResultSet rs = statement.executeQuery();
+			if(rs.next()){
+				toReturn = rs.getInt(1);
+			}
+		} catch (SQLException e){
+			e.printStackTrace();
+		}
+		return toReturn;
+	}
+	
+	public static ResultSet resultSetPoll(String pollNum){
+		ResultSet failure = null;
+		try {
+			String searchQuery = "SELECT * FROM Polls p JOIN PollData on PollData.PollNum = p.PollNum WHERE p.PollNum = ?;";
+			PreparedStatement statement = dbc.prepareStatement(searchQuery);
+			statement.setInt(1, Integer.parseInt(pollNum));
+			ResultSet rs = statement.executeQuery();
+			return rs;
+		} catch (SQLException e){
+			e.printStackTrace();
+		}
+		return failure;
+	}
+	
+	public static int getMyPollsVoted(String username){
+		int toReturn = 0;
+		try{ 
+			String searchQuery = "SELECT COUNT(*) FROM PollTaker WHERE Username = ?;";
+			PreparedStatement statement = dbc.prepareStatement(searchQuery);
+			statement.setString(1, username);
+			ResultSet rs = statement.executeQuery();
+			if(rs.next()){
+				toReturn = rs.getInt(1);
+			}
+		} catch (SQLException e){
+			e.printStackTrace();
+		}
+		return toReturn;
+	}
+	
+	public static String getMyPollsMostVoted(String username){
+		String toReturn = "";
+		try{
+			String searchQuery = "SELECT PollName, MAX(Partakers) FROM Polls WHERE Username = ? GROUP BY PollName desc;";
+			PreparedStatement statement = dbc.prepareStatement(searchQuery);
+			statement.setString(1, username);
+			ResultSet rs = statement.executeQuery();
+			if(rs.next()){
+				toReturn = rs.getString(1);
+			}
+		} catch (SQLException e){
+			e.printStackTrace();
+		}
+		return toReturn;
 	}
 	
 	public static Administrator getAdmin(String username) throws SQLException{
