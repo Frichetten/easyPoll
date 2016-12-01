@@ -15,36 +15,46 @@ public class DBQuery{
 	static Statement statement;
 	static ResultSet rs;
 	
-	public static RUser Login(String email, String password) throws SQLException{
+	public static RUser Login(String email, String password){
 		RUser tempUser = new RUser();
-		String savedEmail = email;
-		email = "'" + email + "'";
-		password = "'" + password + "'";
-		   
-		String loginQuery = "SELECT Username FROM RUser WHERE Email = " + email + 
-					" AND Pword = " + password + ";";
-		statement = dbc.createStatement();
-		rs = statement.executeQuery(loginQuery);
-		if(rs.next()){
-			System.out.println("User Logged in: " + rs.getString(1));
-			tempUser.setUsername(rs.getString(1));
-			tempUser.setEmail(savedEmail);
+		try{
+			String savedEmail = email;
+			email = "'" + email + "'";
+			password = "'" + password + "'";
+			   
+			String loginQuery = "SELECT Username FROM RUser WHERE Email = " + email + 
+						" AND Pword = " + password + ";";
+			statement = dbc.createStatement();
+			rs = statement.executeQuery(loginQuery);
+			if(rs.next()){
+				System.out.println("User Logged in: " + rs.getString(1));
+				tempUser.setUsername(rs.getString(1));
+				tempUser.setEmail(savedEmail);
+			}
+			else
+				tempUser.setUsername("");
+			return tempUser;
+		} catch (SQLException e){
+			e.printStackTrace();
 		}
-		else
-			tempUser.setUsername("");
 		return tempUser;
 	}
 	
-	public static boolean checkUser(String username) throws SQLException{
-		String loginQuery = "SELECT Username FROM RUser WHERE Username = '" + username + "';";
-		Statement statement = dbc.createStatement();
-		ResultSet rs = statement.executeQuery(loginQuery);
-		if(rs.next()){
-			return true;
+	public static boolean checkUser(String username) {
+		try{
+			String loginQuery = "SELECT Username FROM RUser WHERE Username = '" + username + "';";
+			Statement statement = dbc.createStatement();
+			ResultSet rs = statement.executeQuery(loginQuery);
+			if(rs.next()){
+				return true;
+			}
+			else
+				return false;
 		}
-		else
-			return false;
-		
+		catch (SQLException e){
+			e.printStackTrace();
+		}
+		return false;
 	}
 	
 	public static void createRUser(String username, String password, String email){
@@ -60,8 +70,8 @@ public class DBQuery{
 		}
 	}
 	
-	public static Poll getPoll(int pollNumber) throws SQLException{
-		
+	public static Poll getPoll(int pollNumber) {
+		try{
 			String pollID = "'" + pollNumber + "'";
 		
 		   String PollQuery= "SELECT * FROM Polls p" +
@@ -186,13 +196,15 @@ public class DBQuery{
 						 tag, Partakers);
 
 			   }
-		   
-		
 		return singlePoll;
+		} catch (SQLException e){
+			e.printStackTrace();
+		}
+		return null;
 	}
 	
-	public static ArrayList<Poll> getPolls() throws SQLException{
-		   
+	public static ArrayList<Poll> getPolls() {
+		try{ 
 		   String publicPollsQuery= "SELECT * FROM Polls p"
 		   	+ " LEFT JOIN PollData ON PollData.PollNum = p.PollNum" + 
 		   " LEFT JOIN PollTaker ON PollTaker.PollNum = PollData.PollNum"+
@@ -315,10 +327,15 @@ public class DBQuery{
 						 tag, Partakers));
 			   }
 		   return publicPolls;
-		   }
-	
-	public static ArrayList<Poll> getPublicPolls() throws SQLException{
 		   
+		} catch (SQLException e){
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	public static ArrayList<Poll> getPublicPolls(){
+		try{
 		   String publicPollsQuery= "SELECT * FROM Polls p"
 		   	+ " LEFT JOIN PollData ON PollData.PollNum = p.PollNum" + 
 		   " LEFT JOIN PollTaker ON PollTaker.PollNum = PollData.PollNum"+
@@ -442,6 +459,10 @@ public class DBQuery{
 						 tag, Partakers));
 			   }
 		   return publicPolls;
+		} catch (SQLException e){
+			e.printStackTrace();
+		}
+		return null;
 	}
 	
 	public static int pollTakerCount(int pollNum){
@@ -492,20 +513,25 @@ public class DBQuery{
 		return toReturn;
 	}
 	
-	public static int getTotalPolls() throws SQLException{
-		String totalPolls = "SELECT COUNT(pollNum) from Polls;";
-		statement = dbc.createStatement();
-		ResultSet rs = statement.executeQuery(totalPolls);
-		
-		if(rs.next()){
+	public static int getTotalPolls() {
+		try{
+			String totalPolls = "SELECT COUNT(pollNum) from Polls;";
+			statement = dbc.createStatement();
+			ResultSet rs = statement.executeQuery(totalPolls);
 			
-			return Integer.parseInt(rs.getString(1));
+			if(rs.next()){
+				
+				return Integer.parseInt(rs.getString(1));
+			}
+			return 0;
+		} catch (SQLException e){
+			e.printStackTrace();
 		}
 		return 0;
 	}
 	
-	public static ArrayList<Poll> getMyPolls(String username) throws SQLException{
-			
+	public static ArrayList<Poll> getMyPolls(String username){
+		try{
 		   username = "'" + username + "'";
 		   String PollsQuery= "SELECT * FROM Polls p" +
 				   " LEFT join PollData ON PollData.PollNum = p.PollNum" +
@@ -628,6 +654,10 @@ public class DBQuery{
 						 tag, Partakers));
 			   }
 		   return myPolls;
+		} catch (SQLException e){
+			e.printStackTrace();
+		}
+		return null;
 	}
 	
 	public static int getMyPollsCount(String username){
@@ -692,38 +722,41 @@ public class DBQuery{
 		return toReturn;
 	}
 	
-	public static Administrator getAdmin(String username) throws SQLException{
-		String user = "'" + username + "'";
-		   
-		String adminQuery = "SELECT * FROM AdminUser WHERE Username = " + user + 
-					";";
-		Statement statement = dbc.createStatement();
-		System.out.println(adminQuery);
-		rs = statement.executeQuery(adminQuery);
-		
-		String email = "";
-		ArrayList<ReportedQuestion> rq = new ArrayList<ReportedQuestion>();
-		
-		if(rs.next()){
-			email = rs.getString(2);
+	public static Administrator getAdmin(String username) {
+		try{
+			String user = "'" + username + "'";
+			   
+			String adminQuery = "SELECT * FROM AdminUser WHERE Username = " + user + 
+						";";
+			Statement statement = dbc.createStatement();
+			System.out.println(adminQuery);
+			rs = statement.executeQuery(adminQuery);
+			
+			String email = "";
+			ArrayList<ReportedQuestion> rq = new ArrayList<ReportedQuestion>();
+			
+			if(rs.next()){
+				email = rs.getString(2);
+			}
+			
+			String reportedQuestionsQuery = "SELECT * FROM ReportedQuestions;";
+			Statement statement2 = dbc.createStatement();
+			rs = statement2.executeQuery(reportedQuestionsQuery);
+			
+			while(rs.next()){
+				int PollNum = Integer.parseInt(rs.getString(1));
+				String reporter = rs.getString(2);
+				String Question = rs.getString(3);
+				String description = rs.getString(4);
+				String pollName = rs.getString(5);
+				rq.add(new ReportedQuestion(PollNum, reporter, Question, description, pollName));
+			}
+			
+			return new Administrator(username, email, rq);
+		} catch (SQLException e){
+			e.printStackTrace();
 		}
-		
-		String reportedQuestionsQuery = "SELECT * FROM ReportedQuestions;";
-		Statement statement2 = dbc.createStatement();
-		rs = statement2.executeQuery(reportedQuestionsQuery);
-		
-		while(rs.next()){
-			int PollNum = Integer.parseInt(rs.getString(1));
-			String reporter = rs.getString(2);
-			String Question = rs.getString(3);
-			String description = rs.getString(4);
-			String pollName = rs.getString(5);
-			rq.add(new ReportedQuestion(PollNum, reporter, Question, description, pollName));
-		}
-		
-		
-		
-		return new Administrator(username, email, rq);
+		return null;
 	}
 	
 	public static Boolean isCurrent(int pollNum){
@@ -745,17 +778,22 @@ public class DBQuery{
 		return false;
 	}
 	
-	public static String getPollDescription(String pollId) throws SQLException{
-		String toReturn = "";
-		String searchQuery = "SELECT Description FROM PollData WHERE PollNum= '"+pollId+"';";
-		statement = dbc.createStatement();
-		rs = statement.executeQuery(searchQuery);
-		if (rs.next()){
-			toReturn = rs.getString(1);
+	public static String getPollDescription(String pollId) {
+		try{
+			String toReturn = "";
+			String searchQuery = "SELECT Description FROM PollData WHERE PollNum= '"+pollId+"';";
+			statement = dbc.createStatement();
+			rs = statement.executeQuery(searchQuery);
+			if (rs.next()){
+				toReturn = rs.getString(1);
+			}
+			else
+				toReturn = "null";
+			return toReturn;
+		} catch (SQLException e){
+			e.printStackTrace();
 		}
-		else
-			toReturn = "null";
-		return toReturn;
+		return null;
 	}
 	
 	public static Answer getUserAnswer(int pollNum, String username){
@@ -763,46 +801,52 @@ public class DBQuery{
 		return null;
 	}
 
-	public static void addAnswer(int index, int pollNum) throws SQLException {
-		
-		String column = "";
-		switch(index){
-		
-		case 1: column = "TotalOne";
-				break;
-		case 2: column = "TotalTwo";
-				break;
-		case 3: column = "TotalThree";
-				break;
-		case 4: column = "TotalFour";
-				break;
-		case 5: column = "TotalFive";
-				break;
-		case 6: column = "TotalSix";
-				break;
-		case 7: column = "TotalSeven";
-				break;
-		case 8: column = "TotalEight";
-				break;
-		case 9: column = "TotalNine";
-				break;
-		case 10:column = "TotalTen";
-				break;
+	public static void addAnswer(int index, int pollNum)  {
+		try{
+			String column = "";
+			switch(index){
+			
+			case 1: column = "TotalOne";
+					break;
+			case 2: column = "TotalTwo";
+					break;
+			case 3: column = "TotalThree";
+					break;
+			case 4: column = "TotalFour";
+					break;
+			case 5: column = "TotalFive";
+					break;
+			case 6: column = "TotalSix";
+					break;
+			case 7: column = "TotalSeven";
+					break;
+			case 8: column = "TotalEight";
+					break;
+			case 9: column = "TotalNine";
+					break;
+			case 10:column = "TotalTen";
+					break;
+			}
+			
+			
+			String addAnswerQuery = "UPDATE Polls p JOIN PollData on PollData.PollNum = p.PollNum" +
+									" SET " + column + " = " + column + " +1" +
+									" where p.PollNum = " + pollNum + ";";
+			
+			statement = dbc.createStatement();
+			statement.executeUpdate(addAnswerQuery);
+		} catch (SQLException e){
+			e.printStackTrace();
 		}
-		
-		
-		String addAnswerQuery = "UPDATE Polls p JOIN PollData on PollData.PollNum = p.PollNum" +
-								" SET " + column + " = " + column + " +1" +
-								" where p.PollNum = " + pollNum + ";";
-		
-		statement = dbc.createStatement();
-		statement.executeUpdate(addAnswerQuery);
-		
 	}
 
-	public static void addPartaker(int pollNum) throws SQLException {
-		String updatePartakersQuery = "Update Polls Set Partakers=Partakers+1 WHERE PollNum = " + pollNum + " ;";
-		statement.executeUpdate(updatePartakersQuery);
+	public static void addPartaker(int pollNum) {
+		try{
+			String updatePartakersQuery = "Update Polls Set Partakers=Partakers+1 WHERE PollNum = " + pollNum + " ;";
+			statement.executeUpdate(updatePartakersQuery);
+		} catch (SQLException e){
+			e.printStackTrace();
+		}
 	}
 	
 	public static void deleteAccount(String username) {
@@ -1071,29 +1115,28 @@ public class DBQuery{
 		Email.sendMail(email, "Forgot Your Password?", info);
 	}
 
-	public static void addPollTaker(PollTaker pollTaker) throws SQLException {
-		
-		String insertQuery = "INSERT INTO PollTaker VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?);";
-		
-		
-		//+ pollTaker.getPollNum() +		", " + pollTaker.getPublicAnswers() + ", ";
-		PreparedStatement statement = dbc.prepareStatement(insertQuery);
-		statement.setInt(2, pollTaker.getPollNum());
-		statement.setString(1, pollTaker.getUsername());
-		statement.setBoolean(3, pollTaker.getPublicAnswers());
-		
-		int counter = 0;
-		for(int i = 4; i < pollTaker.getUserAnswers().size() +4; i++){
-			statement.setInt(i, pollTaker.getUserAnswers().get(counter));
-			counter++;
+	public static void addPollTaker(PollTaker pollTaker) {
+		try{
+			String insertQuery = "INSERT INTO PollTaker VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?);";
+			PreparedStatement statement = dbc.prepareStatement(insertQuery);
+			statement.setInt(2, pollTaker.getPollNum());
+			statement.setString(1, pollTaker.getUsername());
+			statement.setBoolean(3, pollTaker.getPublicAnswers());
+			
+			int counter = 0;
+			for(int i = 4; i < pollTaker.getUserAnswers().size() +4; i++){
+				statement.setInt(i, pollTaker.getUserAnswers().get(counter));
+				counter++;
+			}
+			while(counter < 10){
+				statement.setNull(counter+4, java.sql.Types.INTEGER);
+				counter++;
+			}				
+			
+			statement.execute();
+		} catch (SQLException e){
+			e.printStackTrace();
 		}
-		while(counter < 10){
-			statement.setNull(counter+4, java.sql.Types.INTEGER);
-			counter++;
-		}				
-		
-		statement.execute();
-		
 	}
 
 	public static void addReportedQuestion(String username, int pollNum) {
@@ -1153,25 +1196,30 @@ public class DBQuery{
 		}
 	}
 	
-	public static Administrator adminLogin(String email, String password) throws SQLException{
-		Administrator tempAdmin = new Administrator();
-		email = "'" + email + "'";
-		password = "'" + password + "'";
-		   
-		String loginQuery = "SELECT Username FROM AdminUser WHERE Email = " + email + 
-					" AND Pword = " + password + ";";
-		statement = dbc.createStatement();
-		rs = statement.executeQuery(loginQuery);
-		if(rs.next()){
-			System.out.println("User Logged in: " + rs.getString(1));
-			tempAdmin.setUsername(rs.getString(1));
+	public static Administrator adminLogin(String email, String password) {
+		try {
+			Administrator tempAdmin = new Administrator();
+			email = "'" + email + "'";
+			password = "'" + password + "'";
+			   
+			String loginQuery = "SELECT Username FROM AdminUser WHERE Email = " + email + 
+						" AND Pword = " + password + ";";
+			statement = dbc.createStatement();
+			rs = statement.executeQuery(loginQuery);
+			if(rs.next()){
+				System.out.println("User Logged in: " + rs.getString(1));
+				tempAdmin.setUsername(rs.getString(1));
+			}
+			else
+				tempAdmin.setUsername("");
+			return tempAdmin;
+		} catch (SQLException e){
+			e.printStackTrace();
 		}
-		else
-			tempAdmin.setUsername("");
-		return tempAdmin;
+		return null;
 	}
 
-	public static void addPoll(Poll poll, String username, ArrayList<String> answerOptions) throws SQLException {
+	public static void addPoll(Poll poll, String username, ArrayList<String> answerOptions) {
 		// Insert the user into the database
 		
 				try{

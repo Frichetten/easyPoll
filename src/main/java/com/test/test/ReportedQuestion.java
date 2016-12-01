@@ -27,7 +27,7 @@ public class ReportedQuestion {
 		this.Question = Question;
 	}
 	
-	public static void addReportedQuestion(String username,int PollNum) throws SQLException{
+	public static void addReportedQuestion(String username,int PollNum) {
 		DBQuery.addReportedQuestion(username, PollNum);
 	}
 	

@@ -16,7 +16,6 @@ public class CallableSendMail implements Callable{
 
 	@Override
 	public Void call() throws Exception {
-
 		return Email.sendMail(address, subject, info);
 	}
 

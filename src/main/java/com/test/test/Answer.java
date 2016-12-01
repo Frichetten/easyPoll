@@ -31,7 +31,7 @@ public class Answer {
 	public void setAnswer(String answer){
 		this.answerparams = answer;
 	}
-	public void addAnswerChosen(int index, int pollNum) throws SQLException{
+	public void addAnswerChosen(int index, int pollNum){
 		this.answersChosen.set(index, this.answersChosen.get(index)+1);
 		DBQuery.addAnswer(index+1, pollNum);
 	}

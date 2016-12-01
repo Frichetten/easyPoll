@@ -17,7 +17,7 @@ public class Administrator extends User {
 	private String email;
 	private ArrayList<ReportedQuestion> reportedQuestions;
 	
-	public static Administrator verifyAdmin(String email, String password) throws SQLException{
+	public static Administrator verifyAdmin(String email, String password){
 		return DBQuery.adminLogin(email, password);
 	}
 	
@@ -40,12 +40,13 @@ public class Administrator extends User {
 		return DBQuery.getSupportTickets();
 	}
 	
-	public Administrator(String username) throws SQLException {
+	public Administrator(String username) {
 		Administrator ad = DBQuery.getAdmin(username);
 		this.username = ad.getUsername();
 		this.email = ad.getEmail();
 		this.reportedQuestions = ad.getReportedQuestions();
 	}
+	
 	public Administrator(String username, String email, ArrayList<ReportedQuestion> reportedQuestions){
 		this.username = username;
 		this.email = email;

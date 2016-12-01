@@ -14,18 +14,17 @@ public class RUser extends User{
 	   private String username;
 	   private String password;
 	   private String email;
-	   static Connection dbc = DBConnection.getConnection();
 	   private ArrayList<Group> pollGroups;
 	   public ArrayList<Poll> polls;
 	   
 	   public RUser(){
 	   }
 	   
-	   public static RUser verifyUser(String email, String password) throws SQLException{
+	   public static RUser verifyUser(String email, String password) {
 		   return DBQuery.Login(email, password);
 	   }
 	   
-	   public static boolean checkUser(String username) throws SQLException{
+	   public static boolean checkUser(String username){
 		   return DBQuery.checkUser(username);
 	   }
 	   
@@ -47,7 +46,7 @@ public class RUser extends User{
 		   return DBQuery.getGroupMembers(groupNum);
 	   }
 	   
-	   public static ArrayList<Poll> getPublicPolls() throws SQLException{
+	   public static ArrayList<Poll> getPublicPolls() {
 		   return DBQuery.getPublicPolls();
 	   }
 	   
@@ -67,15 +66,15 @@ public class RUser extends User{
 		   return DBQuery.getMyPollsMostVoted(username);
 	   }
 	   
-	   public static ArrayList<Poll> getPolls() throws SQLException{
+	   public static ArrayList<Poll> getPolls() {
 		   return DBQuery.getPolls();
 	   }
 	   
-	   public static void addPoll(Poll poll, String username, ArrayList<String> answerOptions) throws SQLException{
+	   public static void addPoll(Poll poll, String username, ArrayList<String> answerOptions) {
 		   DBQuery.addPoll(poll, username, answerOptions);
 	   }
 	   
-	   public static ArrayList<Poll> getMyPolls(String username) throws SQLException{
+	   public static ArrayList<Poll> getMyPolls(String username){
 		   return DBQuery.getMyPolls(username);
 	   }
 	   

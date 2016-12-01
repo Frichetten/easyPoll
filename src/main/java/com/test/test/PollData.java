@@ -19,7 +19,7 @@ public class PollData {
 		return this.totAnswers;
 	}
 	
-	public void addPollTaker(String username,int pollNum,boolean publicAnswers,ArrayList<Integer> answers) throws SQLException{
+	public void addPollTaker(String username,int pollNum,boolean publicAnswers,ArrayList<Integer> answers){
 		polltakers.add(new PollTaker(username, pollNum, publicAnswers, answers));
 		DBQuery.addPollTaker(polltakers.get(polltakers.size()-1));
 	}

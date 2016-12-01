@@ -72,7 +72,7 @@ public class Poll {
 		return DBQuery.endTotalCount(pollNum);
 	}
 	
-	public Poll(int Pollnum) throws SQLException{
+	public Poll(int Pollnum) {
 		Poll poll = DBQuery.getPoll(Pollnum);
 		this.pollName = poll.getPollName();
 		this.pollNum = poll.getPollNum();
@@ -114,13 +114,12 @@ public class Poll {
 	}
 	
 	public PollData getPollData(){
-		
 		return this.pollData;
 	}
 	public int getPartakers(){
 		return this.partakers;
 	}
-	public void addPartaker() throws SQLException{
+	public void addPartaker(){
 		this.partakers++;
 		DBQuery.addPartaker(this.pollNum);
 	}
@@ -146,7 +145,7 @@ public class Poll {
 	public void setEndTotal(int endTotal){
 		this.endTotal = endTotal;
 	}
-	public static int getTotalPoll() throws SQLException{
+	public static int getTotalPoll() {
 		return DBQuery.getTotalPolls();
 	}
 	public static ArrayList<Integer> getActivePublicPolls(){
