@@ -46,38 +46,40 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 @Controller
 public class HomeController {
-	
-	//DELETE IF NOT NEEDED
-//	@Resource
-//	WebServiceContext context;
 
-	// Root mapping
+	/**
+	 * Root Mapping: This will return the landing page
+	 */
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public ModelAndView user() {
 		return new ModelAndView("index", "command", new RUser());
 	}
 
-	// Root mapping
+	/**
+	 * This will return the home page, where the user can perform a variety of tasks
+	 */
 	@RequestMapping(value = "/home", method = RequestMethod.GET)
-	public ModelAndView home(@ModelAttribute("SpringWeb") RUser user, ModelMap model, HttpServletRequest request) throws SQLException {
+	public ModelAndView home(@ModelAttribute("SpringWeb") RUser user, 
+			ModelMap model, HttpServletRequest request) throws SQLException {
 		// Confirming Login Status
 		RUser a = (RUser) request.getSession().getAttribute("token");
 		if (a == null) {
+			//If they are not logged in
 			System.out.println("RUser not logged in");
-			// Login Modifier
 			String login = "<a href='../navbar-static-top/' data-toggle='modal' data-target='#login-modal'>Login</a>";
 			String signup = "<a href='../navbar-fixed-top/' data-toggle='modal' data-target='#create-account-modal'>Signup</a>";
 			model.addAttribute("login", login);
 			model.addAttribute("signup", signup);
 		} else {
+			//Confirmed they are logged in
 			System.out.println("Logged in as " + a.getUsername());
-			// model.addAttribute("username", a.getRUsername());
 			String login = "<a href='/test/profile'>" + a.getUsername() + "</a>";
 			String signout = "<a href='/test/signout' >Sign Out</a>";
 			model.addAttribute("login", login);
 			model.addAttribute("signup", signout);
 		}
 		
+		//Populate the most recent public polls at the bottom of the page
 		ArrayList<Poll> polls = RUser.getPolls();
 		if (polls.size() > 3){
 			for(int i = (polls.size()-1), j = 0; i > (polls.size()-5); i--, j++){
@@ -89,21 +91,25 @@ public class HomeController {
 		
 		return new ModelAndView("home", "command", new RUser());
 	}
-
+	
+	/**
+	 * This is the "about" page. Will tell the users a little bit about the project.
+	 * It will also show the developer names.
+	 */
 	@RequestMapping(value = "/about", method = RequestMethod.GET)
 	public ModelAndView about(@ModelAttribute("SpringWeb") RUser user, ModelMap model, HttpServletRequest request) {
 		// Confirming Login Status
 		RUser a = (RUser) request.getSession().getAttribute("token");
 		if (a == null) {
+			//If they are not logged in
 			System.out.println("RUser not logged in");
-			// Login Modifier
 			String login = "<a href='../navbar-static-top/' data-toggle='modal' data-target='#login-modal'>Login</a>";
 			String signup = "<a href='../navbar-fixed-top/' data-toggle='modal' data-target='#create-account-modal'>Signup</a>";
 			model.addAttribute("login", login);
 			model.addAttribute("signup", signup);
 		} else {
+			//Confirmed login
 			System.out.println("Logged in as " + a.getUsername());
-			// model.addAttribute("username", a.getRUsername());
 			String login = "<a href='/test/profile'>" + a.getUsername() + "</a>";
 			String signout = "<a href='/test/signout' >Sign Out</a>";
 			model.addAttribute("login", login);
@@ -112,21 +118,24 @@ public class HomeController {
 
 		return new ModelAndView("about", "command", new RUser());
 	}
-
+	
+	/**
+	 * This is the "contact" page. Here we list the developers and their email addresses.
+	 */
 	@RequestMapping(value = "/contact", method = RequestMethod.GET)
 	public ModelAndView contact(@ModelAttribute("SpringWeb") RUser user, ModelMap model, HttpServletRequest request) {
 		// Confirming Login Status
 		RUser a = (RUser) request.getSession().getAttribute("token");
 		if (a == null) {
+			//If not logged in
 			System.out.println("RUser not logged in");
-			// Login Modifier
 			String login = "<a href='../navbar-static-top/' data-toggle='modal' data-target='#login-modal'>Login</a>";
 			String signup = "<a href='../navbar-fixed-top/' data-toggle='modal' data-target='#create-account-modal'>Signup</a>";
 			model.addAttribute("login", login);
 			model.addAttribute("signup", signup);
 		} else {
+			//Confirmed login
 			System.out.println("Logged in as " + a.getUsername());
-			// model.addAttribute("username", a.getRUsername());
 			String login = "<a href='/test/profile'>" + a.getUsername() + "</a>";
 			String signout = "<a href='/test/signout' >Sign Out</a>";
 			model.addAttribute("login", login);
