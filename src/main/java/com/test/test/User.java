@@ -15,6 +15,7 @@ public class User {
 	   private String password;
 	   private String email;
 	   static Connection dbc = DBConnection.getConnection();
+	   private ArrayList<Group> pollGroups;
 	   public ArrayList<Poll> polls;
 	   
 	   public User(){
@@ -26,6 +27,10 @@ public class User {
 	   
 	   public static boolean checkUser(String username) throws SQLException{
 		   return DBQuery.checkUser(username);
+	   }
+	   
+	   public static Group getGroup(int groupNum){
+			return DBQuery.getPollGroup(groupNum);
 	   }
 	   
 	   public static void forgotPassword(String email){

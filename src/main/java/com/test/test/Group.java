@@ -44,10 +44,6 @@ public class Group {
 		DBQuery.deleteUserFromGroup(username, groupNum);
 	}
 	
-	public static Group getGroup(int groupNum){
-		return DBQuery.getPollGroup(groupNum);
-	}
-	
 	public static void createGroup(String groupName, int pollNum, String username){
 		DBQuery.createGroup(groupName, pollNum, username);
 	}

@@ -1315,7 +1315,7 @@ public class DBQuery{
 				groupNums.add(rs.getString(1));
 			}
 			for(int i=0; i< groupNums.size(); i++){
-				toReturn.add(Group.getGroup(Integer.valueOf(groupNums.get(i))));
+				toReturn.add(User.getGroup(Integer.valueOf(groupNums.get(i))));
 			}
 		} catch (SQLException e){
 			e.printStackTrace();

@@ -219,7 +219,6 @@ public class HomeController {
 		System.out.println("User password: " + user.getPassword());
 		ruser = User.verifyUser(user.getEmail(), user.getPassword());
 		
-		//ResultSet rs = statement.executeQuery(loginQuery);
 			if(!ruser.getUsername().equals("")){
 				System.out.println("User Logged in: " + ruser.getUsername());
 				// If Authentication successful
@@ -1177,7 +1176,7 @@ public class HomeController {
 			model.addAttribute("login", login);
 			model.addAttribute("signup", signout);
 		}
-		Group pollGroup = Group.getGroup(Integer.valueOf(groupNum));
+		Group pollGroup = User.getGroup(Integer.valueOf(groupNum));
 		System.out.println(pollGroup.getGroupName());
 		System.out.println(pollGroup.getGroupPoll().getPollName());
 		model.addAttribute("groupNameAndPollName", pollGroup.getGroupName() + " Voting on: " + pollGroup.getGroupPoll().getPollName());
