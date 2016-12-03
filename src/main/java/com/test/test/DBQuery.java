@@ -11,10 +11,22 @@ import java.util.Random;
 
 public class DBQuery{
 
+	/*
+	 * IMPORTANT NOTICE TO ALL PEOPLE. THIS CLASS BASICALLY ONLY CONTAINS
+	 * COMMENTS AT THE TOP OF THE FUNCTION. BECAUSE ALL OF THESE FUNCTIONS 
+	 * HAVE BEEN ENCAPSULATED SO THAT IT ONLY EXECUTES SQL STATEMENTS THERE
+	 * REALLY ISNT ANY NEED FOR COMMENTS BECAUSE ITS JUST RUNNING THOSE QUERYS 
+	 */
+	
+	//Private class variables
 	static Connection dbc = DBConnection.getConnection();
 	static Statement statement;
 	static ResultSet rs;
 	
+	/*
+	 * Logs the user in given a username and password. If successful, will return 
+	 * a valid RUser object. Otherwise it will return null
+	 */
 	public static RUser Login(String email, String password){
 		RUser tempUser = new RUser();
 		try{
@@ -22,6 +34,7 @@ public class DBQuery{
 			email = "'" + email + "'";
 			password = "'" + password + "'";
 			   
+			//Select statement looking for a username
 			String loginQuery = "SELECT Username FROM RUser WHERE Email = " + email + 
 						" AND Pword = " + password + ";";
 			statement = dbc.createStatement();
@@ -40,6 +53,9 @@ public class DBQuery{
 		return tempUser;
 	}
 	
+	/*
+	 * This function will check if that username is already taken
+	 */
 	public static boolean checkUser(String username) {
 		try{
 			String loginQuery = "SELECT Username FROM RUser WHERE Username = '" + username + "';";
@@ -57,6 +73,9 @@ public class DBQuery{
 		return false;
 	}
 	
+	/*
+	 * This will actually insert the user into the DB
+	 */
 	public static void createRUser(String username, String password, String email){
 		try{
 			String insertQuery = "INSERT INTO RUser (Username, Pword, Email) Values (?,?,?);";
@@ -70,6 +89,9 @@ public class DBQuery{
 		}
 	}
 	
+	/*
+	 * This poll will return a full poll object based on the passed in Pollnum
+	 */
 	public static Poll getPoll(int pollNumber) {
 		try{
 			String pollID = "'" + pollNumber + "'";
@@ -203,6 +225,9 @@ public class DBQuery{
 		return null;
 	}
 	
+	/*
+	 * This will return an arraylist of all polls. All of them
+	 */
 	public static ArrayList<Poll> getPolls() {
 		try{ 
 		   String publicPollsQuery= "SELECT * FROM Polls p"
@@ -334,6 +359,9 @@ public class DBQuery{
 		return null;
 	}
 	
+	/*
+	 * This will return an arraylist of all public polls
+	 */
 	public static ArrayList<Poll> getPublicPolls(){
 		try{
 		   String publicPollsQuery= "SELECT * FROM Polls p"
@@ -465,6 +493,9 @@ public class DBQuery{
 		return null;
 	}
 	
+	/*
+	 * Given a pollnum it will return the number of people who have taken that poll
+	 */
 	public static int pollTakerCount(int pollNum){
 		int toReturn = 0;
 		try {
@@ -478,10 +509,13 @@ public class DBQuery{
 		} catch (SQLException e){
 			e.printStackTrace();
 		}
-		
 		return toReturn;
 	}
 	
+	/*
+	 * Given a pollnum will return the end total count needed for the poll to roll 
+	 * over from current to not current.
+	 */
 	public static int endTotalCount(int pollNum){
 		int toReturn = 0;
 		try {
@@ -498,8 +532,16 @@ public class DBQuery{
 		return toReturn;
 	}
 	
+	/*
+	 * This function is used for the newsletter and will return an arraylist 
+	 * that contains the email addresses of every user. Right now, we have set it so 
+	 * that it will only send it to me. I don't want to risk the gmail account being 
+	 * flagged as a spam account and it getting shut down. When we present I can 
+	 * change it so that it will send out a mass mail
+	 */
 	public static ArrayList<String> getAllEmails(){
 		ArrayList<String> toReturn = new ArrayList<String>();
+		//This is the query that will change
 		String emailQuery = "SELECT Email FROM RUser WHERE Username = 'Nick';";
 		try {
 			statement = dbc.createStatement();
@@ -513,14 +555,16 @@ public class DBQuery{
 		return toReturn;
 	}
 	
+	/*
+	 * This will return the number of polls that currently exist on the platform. This 
+	 * is shown the the user when they create a poll or edit it.
+	 */
 	public static int getTotalPolls() {
 		try{
 			String totalPolls = "SELECT COUNT(pollNum) from Polls;";
 			statement = dbc.createStatement();
 			ResultSet rs = statement.executeQuery(totalPolls);
-			
 			if(rs.next()){
-				
 				return Integer.parseInt(rs.getString(1));
 			}
 			return 0;
@@ -530,6 +574,10 @@ public class DBQuery{
 		return 0;
 	}
 	
+	/*
+	 * Based on a username, will return an arraylist of every poll that user has
+	 * created.
+	 */
 	public static ArrayList<Poll> getMyPolls(String username){
 		try{
 		   username = "'" + username + "'";
@@ -660,6 +708,9 @@ public class DBQuery{
 		return null;
 	}
 	
+	/*
+	 * Will return the number of polls created by the user
+	 */
 	public static int getMyPollsCount(String username){
 		int toReturn = 0;
 		try{
@@ -676,6 +727,9 @@ public class DBQuery{
 		return toReturn;
 	}
 	
+	/*
+	 * Returns the result set will all of the information on a poll.
+	 */
 	public static ResultSet resultSetPoll(String pollNum){
 		ResultSet failure = null;
 		try {
@@ -690,6 +744,9 @@ public class DBQuery{
 		return failure;
 	}
 	
+	/*
+	 * This will return the number of polls the user has voted in
+	 */
 	public static int getMyPollsVoted(String username){
 		int toReturn = 0;
 		try{ 
@@ -706,6 +763,10 @@ public class DBQuery{
 		return toReturn;
 	}
 	
+	/*
+	 * Will return the name of the poll that the userr created that has 
+	 * the most votes
+	 */
 	public static String getMyPollsMostVoted(String username){
 		String toReturn = "";
 		try{
@@ -722,12 +783,14 @@ public class DBQuery{
 		return toReturn;
 	}
 	
+	/*
+	 * This function will return an Admin object based on a passed in 
+	 * admin username
+	 */
 	public static Administrator getAdmin(String username) {
 		try{
 			String user = "'" + username + "'";
-			   
-			String adminQuery = "SELECT * FROM AdminUser WHERE Username = " + user + 
-						";";
+			String adminQuery = "SELECT * FROM AdminUser WHERE Username = " + user + ";";
 			Statement statement = dbc.createStatement();
 			System.out.println(adminQuery);
 			rs = statement.executeQuery(adminQuery);
@@ -759,6 +822,9 @@ public class DBQuery{
 		return null;
 	}
 	
+	/*
+	 * Returns true or false depending on whether or not the poll is current.
+	 */
 	public static Boolean isCurrent(int pollNum){
 		try{
 			String searchQuery = "SELECT isCurrent FROM Polls WHERE PollNum = ?;";
@@ -778,6 +844,11 @@ public class DBQuery{
 		return false;
 	}
 	
+	/**
+	 * Based on a pollId, will return the description of that poll
+	 * @param pollId
+	 * @return
+	 */
 	public static String getPollDescription(String pollId) {
 		try{
 			String toReturn = "";
@@ -796,11 +867,17 @@ public class DBQuery{
 		return null;
 	}
 	
+	/*
+	 * Dunno
+	 */
 	public static Answer getUserAnswer(int pollNum, String username){
-		//search polltaker table.
 		return null;
 	}
-
+	
+	/*
+	 * This function will add an answer to a poll in the DB given the index of the answer
+	 * to increment as well as the pollId
+	 */
 	public static void addAnswer(int index, int pollNum)  {
 		try{
 			String column = "";
@@ -840,6 +917,9 @@ public class DBQuery{
 		}
 	}
 
+	/*
+	 * This function will increment the number of partakers on a poll
+	 */
 	public static void addPartaker(int pollNum) {
 		try{
 			String updatePartakersQuery = "Update Polls Set Partakers=Partakers+1 WHERE PollNum = " + pollNum + " ;";
@@ -849,6 +929,10 @@ public class DBQuery{
 		}
 	}
 	
+	/*
+	 * Deletes the account and wipes all information about them. Including the polls they
+	 * have created and the polls they have voted in and the groups they were a part of.
+	 */
 	public static void deleteAccount(String username) {
 		try {
 			//Need to delete all of this users polls
@@ -914,6 +998,9 @@ public class DBQuery{
 		}
 	}
 	
+	/*
+	 * Will update an account with all of the valued information
+	 */
 	public static void updateAccount(String queryName, String username, String email, String password){
 		if (password.equals("")){
 			try {
@@ -940,6 +1027,9 @@ public class DBQuery{
 		}
 	}
 	
+	/*
+	 * Modifys the poll so that it is no longer current.
+	 */
 	public static void cancelPoll(int pollNum){
 		try{
 			String updateQuery = "UPDATE Polls SET isCurrent = 0 WHERE Polls.PollNum = ?;";
@@ -951,6 +1041,9 @@ public class DBQuery{
 		}
 	}
 	
+	/*
+	 * Inserts the message into the feedback table so that the admins can see it later
+	 */
 	public static void sendFeedback(String textarea){
 		try{
 			String insertQuery = "INSERT INTO Feedback (Message) VALUES (?);";
@@ -962,6 +1055,11 @@ public class DBQuery{
 		}
 	}
 	
+	/**
+	 * This will return an arraylist of strings that hold every single 
+	 * entry in the feedback table
+	 * @return
+	 */
 	public static ArrayList<String> getFeedback(){
 		ArrayList<String> toReturn = new ArrayList<String>();
 		try{
@@ -977,6 +1075,9 @@ public class DBQuery{
 		return toReturn;
 	}
 	
+	/*
+	 * Inserts the support ticket into the DB
+	 */
 	public static void sendSupportTicket(String textarea, String username){
 		try{
 			String insertQuery = "INSERT INTO SupportTicket (Message, TicketUsername) VALUES (?,?);";
@@ -989,6 +1090,9 @@ public class DBQuery{
 		}
 	}
 	
+	/*
+	 * Will return an arraylist with all of the information on the support tickets
+	 */
 	public static ArrayList<Administrator> getSupportTickets(){
 		ArrayList<Administrator> toReturn = new ArrayList<Administrator>();
 		try{
@@ -1008,6 +1112,9 @@ public class DBQuery{
 		return toReturn;
 	}
 	
+	/*
+	 * This function will modify the poll with the infromation that is pased in
+	 */
 	public static void updatePoll(int pollNum, String pollName, String pollQuestion, 
 			String pollDescription, String pollType, int endTotal) {
 		try {
@@ -1026,6 +1133,11 @@ public class DBQuery{
 		}
 	}
 	
+	/**
+	 * Will return the poll that is public, current, and holds the most votes. Does 
+	 * NOT change on a date change
+	 * @return
+	 */
 	public static Poll getPollOfTheDay(){
 		Poll toReturn = null;
 		try{
@@ -1041,6 +1153,10 @@ public class DBQuery{
 		return toReturn;
 	}
 	
+	/**
+	 * Will return all active public polls
+	 * @return
+	 */
 	public static ArrayList<Integer> getActivePublicPolls(){
 		ArrayList<Integer> toReturn = new ArrayList<Integer>();
 		try {
@@ -1056,6 +1172,11 @@ public class DBQuery{
 		return toReturn;
 	}
 	
+	/**
+	 * Will check if a poll is current or not. If it is, and it has passed the 
+	 * end total it will flip it. Else it will just continue
+	 * @param pollNum
+	 */
 	public static void checkCurrent(int pollNum){
 		try{
 			
@@ -1097,6 +1218,9 @@ public class DBQuery{
 		}
 	}
 	
+	/*
+	 * Performs the forgotten password opertation
+	 */
 	public static void forgotPassword(String email){
 		String password = "";
 		try {
@@ -1111,10 +1235,15 @@ public class DBQuery{
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+		//Sends the email
 		String info = "Hey user,\n\nWe recieved a request for a forgotten password.\n\nWe've changed your password to the following, '"+password+"'.\n\nGet in touch if you have any other issues!\n\t-easyPoll Team";
 		Email.sendMail(email, "Forgot Your Password?", info);
 	}
 
+	/**
+	 * Will add a polltaker <- Matts code
+	 * @param pollTaker
+	 */
 	public static void addPollTaker(PollTaker pollTaker) {
 		try{
 			String insertQuery = "INSERT INTO PollTaker VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?);";
@@ -1139,6 +1268,13 @@ public class DBQuery{
 		}
 	}
 
+	/**
+	 * Will add a reported question to the DB so that admins can see it at a later time.
+	 * Will also return the username of the person who reported it. It will also return 
+	 * the number of people who reported it which is really cool
+	 * @param username
+	 * @param pollNum
+	 */
 	public static void addReportedQuestion(String username, int pollNum) {
 		String getPollQuery = "select * from Polls join PollData ON PollData.PollNum = Polls.PollNum" +
 							" where Polls.pollNum = " + pollNum + ";";
@@ -1181,6 +1317,10 @@ public class DBQuery{
 		}
 	}
 	
+	/*
+	 * Will insert an additional admin into the DB. The email is generated 
+	 * for the admin
+	 */
 	public static void createAdmin(String username, String password) {
 		try{
 			String newUsername = username + "(Admin)";
@@ -1196,6 +1336,10 @@ public class DBQuery{
 		}
 	}
 	
+	/*
+	 * Will ensure that the login information is valid, if it is it will
+	 * return an Admin object
+	 */
 	public static Administrator adminLogin(String email, String password) {
 		try {
 			Administrator tempAdmin = new Administrator();
@@ -1219,6 +1363,9 @@ public class DBQuery{
 		return null;
 	}
 
+	/*
+	 * Inserts the poll into the DB
+	 */
 	public static void addPoll(Poll poll, String username, ArrayList<String> answerOptions) {
 		// Insert the user into the database
 		
@@ -1262,6 +1409,9 @@ public class DBQuery{
 				}
 	}
 	
+	/*
+	 * Deletes the poll from the DB given a PollNum
+	 */
 	public static void deletePoll(int pollNum){
 		try {
 			String dd = "DELETE FROM PollTags WHERE PollNum = ?;";
@@ -1305,6 +1455,9 @@ public class DBQuery{
 		}
 	}
 	
+	/*
+	 * Inserts the group into the DB
+	 */
 	public static void createGroup(String groupName, int pollNum, String username){
 		try{
 			String insertQuery = "INSERT INTO PollGroup (PollNum, GroupName, AdminUsername) VALUES (?,?,?);";
@@ -1318,6 +1471,9 @@ public class DBQuery{
 		}
 	}
 	
+	/*
+	 * Removes the group from the DB
+	 */
 	public static void deleteGroup(String groupNum){
 		try{
 			String deleteQuery = "DELETE FROM PollGroup WHERE PollGroup.GroupNum = ?;";
@@ -1329,6 +1485,10 @@ public class DBQuery{
 		}
 	}
 	
+	/*
+	 * Will return an object of the group poll I can't type what am I even 
+	 * doing. I can't even think right now.
+	 */
 	public static Group getPollGroup(int groupNum){
 		try{
 			Group toReturn = new Group();
@@ -1349,6 +1509,9 @@ public class DBQuery{
 		return null;
 	}
 	
+	/*
+	 * Adds the user to the group
+	 */
 	public static void addUserToGroup(String username, String groupNum){
 		try{
 			String insertQuery = "INSERT INTO UserGroup (Username, GroupNum) VALUES (?,?);";
@@ -1361,6 +1524,11 @@ public class DBQuery{
 		}
 	}
 	
+	/**
+	 * Deletes the user from the group
+	 * @param username
+	 * @param groupNum
+	 */
 	public static void deleteUserFromGroup(String username, String groupNum){
 		try{
 			String deleteQuery = "DELETE FROM UserGroup WHERE Username = ? and GroupNum = ?;";
@@ -1373,6 +1541,9 @@ public class DBQuery{
 		}
 	}
 	
+	/*
+	 * Will return an arraylist of RUser objects that make up a group
+	 */
 	public static ArrayList<RUser> getGroupMembers(String groupNum){
 		try{
 			ArrayList<RUser> toReturn = new ArrayList<RUser>();
@@ -1392,6 +1563,10 @@ public class DBQuery{
 		}
 	}
 	
+	/*
+	 * Will return the poll groups for a given user. Will return an 
+	 * arraylist of group objects belonging to that user.
+	 */
 	public static ArrayList<Group> getYourPollGroups(String username){
 		ArrayList<Group> toReturn = new ArrayList<Group>();
 		try{
@@ -1408,6 +1583,10 @@ public class DBQuery{
 		return toReturn;
 	}
 	
+	/*
+	 * Will return all of a users private polls. These are not public polls
+	 * thank you.
+	 */
 	public static ArrayList<Poll> getYourPrivatePolls(String username){
 		ArrayList<Poll> toReturn = new ArrayList<Poll>();
 		try {
@@ -1425,6 +1604,12 @@ public class DBQuery{
 		return toReturn;
 	}
 	
+	/**
+	 * Will return all of the groups that a user has been invited to. This does 
+	 * not include groups created by the user.
+	 * @param username
+	 * @return
+	 */
 	public static ArrayList<Group> getYourInvitedGroups(String username){
 		ArrayList<Group> toReturn = new ArrayList<Group>();
 		try{
@@ -1444,5 +1629,4 @@ public class DBQuery{
 		}
 		return toReturn;
 	}
-
 }

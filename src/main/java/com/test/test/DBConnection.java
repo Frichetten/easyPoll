@@ -6,8 +6,10 @@ import java.sql.SQLException;
 
 public final class DBConnection {
 	
-	private static Connection connection;
+	  //Private class variables
+	  private static Connection connection;
 
+	  //This will return a singleton object for the DB connection
 	  public static Connection getConnection() {
 	    try {
 			if (connection == null || connection.isClosed()) {
