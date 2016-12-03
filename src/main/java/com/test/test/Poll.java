@@ -1,7 +1,3 @@
-/**
- * Author: Kevin Dalle
- * Purpose: This is the class that will hold all of the poll data for an individual poll.
- */
 package com.test.test;
 
 import java.sql.Connection;
@@ -12,8 +8,9 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
-
 public class Poll {
+	
+	//Private object variables
 	private String pollName;
 	private int pollNum;
 	private String pollQuestion;
@@ -126,19 +123,15 @@ public class Poll {
 	public String getIsCurrent(){
 		return this.isCurrent;
 	}
-	
 	public static ResultSet resultSetPoll(String pollNum){
 		return DBQuery.resultSetPoll(pollNum);
 	}
-	
 	public static Boolean isCurrent(int pollNum){
 		return DBQuery.isCurrent(pollNum);
 	}
-	
 	public Date getCloseDate(){
 		return this.closeDate;
 	}
-	
 	public int getEndTotal(){
 		return this.endTotal;
 	}
@@ -151,7 +144,6 @@ public class Poll {
 	public static ArrayList<Integer> getActivePublicPolls(){
 		return DBQuery.getActivePublicPolls();
 	}
-	
 	public String getPollPoster() {
 		return pollPoster;
 	}
@@ -194,6 +186,4 @@ public class Poll {
 	public void setPollType(String pollType) {
 		this.pollType = pollType;
 	}
-	
-	
 }
