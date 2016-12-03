@@ -11,12 +11,17 @@ import java.sql.Statement;
 import java.util.ArrayList;
 
 public class RUser extends User{
+	
+	   //Private class variables
 	   private String username;
 	   private String password;
 	   private String email;
 	   private ArrayList<Group> pollGroups;
 	   public ArrayList<Poll> polls;
 	   
+	   /**
+	    * DONT DELETE THIS SPRING MVC NEEDS IT TO FUNCTION
+	    */
 	   public RUser(){
 	   }
 	   
