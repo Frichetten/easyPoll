@@ -3,7 +3,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>Reported Polls</title>
+    <title>Administrator Portal</title>
 
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -15,6 +15,7 @@
     <script src="${pageContext.request.contextPath}/resources/scripts/Chart.js"></script> <!--Charts for Poll Data-->
 </head>
 <body>
+
     <!-- Navigation -->
     <nav class="navbar" id="main-nav">
         <div class="container">
@@ -122,6 +123,7 @@
             </div>
         </div>
     </footer>
+    
     <!--Login Modal -->
 	<div id="login-modal" class="modal fade" role="dialog">
 		<div class="modal-dialog">
@@ -143,7 +145,8 @@
 				</div>
 			</div>
 		</div>
-		</div>
+	</div>
+	
 	<!--Create Account Modal -->
 	<div id="create-account-modal" class="modal fade" role="dialog">
 		<div class="modal-dialog">
@@ -164,6 +167,7 @@
 			</div>
 		</div>
 		
+		<!-- Forgot password modal -->
 		<div id="forgot-password-modal" class="modal fade" role="dialog">
 		<div class="modal-dialog">
 			<div class="modal-content">
@@ -185,6 +189,7 @@
 	</div>
     <!--Adds a click event to each table row-->
     
+    <!-- Adds listeners to the reported polls table so that the admin can go directly to the poll -->
     <script type="text/javascript">
         function addRowHandlers() {
             var table = document.getElementById("tableId");

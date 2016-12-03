@@ -4,7 +4,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>About easyPoll</title>
+    <title>About-easyPoll</title>
 
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -16,6 +16,7 @@
     <script src="${pageContext.request.contextPath}/resources/scripts/Chart.js"></script> <!--Charts for Poll Data-->
 </head>
 <body>
+
     <!-- Navigation -->
     <nav class="navbar navbar-fixed-top" id="main-nav">
 		<div class="container">
@@ -107,7 +108,8 @@
 				</div>
 			</div>
 		</div>
-		</div>
+	</div>
+	
 	<!--Create Account Modal -->
 	<div id="create-account-modal" class="modal fade" role="dialog">
 		<div class="modal-dialog">
@@ -127,8 +129,9 @@
 				</div>
 			</div>
 		</div>
-		</div>
-			<!--Forgot Password Modal -->
+	</div>
+	
+	<!--Forgot Password Modal -->
 	<div id="forgot-password-modal" class="modal fade" role="dialog">
 		<div class="modal-dialog">
 			<div class="modal-content">
@@ -146,6 +149,6 @@
 				</div>
 			</div>
 		</div>
-		</div>
+	</div>
 </body>
 </html>
