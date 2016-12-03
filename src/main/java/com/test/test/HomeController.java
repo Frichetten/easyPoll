@@ -1061,32 +1061,44 @@ public class HomeController {
 	    return new ModelAndView("editpoll", "command", new RUser());
 	}
 	
+	/**
+	 * This is the update poll function, and it is responsible for modifying and 
+	 * changing a poll. You pass the pollId, and it will perform the operations on it 
+	 * based on the differences from the poll object that is also passed in.
+	 */
 	@RequestMapping(value = "/updatePoll/{pollId}", method = RequestMethod.POST)
 	public View updatePoll(@ModelAttribute("SpringWeb")Poll poll, ModelMap model,
 		HttpServletRequest request, @PathVariable String pollId) {
 		// Confirming Login Status, this person must be the poll creator
 		RUser a = (RUser)request.getSession().getAttribute("token");
 		if (a == null){
+			//If not logged in
 			System.out.println("RUser not logged in");
 			 RedirectView redirect = new RedirectView("/test/home/");
 			 redirect.setExposeModelAttributes(false);
 			 return redirect;
 		} else {
-			System.out.println("Logged in as " + a.getUsername());
+			//Confirmed login
 			String login = "<a href='#'>" + a.getUsername() + "</a>";
 			String signout = "<a href='/test/signout' >Sign Out</a>";
 			model.addAttribute("login", login);
 			model.addAttribute("signup", signout);
 		}
 		
+		//Update the poll with all of the values from the poll object that was
+		//Passed in from the front end
 		Poll.updatePoll(Integer.valueOf(pollId), poll.getPollName(), poll.getPollQuestion(), 
 				poll.getPollDescription(), poll.getPollType(), poll.getEndTotal());
 		
+		//Return to the original poll
 	    RedirectView redirect = new RedirectView("/test/singlepoll/"+pollId);
 	    redirect.setExposeModelAttributes(false);
 	    return redirect;
 	}
 	
+	/**
+	 * This function will delete the poll given a particular pollID.
+	 */
 	@RequestMapping(value = "/deletePoll/{pollId}", method = RequestMethod.POST)
 	public View deletePoll(@ModelAttribute("SpringWeb")Poll poll, ModelMap model,
 		HttpServletRequest request, @PathVariable String pollId) {
@@ -1094,7 +1106,7 @@ public class HomeController {
 		Administrator ad = (Administrator) request.getSession().getAttribute("admintoken");
 		RUser a = (RUser)request.getSession().getAttribute("token");
 		if (ad != null){
-			//Admin is here
+			//Admin is logged in
 			System.out.println("Logged in as " + ad.getUsername());
 			String login = "<a href='#'>" + ad.getUsername() + "</a>";
 			String signout = "<a href='/test/signout' >Sign Out</a>";
@@ -1102,18 +1114,24 @@ public class HomeController {
 			model.addAttribute("signup", signout);
 		}
 		else if (a == null){
+			//User is not logged in, return to home for error catching
 			System.out.println("RUser not logged in");
 			 RedirectView redirect = new RedirectView("/test/home/");
 			 return redirect;
 		} else {
+			//Confirmed user login
 			System.out.println("Logged in as " + a.getUsername());
 			String login = "<a href='#'>" + a.getUsername() + "</a>";
 			String signout = "<a href='/test/signout' >Sign Out</a>";
 			model.addAttribute("login", login);
 			model.addAttribute("signup", signout);
 		}
+		
+		//Deletes the poll - no surprise
 		Poll.deletePoll(Integer.valueOf(pollId));
 		
+		//Depending on who the user is we will either send them to the admin
+		//Portal or we will send them to their polls
 		RedirectView redirect = null;
 		if (ad != null){
 			redirect = new RedirectView("/test/admin");
@@ -1125,28 +1143,38 @@ public class HomeController {
 	    return redirect;
 	}
 	
+	/**
+	 * This function will assist the user with a forgotten password.
+	 */
 	@RequestMapping(value = "/forgotpassword", method = RequestMethod.POST)
 	public View forgotPassword(@RequestParam("email")String email, ModelMap model,
 		HttpServletRequest request) {
 		
+		//Only need the email 
 		RUser.forgotPassword(email);
 		
+		//Return home
 		RedirectView redirect = null;
 		redirect = new RedirectView("/test/home");
 	    redirect.setExposeModelAttributes(false);
 	    return redirect;
 	}
 	
+	/**
+	 * Deletes an account (users and admins can do this)
+	 */
 	@RequestMapping(value = "/deleteaccount", method = RequestMethod.POST)
 	public View deleteAccount(@ModelAttribute("SpringWeb")Poll poll, ModelMap model,
 		HttpServletRequest request) {
 		// Confirming Login Status, this person must be the poll creator
 		RUser a = (RUser)request.getSession().getAttribute("token");
 		if (a == null){
+			//If not logged in return home
 			System.out.println("RUser not logged in");
-			 RedirectView redirect = new RedirectView("/test/home/");
-			 return redirect;
+			RedirectView redirect = new RedirectView("/test/home/");
+			return redirect;
 		} else {
+			//Confirmed login.
 			System.out.println("Logged in as " + a.getUsername());
 			System.out.println(a.getEmail());
 			String login = "<a href='#'>" + a.getUsername() + "</a>";
@@ -1154,34 +1182,49 @@ public class HomeController {
 			model.addAttribute("login", login);
 			model.addAttribute("signup", signout);
 		}
+		
+		//Need to delete their account
 		RUser.deleteAccount(a.getUsername());
-		System.out.println("HELLLLLLLLLLLO");
+		
+		//Then sign them out
 		signout(new RUser(), model, request);
-		System.out.println("HELLLLLLLLLLLO");
+		
+		//Go home
 		RedirectView redirect = null;
 		redirect = new RedirectView("/test/home");
 	    redirect.setExposeModelAttributes(false);
 	    return redirect;
 	}
 	
+	/**
+	 * Cancel the poll. To be clear this is not to delete the poll. The only 
+	 * difference it will make is that it will change the isCurrent value to 0
+	 * and thereby make this poll no longer available to vote in.
+	 */
 	@RequestMapping(value = "/cancelPoll/{pollId}", method = RequestMethod.POST)
 	public View cancelPoll(@ModelAttribute("SpringWeb")Poll poll, ModelMap model,
 		HttpServletRequest request, @PathVariable String pollId) {
 		// Confirming Login Status, this person must be the poll creator
 		RUser a = (RUser)request.getSession().getAttribute("token");
 		if (a == null){
+			//If not logged in
 			System.out.println("RUser not logged in");
-			 RedirectView redirect = new RedirectView("/test/home/");
-			 return redirect;
+			RedirectView redirect = new RedirectView("/test/home/");
+			return redirect;
 		} else {
+			//Confirmed login
 			System.out.println("Logged in as " + a.getUsername());
 			String login = "<a href='#'>" + a.getUsername() + "</a>";
 			String signout = "<a href='/test/signout' >Sign Out</a>";
 			model.addAttribute("login", login);
 			model.addAttribute("signup", signout);
 		}
+		
+		//Cancel the poll action
 		Poll.cancelPoll(Integer.valueOf(pollId));
 		
+		//Not sure what this is doing but don't want to risk 
+		//Damaging anything. Goes to mypolls
 		RedirectView redirect = null;
 		if (a != null){
 			redirect = new RedirectView("/test/mypolls");
@@ -1190,24 +1233,35 @@ public class HomeController {
 	    return redirect;
 	}
 	
+	/**
+	 * Update account, will change a value in your account depending on the 
+	 * values from the RUser object that is passed in.
+	 */
 	@RequestMapping(value = "/updateaccount", method = RequestMethod.POST)
 	public View updateAccount(@ModelAttribute("SpringWeb")RUser user, ModelMap model,
 		HttpServletRequest request) {
 		// Confirming Login Status, this person must be the poll creator
 		RUser a = (RUser)request.getSession().getAttribute("token");
 		if (a == null){
+			//If not logged in
 			System.out.println("RUser not logged in");
-			 RedirectView redirect = new RedirectView("/test/home/");
-			 return redirect;
+			RedirectView redirect = new RedirectView("/test/home/");
+			return redirect;
 		} else {
+			//Confirmed login
 			System.out.println("Logged in as " + a.getUsername());
 			String login = "<a href='#'>" + a.getUsername() + "</a>";
 			String signout = "<a href='/test/signout' >Sign Out</a>";
 			model.addAttribute("login", login);
 			model.addAttribute("signup", signout);
 		}
+		
+		//Calling the update account function
 		RUser.updateAccount(a.getUsername(), user.getUsername(), user.getEmail(), user.getPassword());
 		
+		//Found this again, I don't know why the if statement is 
+		//neccessary but don't want to risk anything.
+		//Will return you to the profile page
 		RedirectView redirect = null;
 		if (a != null){
 			redirect = new RedirectView("/test/profile");
@@ -1216,40 +1270,55 @@ public class HomeController {
 	    return redirect;
 	}
 	
+	/**
+	 * This function will allow you to download all the data from a poll with a given pollID.
+	 * Works really well.
+	 */
 	@RequestMapping(value = "/downloadPoll/{pollId}", method = RequestMethod.POST)
 	public View downloadpoll(@ModelAttribute("SpringWeb")RUser user, ModelMap model,
 		HttpServletRequest request, @PathVariable String pollId, HttpServletResponse response) throws IOException{
 		// Confirming Login Status, this person must be the poll creator
 		RUser a = (RUser)request.getSession().getAttribute("token");
 		if (a == null){
+			//If not logged in
 			System.out.println("RUser not logged in");
-			 RedirectView redirect = new RedirectView("/test/home/");
-			 return redirect;
+			RedirectView redirect = new RedirectView("/test/home/");
+			return redirect;
 		} else {
+			//Confirmed login
 			System.out.println("Logged in as " + a.getUsername());
 			String login = "<a href='#'>" + a.getUsername() + "</a>";
 			String signout = "<a href='/test/signout' >Sign Out</a>";
 			model.addAttribute("login", login);
 			model.addAttribute("signup", signout);
 		}
+		
+		//Get the poll to read
 		Poll poll = new Poll(Integer.valueOf(pollId));
 		
+		//Setting information
 		response.setContentType("text/csv");
-		String reportName = "CSV_Report_Name.csv";
+		String reportName = "PollNum" + pollId + ".csv";
 		response.setHeader("Content-disposition", "attachment;filename="+reportName);
 		
+		//Building the output string, this will grab the column headers
 		String outputString = "";
 		for(int i = 0; i < poll.getPollData().getAnswer().getAnswerOptions().size(); i++){
 			outputString = outputString + poll.getPollData().getAnswer().getAnswerOptions().get(i) + ",";
 		}
+		
+		//Adding a newline and then creating the data for insertion
 		outputString = outputString + "\n";
 		for(int i = 0; i < poll.getPollData().getAnswer().getAnswerOptions().size(); i++){
 			outputString = outputString + poll.getPollData().getAnswer().getAnswerChosen().get(i) + ",";
 		}
+		
+		//Write to the file
 		response.getOutputStream().print(outputString);
  
 		response.getOutputStream().flush();
 		
+		//Return to the poll view
 		RedirectView redirect = null;
 		if (a != null){
 			redirect = new RedirectView("/test/singlepolldata/"+pollId);
@@ -1258,30 +1327,37 @@ public class HomeController {
 	    return redirect;
 	}
 	
-	//Code for the groupmanager page
+	/**
+	 * The groupmanager will let the user manage all the groups they are involved in 
+	 * as well as create their own
+	 */
 	@RequestMapping(value = "/groupmanager", method = RequestMethod.GET)
 	public ModelAndView groupmanager(@ModelAttribute("SpringWeb") RUser user, ModelMap model, 
 			HttpServletRequest request) {
 		RUser a = (RUser) request.getSession().getAttribute("token");
 		if (a == null) {
+			//If you're not logged in send you home
 			return home(new RUser(), model, request);
 		} else {
+			//Confirmed login
 			System.out.println("Logged in as " + a.getUsername());
-			// model.addAttribute("username", a.getRUsername());
 			String login = "<a href='/test/profile'>" + a.getUsername() + "</a>";
 			String signout = "<a href='/test/signout' >Sign Out</a>";
 			model.addAttribute("login", login);
 			model.addAttribute("signup", signout);
 		}
 		
+		//Grab all associated poll groups
 		ArrayList<Group> pollArr = Group.getYourPollGroups(a.getUsername());
-		System.out.println("######## " + pollArr.size());
+		
+		//Building the strings to push to the front (Your created groups)
 		String thyme = "";
 		for (int i =(pollArr.size()-1); i >= 0; i--){
 			thyme = thyme + "<tr><td>"+pollArr.get(i).getGroupName()+"</td><td hidden='true'>"+pollArr.get(i).getGroupID()+"</td></tr>";
 		}
 		model.addAttribute("polls", thyme);
 		
+		//Building the strings to push to the front (Your invited groups)
 		ArrayList<Group> invitedGroups = Group.getYourInvitedGroups(a.getUsername());
 		String invitedThyme = "";
 		for (int i =(invitedGroups.size()-1); i >= 0; i--){
@@ -1289,6 +1365,8 @@ public class HomeController {
 		}
 		model.addAttribute("invitedPolls", invitedThyme);
 		
+		//If they want to create a private poll group they will need access to their private polls
+		//Here we are pushing them to the front
 		ArrayList<Poll> yourPolls = Poll.getYourPrivatePolls(a.getUsername());
 		String privatePolls = "";
 		for (int i=(yourPolls.size()-1); i>= 0; i--){
@@ -1296,58 +1374,73 @@ public class HomeController {
 		}
 		model.addAttribute("yourPolls", privatePolls);
 		
+		//Return the groupmanager view
 		return new ModelAndView("groupmanager", "command", new RUser());
 	}
 
+	/**
+	 * This function will create a group given a pollNum and a group name
+	 */
 	@RequestMapping(value = "/creategroup/{pollNum}/{groupName}", method = RequestMethod.GET)
 	public View createGroup(@PathVariable String groupName, @PathVariable String pollNum,
 			ModelMap model, HttpServletRequest request) {
 		RUser a = (RUser) request.getSession().getAttribute("token");
 		
+		//Function to modify database to create the group
 		Group.createGroup(groupName, Integer.valueOf(pollNum), a.getUsername());
 		
+		//Return to group manager
 		RedirectView redirect = null;
 		redirect = new RedirectView("/test/groupmanager");
 	    redirect.setExposeModelAttributes(false);
 	    return redirect;
 	}
 	
-	//Code for the group page of the site
+	/**
+	 * This is the view for each individual group given a group number
+	 */
 	@RequestMapping(value = "/group/{groupNum}", method = RequestMethod.GET)
 	public ModelAndView group(@ModelAttribute("SpringWeb") RUser user, ModelMap model, 
 			HttpServletRequest request, @PathVariable String groupNum) {
 		RUser a = (RUser) request.getSession().getAttribute("token");
 		if (a == null) {
+			//If not logged in
 			System.out.println("RUser not logged in");
-			// Login Modifier
 			String login = "<a href='../navbar-static-top/' data-toggle='modal' data-target='#login-modal'>Login</a>";
 			String signup = "<a href='../navbar-fixed-top/' data-toggle='modal' data-target='#create-account-modal'>Signup</a>";
 			model.addAttribute("login", login);
 			model.addAttribute("signup", signup);
 		} else {
+			//Confirmed login
 			System.out.println("Logged in as " + a.getUsername());
-			// model.addAttribute("username", a.getRUsername());
 			String login = "<a href='/test/profile'>" + a.getUsername() + "</a>";
 			String signout = "<a href='/test/signout' >Sign Out</a>";
 			model.addAttribute("login", login);
 			model.addAttribute("signup", signout);
 		}
+		
+		//Get the group data from the DB
 		Group pollGroup = RUser.getGroup(Integer.valueOf(groupNum));
-		System.out.println(pollGroup.getGroupName());
-		System.out.println(pollGroup.getGroupPoll().getPollName());
+		
+		//Push the group and poll name to the front
 		model.addAttribute("groupNameAndPollName", pollGroup.getGroupName() + " Voting on: " + pollGroup.getGroupPoll().getPollName());
 		
+		//Get the memebers of the group
 		ArrayList<RUser> groupMembers = RUser.getGroupMembers(groupNum);
 		String thyme = "";
 		
+		//Depending if they are the creators or not they will have the option to delete the group
 		if (a.getUsername().equals(pollGroup.getAdmin())){
 			model.addAttribute("creatorHide", "");
 		}
 		else
 			model.addAttribute("creatorHide", "hidden='true'");
 		
+		//Push groupnum and poll num to front
 		model.addAttribute("groupNum",groupNum);
 		model.addAttribute("pollNum", pollGroup.getGroupPoll().getPollNum());
+		
+		//Depending on priviledge levels they will be able to delete members or not
 		if (a != null){
 			if(a.getUsername().equals(pollGroup.getAdmin())){
 				model.addAttribute("access","accep");
@@ -1371,74 +1464,108 @@ public class HomeController {
 		return new ModelAndView("group", "command", new RUser());
 	}
 	
+	/**
+	 * Adds user to group
+	 */
 	@RequestMapping(value = "/addusertogroup", method = RequestMethod.POST)
 	public View addRUserToGroup(@RequestParam("usernameString")String username, @RequestParam("groupNUM")String groupNum,
 			ModelMap model, HttpServletRequest request) {
 		
+		//Will modify DB to insert user
 		Group.addUserToGroup(username, groupNum);
 		
+		//Return to the group page
 		RedirectView redirect = null;
 		redirect = new RedirectView("/test/group/"+groupNum);
 	    redirect.setExposeModelAttributes(false);
 	    return redirect;
 	}
 	
+	/**
+	 * Deletes user from the group with a groupnum and a username. 
+	 */
 	@RequestMapping(value = "/deleteuserfromgroup/{groupNum}/{username}", method = RequestMethod.GET)
 	public View deleteRUserFromGroup(@PathVariable String groupNum,@PathVariable String username,
 			ModelMap model, HttpServletRequest request){
 		
+		//Modify DB
 		Group.deleteUserFromGroup(username, groupNum);
 		
+		//Return to group page
 		RedirectView redirect = null;
 		redirect = new RedirectView("/test/group/"+groupNum);
 	    redirect.setExposeModelAttributes(false);
 	    return redirect;
 	}
 	
+	/**
+	 * Deletes the entire group from the DB
+	 */
 	@RequestMapping(value = "/deletegroup/{groupNum}", method = RequestMethod.POST)
 	public View deleteGroup(@PathVariable String groupNum,
 			ModelMap model, HttpServletRequest request) {
 		
-		System.out.println("Group to be deleted: " + groupNum);
+		//Acts on the DB
 		Group.deleteGroup(groupNum);
 		
+		//Returns to group manager page
 		RedirectView redirect = null;
 		redirect = new RedirectView("/test/groupmanager");
 	    redirect.setExposeModelAttributes(false);
 	    return redirect;
 	}
 	
+	/**
+	 * The feedback feature will allow admins to take feedback from users and determine
+	 * how the site needs to improve in the future.
+	 */
 	@RequestMapping(value = "/sendfeedback", method = RequestMethod.POST)
 	public View sendFeedback(@RequestParam("feedbackText")String textarea,
 			ModelMap model, HttpServletRequest request) {
 	
+		//Taking feedback from the front end and inserting it into the DB
 		Administrator.sendFeedback(textarea);
 		
+		//Return to the home
 		RedirectView redirect = null;
 		redirect = new RedirectView("/test/home");
 	    redirect.setExposeModelAttributes(false);
 	    return redirect;
 	}
 	
+	/**
+	 * If a user is having a problem they can send a support ticket to an admin
+	 * along with their username and their problem.
+	 */
 	@RequestMapping(value = "/sendsupportticket", method = RequestMethod.POST)
 	public View sendSupportTicket(@RequestParam("supportText")String textarea,
 			ModelMap model, HttpServletRequest request) {
+		
+		//Must be logged in to send a ticket
 		RUser a = (RUser) request.getSession().getAttribute("token");
 		Administrator.sendSupportTicket(textarea,a.getUsername());
 		
+		//Returns to the profile page
 		RedirectView redirect = null;
 		redirect = new RedirectView("/test/profile");
 	    redirect.setExposeModelAttributes(false);
 	    return redirect;
 	}
 	
+	/**
+	 * This function will look for all public, current polls and will return
+	 * a random one to the user so that they can vote in it.
+	 */
 	@RequestMapping(value = "/random", method = RequestMethod.GET)
 	public View randomPoll(ModelMap model, HttpServletRequest request) {
 		Random rand = new Random();
+		
+		//Getting the rangom poll and iterating through it
 		ArrayList<Integer> pollNums = Poll.getActivePublicPolls();
 		int selector = rand.nextInt(pollNums.size());
 		int randomInt = pollNums.get(selector);
 		
+		//Return the random poll target
 		RedirectView redirect = null;
 		redirect = new RedirectView("/test/singlepoll/"+randomInt);
 	    redirect.setExposeModelAttributes(false);
