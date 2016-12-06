@@ -3,9 +3,6 @@
  * Purpose: This is the class that will hold all of the poll data for an individual poll.
  */
 package com.test.test;
-
-import java.sql.Connection;
-
 import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
