@@ -463,7 +463,7 @@ public class HomeController {
 		if (ad != null){
 			//This is is the Admin has logged in
 			System.out.println("Logged in as " + ad.getUsername());
-			String login = "<a href='/test/profile'>" + ad.getUsername() + "</a>";
+			String login = "<a href='/test/admin'>" + ad.getUsername() + "</a>";
 			String signout = "<a href='/test/signout' >Sign Out</a>";
 			model.addAttribute("login", login);
 			model.addAttribute("signup", signout);
@@ -579,6 +579,15 @@ public class HomeController {
 			//Else you can vote and it is ongoing
 			else{
 				model.addAttribute("isCurrent", "Poll is Ongoing");
+			}
+			
+			//Defining the visibility of the poll
+			Poll checkPoll = new Poll(Integer.parseInt(pollId));
+			if (checkPoll.getPollType().equals("public")){
+				model.addAttribute("visible", "Public Poll, ");
+			}
+			else{
+				model.addAttribute("visible", "Private Poll, ");
 			}
 			
 			//This will display the edit button if they are the creator
@@ -720,7 +729,7 @@ public class HomeController {
 				model.addAttribute("valuesList", valuesList);
 				
 				//Pushing the description to the front
-				model.addAttribute("pollDesc",DBQuery.getPollDescription(pollId));
+				model.addAttribute("pollDesc", DBQuery.getPollDescription(pollId));
 				
 				//Pushing the PollID
 				model.addAttribute("pollID", pollId);
@@ -730,12 +739,21 @@ public class HomeController {
 				int endTotalCount = Poll.endTotalCount(Integer.parseInt(pollId));
 				model.addAttribute("counts", String.valueOf(pollTakerCount)+"/"+String.valueOf(endTotalCount)+" Votes Cast");
 				
-				//Check fi the poll is current and determining if it is ongoing or not
-				if (Poll.isCurrent(Integer.parseInt(pollId))){
-					model.addAttribute("isCurrent", "Poll is Ongoing");
+				//Check if the poll is current and determining if it is ongoing or not
+				if (pollTakerCount >= endTotalCount){
+					model.addAttribute("isCurrent", "Poll is Closed");
 				}
 				else{
-					model.addAttribute("isCurrent", "Poll is Closed");
+					model.addAttribute("isCurrent", "Poll is Ongoing");
+				}
+				
+				//Defining the visibility of the poll
+				Poll poll = new Poll(Integer.parseInt(pollId));
+				if (poll.getPollType().equals("public")){
+					model.addAttribute("visible", "Public Poll, ");
+				}
+				else{
+					model.addAttribute("visible", "Private Poll, ");
 				}
 				
 				//If they are the creator of the poll we display an extra feature
