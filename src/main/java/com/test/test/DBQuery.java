@@ -1590,7 +1590,7 @@ public class DBQuery{
 	public static ArrayList<Poll> getYourPrivatePolls(String username){
 		ArrayList<Poll> toReturn = new ArrayList<Poll>();
 		try {
-			String searchQuery = "SELECT PollNum FROM Polls WHERE Username = ?;";
+			String searchQuery = "SELECT PollNum FROM Polls WHERE Username = ? AND PollType = 'private';";
 			PreparedStatement statement = dbc.prepareStatement(searchQuery);
 			statement.setString(1, username);
 			ResultSet rs = statement.executeQuery();
