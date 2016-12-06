@@ -156,7 +156,7 @@
 			<li role="presentation" class="active"><a href="#">Recommend to a Friend</a></li>
 		</ul>
 		<div class="col-md-12">		
-			<form:form method="POST" action="/test/recommend">
+			<form:form method="POST" action="/test/recommend/${pollID}">
      		 	<input id="email" name="address" type="email" placeholder="Email Address" />
        			<input type="submit" id="sendEmail" class="btn btn-success" value="Send Email">
        		</form:form>

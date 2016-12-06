@@ -940,9 +940,9 @@ public class HomeController {
 	/**
 	 * Recommend function will send an email to a user to recommend the poll to them. 
 	 */
-	@RequestMapping(value = "/recommend", method = RequestMethod.POST)
-	public RedirectView recommendPoll(@ModelAttribute("SpringWeb")Email email, ModelMap model,
-		HttpServletRequest request) {
+	@RequestMapping(value = "/recommend/{pollId}", method = RequestMethod.POST)
+	public RedirectView recommendPoll(@ModelAttribute("SpringWeb")Email email, @PathVariable String pollId,
+			ModelMap model, HttpServletRequest request) {
 		// Confirming Login Status
 		RUser a = (RUser)request.getSession().getAttribute("token");
 		if (a == null){
@@ -961,7 +961,7 @@ public class HomeController {
 		
 		//Here we are actually bulding the email that we will send to the user 
 		String info = "To whom it may concern,\n\nA friend of yours is interested in getting you opinion on "
-				+ "a poll! Follow the link to learn more...\n\n" + request.getHeader("Referer") + "\n\nGot "
+				+ "a poll! Follow the link to learn more...\n\nhttp://localhost:8080/test/singlepoll/" + pollId + "\n\nGot "
 				+ "a question you'd like to ask a vibrant community of polltakers? Visit us at easyPoll.com\n\n "
 				+ "All the best!\n\t-easyPoll Team";
 		
@@ -973,7 +973,7 @@ public class HomeController {
 		
 		//Returning to the previous page
 		String referer = request.getHeader("Referer");
-		RedirectView redirect = new RedirectView(referer);
+		RedirectView redirect = new RedirectView("http://localhost:8080/test/singlepoll/"+pollId);
 	    redirect.setExposeModelAttributes(false);
 	    return redirect;
 	}
