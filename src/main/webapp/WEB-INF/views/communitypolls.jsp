@@ -3,7 +3,7 @@
 <html>
 	<head>
 		<meta charset="UTF-8">
-			<title>Welcome to EasyPoll!</title>
+			<title>Community Polls-easyPoll</title>
 
 			<meta charset="utf-8">
 			<meta name="viewport" content="width=device-width, initial-scale=1">
@@ -41,6 +41,7 @@
 			</script>
 	</head>
 	<body>
+	
 	<!-- Navigation -->
 	<nav class="navbar navbar-fixed-top" id="main-nav">
 		<div class="container">
@@ -146,7 +147,8 @@
 				</div>
 			</div>
 		</div>
-		</div>
+	</div>
+	
 	<!--Create Account Modal -->
 	<div id="create-account-modal" class="modal fade" role="dialog">
 		<div class="modal-dialog">
@@ -168,6 +170,7 @@
 		</div>
 	</div>
 		
+		<!-- Forgot password modal -->
 		<div id="forgot-password-modal" class="modal fade" role="dialog">
 		<div class="modal-dialog">
 			<div class="modal-content">

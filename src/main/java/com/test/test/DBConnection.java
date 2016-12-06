@@ -6,14 +6,16 @@ import java.sql.SQLException;
 
 public final class DBConnection {
 	
-	private static Connection connection;
+	  //Private class variables
+	  private static Connection connection;
 
+	  //This will return a singleton object for the DB connection
 	  public static Connection getConnection() {
 	    try {
 			if (connection == null || connection.isClosed()) {
 				Class.forName("com.mysql.jdbc.Driver");
 				String url = "jdbc:mysql://localhost:3306/easyPoll";
-				connection = DriverManager.getConnection(url,"root","password44");
+				connection = DriverManager.getConnection(url,"root","DeltaHex191812");
 			}
 		} catch (ClassNotFoundException e) {
 			System.out.println("Class Not Found Exception");

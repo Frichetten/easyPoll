@@ -1,14 +1,10 @@
-/**
- * Author: Kevin Dalle
- * Date: 11/21/16
- * Purpose: This is the group class that will be used for group polls.
- */
 package com.test.test;
 
 import java.util.ArrayList;
 
 public class Group {
 
+	//Private class variables
 	private int groupID;
 	private String admin;
 	private Poll groupPoll;
@@ -32,8 +28,10 @@ public class Group {
 		this.groupName = groupName;
 	}
 	
+	/**
+	 * DO NOT DELETE SPRING MVC NEEDS THIS
+	 */
 	public Group(){
-		
 	}
 	
 	public static void addUserToGroup(String username, String groupNum){
@@ -42,10 +40,6 @@ public class Group {
 	
 	public static void deleteUserFromGroup(String username, String groupNum){
 		DBQuery.deleteUserFromGroup(username, groupNum);
-	}
-	
-	public static Group getGroup(int groupNum){
-		return DBQuery.getPollGroup(groupNum);
 	}
 	
 	public static void createGroup(String groupName, int pollNum, String username){
@@ -64,43 +58,36 @@ public class Group {
 		return DBQuery.getYourInvitedGroups(username);
 	}
 	
+	//Getters and setters
+	
 	public ArrayList<String> getRegisteredUsers(){
 		return members;
 	}
-
 	public int getGroupID() {
 		return groupID;
 	}
-	
 	public void setGroupID(int groupID){
 		this.groupID = groupID;
 	}
-
 	public String getAdmin() {
 		return admin;
 	}
-	
 	public void setAdmin(String admin){
 		this.admin = admin;
 	}
-	
 	public Poll getGroupPoll() {
 		return groupPoll;
 	}
-	
 	public void setGroupPoll(Poll groupPoll){
 		this.groupPoll = groupPoll;
 	}
-	
 	// This simple method is just adding someone to the groupdd
 	public void addUser(String newUser){
 		members.add(newUser);
 	}
-
 	public String getGroupName() {
 		return groupName;
 	}
-
 	public void setGroupName(String groupName) {
 		this.groupName = groupName;
 	}

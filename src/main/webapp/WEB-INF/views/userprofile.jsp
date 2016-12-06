@@ -3,7 +3,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>User Profile</title>
+    <title>Profile-easyPoll</title>
 
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -86,7 +86,7 @@
             <div class="col-md-3 col-sm-3">
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                        <h3 class="panel-title">Number of polls created</h3>
+                        <h3 class="panel-title">Number Of Polls Created</h3>
                     </div>
                     <div class="panel-body">
                         ${numPolls}
@@ -97,7 +97,7 @@
             <div class="col-md-3 col-sm-3">
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                        <h3 class="panel-title">Number of polls voted in</h3>
+                        <h3 class="panel-title">Number Of Polls Voted In</h3>
                     </div>
                     <div class="panel-body">
                         ${numVoted}

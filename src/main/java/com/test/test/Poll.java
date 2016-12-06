@@ -1,7 +1,3 @@
-/**
- * Author: Kevin Dalle
- * Purpose: This is the class that will hold all of the poll data for an individual poll.
- */
 package com.test.test;
 import java.sql.Date;
 import java.sql.ResultSet;
@@ -9,8 +5,9 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
-
 public class Poll {
+	
+	//Private object variables
 	private String pollName;
 	private int pollNum;
 	private String pollQuestion;
@@ -43,20 +40,7 @@ public class Poll {
 	
 	public Poll(){
 	}
-/*	
-	public static int getTotalPoll() throws SQLException{
-		String publicPollsQuery= "SELECT * FROM Polls;";
-		//Statement st = dbc.createStatement();
-		//ResultSet rs = st.executeQuery(publicPollsQuery);
-		/*
-		int toReturn = 0;
-		while (rs.next()) {
-			toReturn++;
-		}
-		return toReturn;
-	}
 	
-*/
 	public static void updatePoll(int pollNum, String pollName, String pollQuestion, 
 			String pollDescription, String pollType, int endTotal) {
 		DBQuery.updatePoll(pollNum, pollName, pollQuestion, pollDescription, pollType, endTotal);
@@ -82,7 +66,7 @@ public class Poll {
 		return DBQuery.endTotalCount(pollNum);
 	}
 	
-	public Poll(int Pollnum) throws SQLException{
+	public Poll(int Pollnum) {
 		Poll poll = DBQuery.getPoll(Pollnum);
 		this.pollName = poll.getPollName();
 		this.pollNum = poll.getPollNum();
@@ -124,41 +108,39 @@ public class Poll {
 	}
 	
 	public PollData getPollData(){
-		
 		return this.pollData;
 	}
 	public int getPartakers(){
 		return this.partakers;
 	}
-	public void addPartaker() throws SQLException{
+	public void addPartaker(){
 		this.partakers++;
 		DBQuery.addPartaker(this.pollNum);
 	}
 	public String getIsCurrent(){
 		return this.isCurrent;
 	}
-	
+	public static ResultSet resultSetPoll(String pollNum){
+		return DBQuery.resultSetPoll(pollNum);
+	}
 	public static Boolean isCurrent(int pollNum){
 		return DBQuery.isCurrent(pollNum);
 	}
-	
 	public Date getCloseDate(){
 		return this.closeDate;
 	}
-	
 	public int getEndTotal(){
 		return this.endTotal;
 	}
 	public void setEndTotal(int endTotal){
 		this.endTotal = endTotal;
 	}
-	public static int getTotalPoll() throws SQLException{
+	public static int getTotalPoll() {
 		return DBQuery.getTotalPolls();
 	}
 	public static ArrayList<Integer> getActivePublicPolls(){
 		return DBQuery.getActivePublicPolls();
 	}
-	
 	public String getPollPoster() {
 		return pollPoster;
 	}
@@ -201,6 +183,4 @@ public class Poll {
 	public void setPollType(String pollType) {
 		this.pollType = pollType;
 	}
-	
-	
 }

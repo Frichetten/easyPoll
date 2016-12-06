@@ -3,12 +3,9 @@
  */
 package com.test.test;
 
-/**
- * @author dalle
- *
- */
 public class AnswerFactory {
 	
+	//Unused, don't mess with it though
 	public static Answer getAnswerType(String type){
 		if (type.toLowerCase().equals("radio")){
 			return null; //new Radio();
