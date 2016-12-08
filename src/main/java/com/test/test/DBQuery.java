@@ -1476,6 +1476,10 @@ public class DBQuery{
 	 */
 	public static void deleteGroup(String groupNum){
 		try{
+			String deleteUserGroup = "DELETE FROM UserGroup WHERE GroupNum = ?;";
+			PreparedStatement statement6 = dbc.prepareStatement(deleteUserGroup);
+			statement6.setInt(1, Integer.parseInt(groupNum));
+			statement6.execute();
 			String deleteQuery = "DELETE FROM PollGroup WHERE PollGroup.GroupNum = ?;";
 			PreparedStatement statement = dbc.prepareStatement(deleteQuery);
 			statement.setInt(1, Integer.valueOf(groupNum));

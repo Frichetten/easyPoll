@@ -91,7 +91,7 @@
 	<div class="slider-container">
 		<div class="container">
 		<div class="col-md-12 slide-text-container landing-padding">
-			<h2 class="slide-text">easyPoll lets you engage create polls, vote in polls, and view statistics in real time</h2>
+			<h2 class="slide-text">easyPoll lets you engage, create polls, vote in polls, and view statistics in real time</h2>
 			<a href="#home-vote"><button type="button" class="btn btn-info" data-toggle="modal">Vote in Community Polls</button></a>
 			<a href="/test/random"><button type="button" class="btn btn-info" data-toggle="modal">Vote in a Random Poll</button></a>
 		</div>
