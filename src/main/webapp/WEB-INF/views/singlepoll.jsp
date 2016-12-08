@@ -62,20 +62,22 @@
 	<div class="container">
         <div class="row">
             <!--Poll that people vote in-->
-            <div class="col-md-6" id="pollQA">
+            <div class="col-md-8" id="pollQA">
                 <div class="poll-panel" id="">
                     <div class="panel panel-default">
                         <div class="panel-heading text-center poll-heading">
-                            <h3 class="panel-title">${pollQuestion}</h3>
+                            <h3 class="panel-title q-title">${pollQuestion}</h3>
                         </div>
                         <div class="panel-body ">
                             
-                             <div class="row">
-                                 <div class="form-group col-md-offset-5 col-sm-offset-5 col-xs-5">
-                                 <form:form method="POST" action="/test/singlepolldata/${pollID}">
-                                     ${builder}
-                                     <input type="submit" id="submitPoll" name="submitPoll" class="btn btn-default" value="Submit">
-                                     </form:form>
+                             <div class="container q-cont">
+                             	<div class="question-container">
+                                 <div class="form-group">
+	                                 <form:form method="POST" action="/test/singlepolldata/${pollID}">
+	                                     ${builder}
+	                                     <input type="submit" id="submitPoll" name="submitPoll" class="btn btn-default" value="Submit">
+	                                     </form:form>
+	                                 </div>
                                  </div>
                              </div>
                              <div class="row">
@@ -91,7 +93,7 @@
             <!--Poll Statistics-->
             <!--End Poll Statistics-->
             <!--More Poll Data-->
-            <div class="col-md-6">
+            <div class="col-md-4">
                 <div class="poll-panel" >
                     <!--Poll Created By-->
                     <div class="col-md-12">
@@ -156,8 +158,8 @@
 			<li role="presentation" class="active"><a href="#">Recommend to a Friend</a></li>
 		</ul>
 		<div class="col-md-12">		
-			<form:form method="POST" action="/test/recommend/${pollID}">
-     		 	<input id="email" name="address" type="email" placeholder="Email Address" />
+			<form:form method="POST" action="/test/recommend/${pollID}" class="form-inline">
+     		 	<input class="form-control" id="email" name="address" type="email" placeholder="Email Address" />
        			<input type="submit" id="sendEmail" class="btn btn-success" value="Send Email">
        		</form:form>
 		</div>

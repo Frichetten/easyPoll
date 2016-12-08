@@ -53,23 +53,45 @@
         <div class="page-header">
             <h1>About easyPoll</h1>
         </div>
-        <div class="row">
+        <div class="col-md-12">
             <p>
                 This project was created for IT 326. It allows users to participate and create polls.
             </p>
         </div>
-        <div class="row">
+        <div class="col-md-12">
             <div class="page-header">
                 <h3>Developers</h3>
             </div>
-            <div class="col-md-3">
+	            <div class="col-md-12" style="">
+	            <div class="col-md-2 col-md-offset-1" style="text-align:center;">
+	           		<i class="fa fa-user jumbotron-icon fa-6" style="font-size:200px;color:#003333;" aria-hidden="true"></i>
+	           	 	<b></b><h3>Nick Messina</h3></b>
+	            </div>
+	             <div class="col-md-2" style="text-align:center;">
+	           		<i class="fa fa-user jumbotron-icon fa-6" style="font-size:200px;color:#006666;" aria-hidden="true"></i>
+	           	 	<b></b><h3>Nick Frichette</h3></b>
+	            </div>
+	             <div class="col-md-2" style="text-align:center;">
+	           		<i class="fa fa-user jumbotron-icon fa-6" style="font-size:200px;color:#009999;" aria-hidden="true"></i>
+	           	 	<b></b><h3>Matthew Fletcher</h3></b>
+	            </div>
+	             <div class="col-md-2" style="text-align:center;">
+	           		<i class="fa fa-user jumbotron-icon fa-6" style="font-size:200px;color:#00ffcc;" aria-hidden="true"></i>
+	           	 	<b></b><h3>Kevin Dalle</h3></b>
+	            </div>
+	             <div class="col-md-2" style="text-align:center;">
+	           		<i class="fa fa-user" style="font-size:200px;color:#3300ff;" aria-hidden="true"></i>
+	           	 	<b></b><h3>Casey Cook</h3></b>
+	            </div>
+          <!--   <div class="col-md-3">
                 <div class="well" style="text-align: center">
                     <p>Nick Frichette</p>
                     <p>Matthew Fletcher</p>
                     <p>Nick Messina</p>
                     <p>Kevin Dalle</p>
                     <p>Casey Cook</p>
-                </div>
+                </div>            --> 
+                
             </div>
         </div>
     </div>

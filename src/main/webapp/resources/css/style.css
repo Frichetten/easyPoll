@@ -115,7 +115,7 @@ a {
 }
 .poll-ad-container {
   border:1px solid;
-  height:250px;
+  height:150px;
   margin:20px 0 20px 0;
   position: relative;
 }
@@ -144,7 +144,7 @@ a {
 .vote-in-poll {
   text-align:center;
   position: relative;
-  line-height:225px;
+  line-height:150px;
   height:100%;
   font-size:24px;
   color:#ffffff;
@@ -238,9 +238,35 @@ a {
     font-size:17px;
 }
 tr:hover { cursor: pointer; cursor: hand; }
-
-
+.navbar-toggle .icon-bar {
+	background:#fff;
+}
+.q-cont {
+	text-align:center;
+}
+.question-container {
+	text-align:left;
+}
+.q-title {
+	color:#fff;
+}
+.poll-description > h3 {
+	font-weight:700;
+}
+input[id="email"] {
+	width:85% !important;
+}
 @media (max-width: 993px) {
+	.slide-text {
+		margin:0 auto;
+		text-align:center;
+	}
+	.slide-text-container > a > button {
+		margin-top:10px !important;
+	}
+	.slide-text-container {
+		text-align:center;
+	}
     .navbar-header {
         float: none;
     }
@@ -259,14 +285,27 @@ tr:hover { cursor: pointer; cursor: hand; }
         display: block!important;
     }
     .navbar-nav {
-        float: none!important;
         margin: 7.5px -15px;
+        float: left !important;
+    	width: 100% !important;
+    	text-align: left;
     }
     .navbar-nav>li {
         float: none;
+        border:0 !important;
     }
     .navbar-nav>li>a {
         padding-top: 10px;
         padding-bottom: 10px;
     }
+    input[id="email"] {
+		width:100% !important;
+	}
+	input[id="sendEmail"] {
+		width:100% !important;
+	}
+}
+@media(max-width:507px) {
+	.slide-text{width:100%;}	
+}
 }

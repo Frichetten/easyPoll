@@ -45,43 +45,10 @@
     </nav>
     <!--End Navigation-->
 <div class="container">
-        <div class="page-header">
-            <h1>User Account</h1>
-        </div>
-        <div class="row">
-            <form:form method="POST" action="/test/updateaccount">
-                <div class="col-md-4 col-sm-4 col-xs-7">
-                    <div class="form-group row">
-                        <label for="email" class="control-label">Email:</label>
-                        <input type="text" class="form-control" id="email" name="email" value='${email}' />
-                    </div>
-                    <div class="form-group row">
-                        <label for="email" class="control-label">Password:</label>
-                        <input type="text" class="form-control" id="email" name="password" placeholder="password" />
-                    </div>
-                    <div class="form-group row">
-                        <input type="submit" id="btnUpdateAccount" class="btn btn-default" value="Update Account">
-                    </div>
-                </div>
-            </form:form>
-        </div>
-            <div class="row">
-            <div class="col-md-4 col-sm-4 col-xs-7">
-            	<div class="form-group row">
-	            	<form:form method="POST" action="/test/deleteaccount">
-	            	<input id="txtPassword" type="password" hidden="true" placeholder="Password" />
-	            	<input type="submit" id="btnLogin" class="btn btn-default" value="Delete Account">
-	            	</form:form>
-	            </div>
-	        </div>  
-   			</div>
-   		<div class="row">
-   			<button type="button" class="btn btn-info" data-toggle="modal" data-target="#send-ticket-modal">Send Support Ticket</button>
-   		</div>
         <div class=page-header>
             <h1>User Statistics</h1>
         </div>
-        <div class="row">
+        <div class="col-md-12">
 
             <div class="col-md-3 col-sm-3">
                 <div class="panel panel-default">
@@ -126,6 +93,40 @@
                     </div>
                 </div>
             </div>
+        <div class="page-header">
+            <h1>User Account</h1>
+        </div>
+        <div class="col-md-12">
+            <form:form method="POST" action="/test/updateaccount">
+                <div class="col-md-12">
+                    <div class="form-group row form-inline">
+                        <label for="email" class="control-label">Email:</label>
+                        <input type="text" class="form-control" id="email" name="email" value='${email}' />
+                    </div>
+                    <div class="form-group row form-inline">
+                        <label for="email" class="control-label">Password:</label>
+                        <input type="text" class="form-control" id="email" name="password" placeholder="password" />
+                    </div>
+                    <div class="form-group row">
+                        <input type="submit" id="btnUpdateAccount" class="btn btn-default" value="Update Account">
+                    </div>
+                </div>
+            </form:form>
+        </div>
+            <div class="col-md-12">
+            <div class="col-md-12">
+            	<div class="form-group row" class="form-inline">
+	            	<form:form method="POST" action="/test/deleteaccount">
+	            	<input id="txtPassword" type="password" hidden="true" placeholder="Password" />
+	            	<input type="submit" id="btnLogin" class="btn btn-danger" value="Delete Account">
+	            	</form:form>
+	            </div>
+	        </div>  
+   			</div>
+   		<div class="col-md-12">
+   			<button type="button" class="btn btn-info" data-toggle="modal" data-target="#send-ticket-modal">Send Support Ticket</button>
+   		</div>
+
 
         </div>
 
@@ -148,5 +149,17 @@
             </div>
         </div>
     </div>
+    <footer id="footer">
+		<div class="container">
+			<div class="col-md-9">
+				&copy;EasyPoll 2016
+			</div>
+			<div class="col-md-3">
+				<a href="#"><i class="fa fa-facebook" aria-hidden="true"></i></a>
+				<a href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a>
+				<a href="#"><i class="fa fa-google" aria-hidden="true"></i></a>
+			</div>
+		</div>
+	</footer>
 </body>
 </html>
